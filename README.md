@@ -4,9 +4,9 @@ We hereby agree to work together as a team on the course project in CISC / CMPE 
 
 Team Member #1:
 
-Name:
+Name: Cain J.B. Susko
 
-Student Number:
+Student Number: 20244352
 
 Team Member #2:
 
