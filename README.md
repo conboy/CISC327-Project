@@ -16,9 +16,9 @@ Student Number:
 
 Team Member #3:
 
-Name:
+Name: Max Oswin
 
-Student Number:
+Student Number: 20375067
 
 Team Member #4:
 
