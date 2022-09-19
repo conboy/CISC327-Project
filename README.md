@@ -22,6 +22,6 @@ Student Number:
 
 Team Member #4:
 
-Name:
+Name: Brooke Henderson
 
-Student Number:
+Student Number: 20102833
