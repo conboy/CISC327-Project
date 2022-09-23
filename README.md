@@ -22,6 +22,6 @@ Student Number: 20375067
 
 Team Member #4:
 
-Name: Brooke Henderson
+Name: Conrad Fernandez
 
-Student Number: 20102833
+Student Number: 20219637
