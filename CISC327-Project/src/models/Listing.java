@@ -2,14 +2,19 @@ package models;
 
 public class Listing {
 
+    //Subclass to store different aspects of an address, as opposed to saving everything in one string
     private class Address {
-        public String line1;
-        public String line2;
-        public String city;
-        public String province;
-        public String postcode;
+        private String line1;
+        private String line2;
+        private String city;
+        private String province;
+        private String postcode;
 
-        private Address() {
+        /**
+         * Creates and initialises a new Address.
+         * TODO: Fully implement this method!
+         */
+        public Address() {
 
         }
     }
@@ -20,6 +25,10 @@ public class Listing {
     private int bedCount;
     private double bathroomCount;
 
+    /**
+     * Creates and initialises a new Listing.
+     * TODO: Fully implement this method!
+     */
     public Listing() {
 
     }
