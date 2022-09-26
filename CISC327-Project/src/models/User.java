@@ -1,5 +1,6 @@
 package models;
 
+/**Is the parent and base for any user on the platform */
 public class User {
 	private int userID;
 	private String username;
