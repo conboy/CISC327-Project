@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Date;
+
 public class Listing {
 
     //Subclass to store different aspects of an address, as opposed to saving everything in one string
@@ -19,17 +21,26 @@ public class Listing {
         }
     }
 
+    private int listingID;
+    private String title;
+    private String description;
+    private double price;
+    private Date modificationDate;
     private int ownerID;
-    private Address listingAddress;
-    private int bedroomCount;
-    private int bedCount;
-    private double bathroomCount;
+
+    /* Currently unused variables - may be implemented in the future? */
+    //private Address listingAddress;
 
     /**
      * Creates and initialises a new Listing.
      * TODO: Fully implement this method!
      */
-    public Listing() {
-
+    public Listing(int id, String title, String description, double price, Date modDate, int owner) {
+        this.listingID = id;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.modificationDate = modDate;
+        this.ownerID = owner;
     }
 }
