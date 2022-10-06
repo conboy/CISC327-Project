@@ -1,15 +1,32 @@
 package models;
 
 import java.time.LocalDate;
-import java.util.Date;
 
+//TODO: implement database functionality!
+
+/**
+ * The class that handles Listings - objects which represent individual properties in reality.
+ * Users browse Listings, and create bookings through them if they wish to stay at their location.
+ * Each listing is linked to its owner via an ID, in order to simplify ownership and transactions.
+ */
 public class Listing {
-
+    
+    //The ID of the listing object - used to identify between individual listings.
     private int listingID;
+
+    //The title of the listing that is shown to users. Alphanumeric only.
     private String title;
+
+    //The description of the listing that is shown to users prior to booking. Must be longer than the title!
     private String description;
+
+    //The price of the listing per night. Can range from 10$ to 10,000$.
     private double price;
+
+    //The date of when the listing was last modified by its owner. Does not accept dates past 2025.
     private LocalDate modificationDate;
+
+    //The ID of the user who created the listing and owns the property. Used to reference the owner's info when necessary.
     private int ownerID;
 
     /**
@@ -31,6 +48,7 @@ public class Listing {
         if (price < 10 || price > 10000) throw new IllegalArgumentException("Price is outside of valid range!");
         this.price = price;
 
+        //not sure if this check is necessary - upon creation, shouldn't modification date be set to the current date?
         if (modDate.isBefore(LocalDate.parse("2021-01-02")) || modDate.isAfter(LocalDate.parse("2025-01-02"))) throw new IllegalArgumentException("Modification date is outside of valid range!");
         this.modificationDate = modDate;
 
