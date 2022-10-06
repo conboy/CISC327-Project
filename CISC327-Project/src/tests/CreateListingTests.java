@@ -3,15 +3,19 @@ package tests;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+<<<<<<< HEAD
 import models.Listing;
 
 import java.time.LocalDate;
+=======
+>>>>>>> Test Skeletons for R$ implemented.
 
 public class CreateListingTests {
 
     /**
      * Tests requirement R4-1: The title of the product has to be alphanumeric-only.
      * Additionally, spaces are allowed only if it is not as prefix and suffix.
+<<<<<<< HEAD
      * REQUIRES LISTING TO THROW ERRORS WITH MESSAGE 'R4-1' TO FUNCTION.
      */
     @Test
@@ -54,10 +58,17 @@ public class CreateListingTests {
             message3 = e.getMessage();
         }
         Assert.assertEquals("R4-1", message3);
+=======
+     */
+    @Test
+    public void alphanumericTitleTest () {
+        Assert.fail();
+>>>>>>> Test Skeletons for R$ implemented.
     }
 
     /**
      * Tests requirement R4-2: The title of the product is no longer than 80 characters.
+<<<<<<< HEAD
      * REQUIRES LISTING TO THROW ERRORS WITH MESSAGE 'R4-2' TO FUNCTION.
      */
     @Test
@@ -74,10 +85,17 @@ public class CreateListingTests {
             message = e.getMessage();
         }
         Assert.assertEquals("R4-2", message);
+=======
+     */
+    @Test
+    public void titleLengthTest () {
+        Assert.fail();
+>>>>>>> Test Skeletons for R$ implemented.
     }
 
     /**
      * Tests requirement R4-3: The description is minimum length of 20 characters and a maximum of 2000 characters.
+<<<<<<< HEAD
      * REQUIRES LISTING TO THROW ERRORS WITH MESSAGE 'R4-3' TO FUNCTION.
      */
     @Test
@@ -108,10 +126,17 @@ public class CreateListingTests {
             message2 = e.getMessage();
         }
         Assert.assertEquals("R4-3", message2);
+=======
+     */
+    @Test
+    public void descriptionLengthTest () {
+        Assert.fail();
+>>>>>>> Test Skeletons for R$ implemented.
     }
 
     /**
      * Tests requirement R4-4: Description has to be longer than the product's title.
+<<<<<<< HEAD
      * REQUIRES LISTING TO THROW ERRORS WITH MESSAGE 'R4-4' TO FUNCTION.
      */
     @Test
@@ -127,10 +152,17 @@ public class CreateListingTests {
             message = e.getMessage();
         }
         Assert.assertEquals("R4-4", message);
+=======
+     */
+    @Test
+    public void descriptionLongerThanTitleTest () {
+        Assert.fail();
+>>>>>>> Test Skeletons for R$ implemented.
     }
 
     /**
      * Tests requirement R4-5: Price has to be within the range [10, 10000].
+<<<<<<< HEAD
      * REQUIRES LISTING TO THROW ERRORS WITH MESSAGE 'R4-5' TO FUNCTION.
      */
     @Test
@@ -160,10 +192,17 @@ public class CreateListingTests {
             message2 = e.getMessage();
         }
         Assert.assertEquals("R4-5", message2);
+=======
+     */
+    @Test
+    public void priceWithinRangeTest () {
+        Assert.fail();
+>>>>>>> Test Skeletons for R$ implemented.
     }
 
     /**
      * Tests requirement R4-6: modified_date must be after 2021-01-02 and before 2025-01-02.
+<<<<<<< HEAD
      * REQUIRES LISTING TO THROW ERRORS WITH MESSAGE 'R4-6' TO FUNCTION.
      */
     @Test
@@ -193,10 +232,17 @@ public class CreateListingTests {
             message2 = e.getMessage();
         }
         Assert.assertEquals("R4-6", message2);
+=======
+     */
+    @Test
+    public void dateWithinRangeTest () {
+        Assert.fail();
+>>>>>>> Test Skeletons for R$ implemented.
     }
 
     /**
      * Tests requirement R4-7A: ownerID cannot be empty.
+<<<<<<< HEAD
      * REQUIRES LISTING TO THROW ERRORS WITH MESSAGE 'R4-7' TO FUNCTION.
      */
     @Test
@@ -212,6 +258,12 @@ public class CreateListingTests {
             message = e.getMessage();
         }
         Assert.assertEquals("R4-7", message);
+=======
+     */
+    @Test
+    public void ownerNonEmptyTest () {
+        Assert.fail();
+>>>>>>> Test Skeletons for R$ implemented.
     }
 
     /**
