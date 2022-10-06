@@ -3,6 +3,9 @@ package tests;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import models.Listing;
+
+import java.time.LocalDate;
 
 public class CreateListingTests {
 
@@ -12,7 +15,15 @@ public class CreateListingTests {
      */
     @Test
     public void alphanumericTitleTest () {
-        Assert.fail();
+        try {
+            Listing x = new Listing(1,
+                    "Quantum guy's £$@$!@£$$@! factory",
+                    "A super fun factory of nonsense anc whimsy innit!",
+                    10, LocalDate.now(), 1);
+        }
+        catch (IllegalArgumentException e) {
+            Assert.assertEquals("R4-1", e.getMessage());
+        }
     }
 
     /**
