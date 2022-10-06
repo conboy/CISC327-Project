@@ -4,11 +4,17 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import models.Listing;
 
 import java.time.LocalDate;
 =======
 >>>>>>> Test Skeletons for R$ implemented.
+=======
+import models.Listing;
+
+import java.time.LocalDate;
+>>>>>>> alphanumericTitleTest implemented.
 
 public class CreateListingTests {
 
@@ -62,8 +68,20 @@ public class CreateListingTests {
      */
     @Test
     public void alphanumericTitleTest () {
+<<<<<<< HEAD
         Assert.fail();
 >>>>>>> Test Skeletons for R$ implemented.
+=======
+        try {
+            Listing x = new Listing(1,
+                    "Quantum guy's £$@$!@£$$@! factory",
+                    "A super fun factory of nonsense anc whimsy innit!",
+                    10, LocalDate.now(), 1);
+        }
+        catch (IllegalArgumentException e) {
+            Assert.assertEquals("R4-1", e.getMessage());
+        }
+>>>>>>> alphanumericTitleTest implemented.
     }
 
     /**
