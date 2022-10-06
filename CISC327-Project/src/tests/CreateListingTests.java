@@ -15,6 +15,8 @@ public class CreateListingTests {
      */
     @Test
     public void alphanumericTitleTest () {
+        //checking non-numeric characters - error with message R4-1 should be thrown
+        String message1 = "";
         try {
             Listing x = new Listing(1,
                     "Quantum guy's £$@$!@£$$@! factory",
@@ -22,8 +24,35 @@ public class CreateListingTests {
                     10, LocalDate.now(), 1);
         }
         catch (IllegalArgumentException e) {
-            Assert.assertEquals("R4-1", e.getMessage());
+            message1 = e.getMessage();
         }
+        Assert.assertEquals("R4-1", message1);
+
+        //checking space characters at the beginning of title - error with message R4-1 should be thrown
+        String message2 = "";
+        try {
+            Listing x = new Listing(1,
+                    "     Front space land",
+                    "A super fun land of nonsense anc whimsy innit!",
+                    10, LocalDate.now(), 1);
+        }
+        catch (IllegalArgumentException e) {
+            message2 = e.getMessage();
+        }
+        Assert.assertEquals("R4-1", message2);
+
+        //checking space characters at the end of title - error with message R4-1 should be thrown
+        String message3 = "";
+        try {
+            Listing x = new Listing(1,
+                    "End space land    ",
+                    "A super fun land of nonsense anc whimsy innit!",
+                    10, LocalDate.now(), 1);
+        }
+        catch (IllegalArgumentException e) {
+            message3 = e.getMessage();
+        }
+        Assert.assertEquals("R4-1", message3);
     }
 
     /**
