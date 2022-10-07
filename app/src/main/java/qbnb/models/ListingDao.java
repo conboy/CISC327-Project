@@ -40,7 +40,7 @@ public final class ListingDao implements Dao<Listing> {
         for (int i = 0; i < listings.size(); i++) {
             if (listings.get(i).equals(listing)) {
                 //If listing is found, update it through it's inbuilt update procedure.
-                listings.get(i).UpdateListing(Integer.parseInt(params[0]), params[1], params[2], Double.parseDouble(params[3]));
+                listings.get(i).UpdateListing(params[0], params[1], Double.parseDouble(params[2]));
                 found = true;
             }
         }
