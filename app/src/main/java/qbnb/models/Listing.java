@@ -3,6 +3,7 @@ package qbnb.models;
 import qbnb.models.ListingDao;
 
 import java.time.LocalDate;
+import java.util.List;
 
 //TODO: implement database functionality!
 
@@ -36,8 +37,24 @@ public class Listing {
      * If any of the requirements as established in Sprint #2 R4 are broken, an Illegal Argument exception is thrown.
      */
     public Listing(int id, String title, String description, double price, LocalDate modDate, int owner) {
+        ListingDao DAO = new ListingDao();
+        List<Listing> allListings = DAO.getAll();
+
+        //Not stated on the specification but a logical extension of the system we are implementing.
+        //If list titles have to be unique then list IDs really absolutely should be unique!
+        //This may be changed to simply increment the previous listingID by one, since it's something that could be abstracted tbh.
+        for (Listing listing : allListings) {
+            if (listing.getListingID() == id) {
+                throw new IllegalArgumentException("R4-0");
+            }
+        }
         this.listingID = id;
 
+        for (Listing listing : allListings) {
+            if (listing.getTitle().equals(title)) {
+                throw new IllegalArgumentException("R4-8");
+            }
+        }
         if (!title.matches("[a-zA-z0-9 ]+")) throw new IllegalArgumentException("R4-1");
         else if (title.charAt(0) == ' ' || title.charAt(title.length() - 1) == ' ') throw new IllegalArgumentException("R4-1");
         else if (title.length() > 80) throw new IllegalArgumentException("R4-2");
@@ -58,7 +75,6 @@ public class Listing {
         if (owner < 1) throw new IllegalArgumentException("R4-7");
         this.ownerID = owner;
 
-        ListingDao DAO = new ListingDao();
         DAO.save(this);
     }
 
@@ -73,8 +89,14 @@ public class Listing {
      * @return a boolean value representing the success of the update. If false, no attributes will have been updated.
      */
     public boolean UpdateListing (String newTitle, String newDesc, double newPrice) {
+        ListingDao DAO = new ListingDao();
 
         if (newTitle != null) {
+            for (Listing listing : DAO.getAll()) {
+                if (listing.getTitle().equals(newTitle)) {
+                    return false;
+                }
+            }
             if (!newTitle.matches("[a-zA-z0-9 ]+")) return false;
             else if (newTitle.charAt(0) == ' ' || newTitle.charAt(newTitle.length() - 1) == ' ') return false;
             else if (newTitle.length() > 80) return false;
@@ -96,7 +118,6 @@ public class Listing {
         if (newDesc != null) this.description = newDesc;
         if (newPrice > 0) this.price = newPrice;
         this.modificationDate = LocalDate.now();
-        ListingDao DAO = new ListingDao();
         DAO.update(this);
         return true;
     }
