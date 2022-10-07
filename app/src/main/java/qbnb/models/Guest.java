@@ -8,7 +8,7 @@ public class Guest extends qbnb.models.User {
   private ArrayList<Review> reviews;
   private double accountBalance;
 
-  //temporary method to fix build errors
+  // temporary method to fix build errors
   public Guest(int id, String user, String password, String email) {
     super(id, user, password, email);
   }
