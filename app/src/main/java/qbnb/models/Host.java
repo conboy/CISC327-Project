@@ -1,4 +1,4 @@
-package models;
+package qbnb.models;
 
 import java.util.ArrayList;
 
@@ -8,5 +8,8 @@ public class Host extends User {
   private ArrayList<Review> reviews;
   private double accountBalance;
 
-  public Host() {}
+  // temporary - for CreateListTests
+  public Host(int id, String n, String p, String e) {
+    super(id, n, p, e);
+  }
 }
