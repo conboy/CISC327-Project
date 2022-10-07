@@ -1,26 +1,24 @@
-package models;
+package qbnb.models;
 
+import java.time.LocalDate;
+
+// TEMPORARY CLASS TO HELP WITH BUILD ERRORS
 public class Listing {
 
-  // Subclass to store different aspects of an address, as opposed to saving everything in one
-  // string
-  private class Address {
-    private String line1;
-    private String line2;
-    private String city;
-    private String province;
-    private String postcode;
-
-    /** Creates and initialises a new Address. TODO: Fully implement this method! */
-    public Address() {}
-  }
-
+  private int listingID;
+  private String title;
+  private String desc;
+  private double price;
+  private LocalDate md;
   private int ownerID;
-  private Address listingAddress;
-  private int bedroomCount;
-  private int bedCount;
-  private double bathroomCount;
 
   /** Creates and initialises a new Listing. TODO: Fully implement this method! */
-  public Listing() {}
+  public Listing(int id, String t, String d, double pr, LocalDate date, int owner) {
+    listingID = id;
+    title = t;
+    desc = d;
+    price = pr;
+    md = date;
+    ownerID = owner;
+  }
 }

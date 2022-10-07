@@ -1,4 +1,4 @@
-package models;
+package qbnb.models;
 
 /** Is the parent and base for any user on the platform */
 public class User {
