@@ -16,6 +16,7 @@ public class CreateListingTests {
   @Test
   public void alphanumericTitleTest() {
     // checking non-numeric characters - error with message R4-1 should be thrown
+    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
     String message1 = "";
     try {
       Listing x =
@@ -37,7 +38,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              2,
               "     Front space land",
               "A super fun land of nonsense anc whimsy innit!",
               100,
@@ -53,7 +54,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              3,
               "End space land    ",
               "A super fun land of nonsense anc whimsy innit!",
               100,
@@ -71,6 +72,7 @@ public class CreateListingTests {
    */
   @Test
   public void titleLengthTest() {
+    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
     String message = "";
     try {
       String desc = "a".repeat(200); // simple way of writing an arbitrarily long description
@@ -95,6 +97,7 @@ public class CreateListingTests {
   @Test
   public void descriptionLengthTest() {
     // testing if error is thrown for the title length < 20 case - 'R4-3' is expected error message.
+    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
     String message1 = "";
     try {
       Listing x = new Listing(1, "Funland", "It's funland!", 100, LocalDate.now(), 1);
@@ -107,7 +110,7 @@ public class CreateListingTests {
     String message2 = "";
     try {
       String desc = "bee".repeat(1000); // simple way of writing an arbitrarily long description
-      Listing x = new Listing(1, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
+      Listing x = new Listing(2, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
@@ -120,6 +123,7 @@ public class CreateListingTests {
    */
   @Test
   public void descriptionLongerThanTitleTest() {
+    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
     String message = "";
     try {
       Listing x =
@@ -143,6 +147,7 @@ public class CreateListingTests {
   @Test
   public void priceWithinRangeTest() {
     // testing if correct error is thrown for the price < 10 case.
+    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
     String message1 = "";
     try {
       Listing x =
@@ -157,7 +162,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              2,
               "Bunland",
               "It's fun on the bun! - Futurama robot man",
               10000000,
@@ -176,6 +181,7 @@ public class CreateListingTests {
   @Test
   public void dateWithinRangeTest() {
     // testing if correct error is thrown for the Date < 2021-01-02 case.
+    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
     String message1 = "";
     try {
       Listing x =
@@ -196,7 +202,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              2,
               "Funland",
               "It's funland! The land of descriptions longer than 20 characters!",
               10,
@@ -214,6 +220,7 @@ public class CreateListingTests {
    */
   @Test
   public void ownerNonEmptyTest() {
+    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
     String message = "";
     try {
       Listing x =

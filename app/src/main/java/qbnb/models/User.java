@@ -7,5 +7,11 @@ public class User {
   private String password;
   private String email;
 
-  public User() {}
+  // temporary constructor to help with CreateListingTests
+  public User(int id, String n, String p, String e) {
+    userID = id;
+    username = n;
+    password = p;
+    email = e;
+  }
 }
