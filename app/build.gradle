@@ -11,6 +11,13 @@ plugins {
     id 'application'
 }
 
+<<<<<<< HEAD
+=======
+task wrapper(type: Wrapper) {
+    gradleVersion = '7.2'
+}
+
+>>>>>>> i genuinely don't know what's failing the style guide
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
