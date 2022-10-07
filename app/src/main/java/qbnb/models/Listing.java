@@ -178,4 +178,8 @@ public class Listing {
   public int getOwnerID() {
     return ownerID;
   }
+
+  public int getOwnerID() {
+    return ownerID;
+  }
 }
