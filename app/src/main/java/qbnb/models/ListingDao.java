@@ -22,7 +22,7 @@ public final class ListingDao implements Dao<Listing> {
 
     /* Return all Listings present in the DAO. Lists! */
     @Override
-    public List getAll() {
+    public List<Listing> getAll() {
         return listings;
     }
 
