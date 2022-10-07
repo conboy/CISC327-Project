@@ -16,7 +16,7 @@ public class CreateListingTests {
   @Test
   public void alphanumericTitleTest() {
     // checking non-numeric characters - error with message R4-1 should be thrown
-    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     String message1 = "";
     try {
       Listing x =
@@ -72,7 +72,7 @@ public class CreateListingTests {
    */
   @Test
   public void titleLengthTest() {
-    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     String message = "";
     try {
       String desc = "a".repeat(200); // simple way of writing an arbitrarily long description
@@ -97,7 +97,7 @@ public class CreateListingTests {
   @Test
   public void descriptionLengthTest() {
     // testing if error is thrown for the title length < 20 case - 'R4-3' is expected error message.
-    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     String message1 = "";
     try {
       Listing x = new Listing(1, "Funland", "It's funland!", 100, LocalDate.now(), 1);
@@ -123,7 +123,7 @@ public class CreateListingTests {
    */
   @Test
   public void descriptionLongerThanTitleTest() {
-    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     String message = "";
     try {
       Listing x =
@@ -147,7 +147,7 @@ public class CreateListingTests {
   @Test
   public void priceWithinRangeTest() {
     // testing if correct error is thrown for the price < 10 case.
-    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     String message1 = "";
     try {
       Listing x =
@@ -181,7 +181,7 @@ public class CreateListingTests {
   @Test
   public void dateWithinRangeTest() {
     // testing if correct error is thrown for the Date < 2021-01-02 case.
-    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     String message1 = "";
     try {
       Listing x =
@@ -220,7 +220,7 @@ public class CreateListingTests {
    */
   @Test
   public void ownerNonEmptyTest() {
-    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     String message = "";
     try {
       Listing x =
@@ -237,16 +237,18 @@ public class CreateListingTests {
     assertEquals("R4-7", message);
   }
 
-  /** Tests requirement R4-7B: ownerID has to match an ID within the database.
-   * TEST ASSUMES THAT USERS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION. */
+  /**
+   * Tests requirement R4-7B: ownerID has to match an ID within the database. TEST ASSUMES THAT
+   * USERS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION.
+   */
   @Test
   public void ownerExistsTest() {
-    //test that using a saved ID allows for listing to be created without errors.
-    User u = new User(4053,"bringostar","14LoversLane!","punch@judy.com");
-    Listing y = new Listing(1,"loveplace","a".repeat(25), 100, LocalDate.now(), 4053);
+    // test that using a saved ID allows for listing to be created without errors.
+    User u = new User(4053, "bringostar", "14LoversLane!", "punch@judy.com");
+    Listing y = new Listing(1, "loveplace", "a".repeat(25), 100, LocalDate.now(), 4053);
     assertEquals(y.getOwnerID(), 4053);
 
-    //test that an invalid owner ID causes an error of R4-8 to be thrown.
+    // test that an invalid owner ID causes an error of R4-8 to be thrown.
     String message = "";
     try {
       Listing x =
@@ -263,16 +265,18 @@ public class CreateListingTests {
     assertEquals("R4-7", message);
   }
 
-  /** Tests requirement R4-8: A user cannot create a listing with a title that is already in-use.
-   * TEST ASSUMES THAT LISTINGS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION */
+  /**
+   * Tests requirement R4-8: A user cannot create a listing with a title that is already in-use.
+   * TEST ASSUMES THAT LISTINGS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION
+   */
   @Test
   public void sharedTitleTest() {
-    //tests that the first time a title is used, no errors are thrown.
-    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
-    Listing y = new Listing(1,"loveplace","a".repeat(25), 100, LocalDate.now(), 1);
+    // tests that the first time a title is used, no errors are thrown.
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    Listing y = new Listing(1, "loveplace", "a".repeat(25), 100, LocalDate.now(), 1);
     assertEquals(y.getOwnerID(), 1);
 
-    //tests if an error is thrown if the same title is used again.
+    // tests if an error is thrown if the same title is used again.
     String message = "";
     try {
       Listing x =
