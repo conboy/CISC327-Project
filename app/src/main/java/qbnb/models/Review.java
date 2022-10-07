@@ -3,7 +3,7 @@ package models;
 import java.util.Date; // For formating dates
 
 /** Support for user reviews on stays. */
-public class CreatingReviewModel {
+public class Review {
   private int reviewID;
   private int reviewerID;
   private int listingID;
@@ -11,5 +11,5 @@ public class CreatingReviewModel {
   private int reviewRating;
   private String reviewBody;
 
-  public CreatingReviewModel() {}
+  public Review() {}
 }

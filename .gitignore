@@ -1,3 +1,10 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+# ignore IDE atifacts
 /.metadata/
 CISC327-Project/.idea
 CISC327-Project/CISC327-Project.imi
