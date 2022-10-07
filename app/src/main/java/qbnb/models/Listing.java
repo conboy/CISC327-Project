@@ -1,7 +1,5 @@
 package qbnb.models;
 
-import org.junit.Assert;
-import org.junit.Test;
 import qbnb.models.ListingDao;
 
 import java.time.LocalDate;
@@ -69,14 +67,13 @@ public class Listing {
      * If attributes are less than 1 or Null they shall be ignored.
      * Adheres to the requirements as specified in Sprint #2 R5.
      * SHOULD ONLY BE CALLED VIA ListingDao.update() !!! The Dao interface is set up such that it cannot
-     * @param newID The new ID number for the listing. Honestly don't think this should be alterable either tbh -> decide later.
      * @param newTitle The new title for the listing. Must adhere to the R4 guidelines.
      * @param newDesc The new description for the listing. Must adhere to the R4 guidelines.
      * @param newPrice The new price for the listing. Must adhere to the R4 guidelines. Cannot be lower than the current price :)
      * @return a boolean value representing the success of the update. If false, no attributes will have been updated.
      */
-    public boolean UpdateListing (int newID, String newTitle, String newDesc, double newPrice) {
-        
+    public boolean UpdateListing (String newTitle, String newDesc, double newPrice) {
+
         if (newTitle != null) {
             if (!newTitle.matches("[a-zA-z0-9 ]+")) return false;
             else if (newTitle.charAt(0) == ' ' || newTitle.charAt(newTitle.length() - 1) == ' ') return false;
@@ -95,7 +92,6 @@ public class Listing {
         }
 
         //if the function is still executing, we can be sure all attributes fit requirements -> update their values now!
-        if (newID > 0) this.listingID = newID;
         if (newTitle != null) this.title = newTitle;
         if (newDesc != null) this.description = newDesc;
         if (newPrice > 0) this.price = newPrice;
