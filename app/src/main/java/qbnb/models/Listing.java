@@ -99,8 +99,7 @@ public class Listing {
 
   /**
    * Updates various attributes of a given instance of Listing. If attributes are less than 1 or
-   * Null they shall be ignored. Adheres to the requirements as specified in Sprint #2 R5. SHOULD
-   * ONLY BE CALLED VIA ListingDao.update() !!! The Dao interface is set up such that it cannot
+   * Null they shall be ignored. Adheres to the requirements as specified in Sprint #2 R5.
    *
    * @param newTitle The new title for the listing. Must adhere to the R4 guidelines.
    * @param newDesc The new description for the listing. Must adhere to the R4 guidelines.
