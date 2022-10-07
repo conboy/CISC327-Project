@@ -11,7 +11,7 @@ plugins {
     id 'application'
 }
 
-task wrapper(type: Wrapper){
+task wrapper(type: Wrapper) {
     gradleVersion = '7.2'
 }
 
