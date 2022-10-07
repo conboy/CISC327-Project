@@ -1,7 +1,5 @@
 package qbnb.models;
 
-import qbnb.models.ListingDao;
-
 import java.time.LocalDate;
 import java.util.List;
 
