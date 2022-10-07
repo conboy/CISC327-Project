@@ -72,7 +72,17 @@ public class Listing {
         this.modificationDate = modDate;
 
         //requirements dictate owner email shouldn't be empty - since we're using an ID system, ID should be greater than zero!
+        //ID system is a pretty insecure primary key to be fair - might alter this system at the start of the next sprint!
+        UserDao uDao = new UserDao();
         if (owner < 1) throw new IllegalArgumentException("R4-7");
+        boolean matchingUserID = false;
+        for (User user : uDao.getAll()) {
+            if (user.getUserID() == owner) {
+                matchingUserID = true;
+                break;
+            }
+        }
+        if (!matchingUserID) throw new IllegalArgumentException("R4-8");
         this.ownerID = owner;
 
         DAO.save(this);
