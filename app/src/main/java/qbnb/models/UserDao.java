@@ -1,11 +1,9 @@
 package qbnb.models;
 
-import qbnb.models.*;
-import models.Dao;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import models.Dao;
 
 /**
  * == TEMPORARY USERDAO IMPLEMENTATION == used only to help handle listing requirements full
