@@ -7,19 +7,19 @@ public class User {
   private String password;
   private String email;
 
-  //TEMPORARY CONSTRUCTOR - USED ONLY FOR LISTING IMPLEMENTATION PURPOSES
-  public User(int ID,String user, String password, String email) {
-      this.userID = ID;
-      this.username = user;
-      this.password = password;
-      this.email = email;
+  // TEMPORARY CONSTRUCTOR - USED ONLY FOR LISTING IMPLEMENTATION PURPOSES
+  public User(int ID, String user, String password, String email) {
+    this.userID = ID;
+    this.username = user;
+    this.password = password;
+    this.email = email;
 
-      UserDao dao = new UserDao();
-      dao.save(this);
+    UserDao dao = new UserDao();
+    dao.save(this);
   }
 
-  //TEMPORARY GETTER - returns userID.
-  public int getUserID () {
-      return userID;
+  // TEMPORARY GETTER - returns userID.
+  public int getUserID() {
+    return userID;
   }
 }
