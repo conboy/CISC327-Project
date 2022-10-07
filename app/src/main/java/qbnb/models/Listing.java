@@ -21,4 +21,8 @@ public class Listing {
     md = date;
     ownerID = owner;
   }
+
+  public int getOwnerID() {
+    return ownerID;
+  }
 }
