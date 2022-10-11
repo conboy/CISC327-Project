@@ -11,13 +11,13 @@ class Address {
     protected Address() {
         
     }
-
+    
     protected Address(int streetNum, String unitNum, String streetName, String city, String provState, String Country) throws IllegalArgumentException {
         if (!(setStreetNumber(streetNum) && setUnitNumebr(unitNum) && setStreetName(streetName) && setCity(city) && setProvState(provState) && setCountry(Country))) {
             throw new IllegalArgumentException("Please Check The Address Given");
         }
     }
-
+    
     protected Boolean setStreetNumber(int number) {
         if(number > 0 ) {
             this.streetNumber = number;
