@@ -16,6 +16,10 @@ public class CreateListingTests {
   @Test
   public void alphanumericTitleTest() {
     // checking non-numeric characters - error with message R4-1 should be thrown
+<<<<<<< HEAD
+=======
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     String message1 = "";
     try {
       Listing x =
@@ -71,12 +75,20 @@ public class CreateListingTests {
    */
   @Test
   public void titleLengthTest() {
+<<<<<<< HEAD
+=======
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     String message = "";
     try {
       String desc = "a".repeat(200); // simple way of writing an arbitrarily long description
       Listing x =
           new Listing(
+<<<<<<< HEAD
               4,
+=======
+              1,
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
               "The Really Really Long Named Place Of Absolute Joy And Wonder And Merriment And Amusement which is better known as The Ultimate Funkodome of the 31st Century",
               desc,
               100,
@@ -95,9 +107,16 @@ public class CreateListingTests {
   @Test
   public void descriptionLengthTest() {
     // testing if error is thrown for the title length < 20 case - 'R4-3' is expected error message.
+<<<<<<< HEAD
     String message1 = "";
     try {
       Listing x = new Listing(5, "Funland", "It's funland!", 100, LocalDate.now(), 1);
+=======
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    String message1 = "";
+    try {
+      Listing x = new Listing(1, "Funland", "It's funland!", 100, LocalDate.now(), 1);
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
@@ -107,7 +126,11 @@ public class CreateListingTests {
     String message2 = "";
     try {
       String desc = "bee".repeat(1000); // simple way of writing an arbitrarily long description
+<<<<<<< HEAD
       Listing x = new Listing(6, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
+=======
+      Listing x = new Listing(2, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
@@ -120,11 +143,19 @@ public class CreateListingTests {
    */
   @Test
   public void descriptionLongerThanTitleTest() {
+<<<<<<< HEAD
+=======
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     String message = "";
     try {
       Listing x =
           new Listing(
+<<<<<<< HEAD
               7,
+=======
+              1,
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
               "Ultimate bogland of supreme boggieness innit",
               "it's a bog, just sucks tbh",
               100,
@@ -143,10 +174,18 @@ public class CreateListingTests {
   @Test
   public void priceWithinRangeTest() {
     // testing if correct error is thrown for the price < 10 case.
+<<<<<<< HEAD
     String message1 = "";
     try {
       Listing x =
           new Listing(8, "Funland", "It's funland! Fun fun fun, mega good!", 1, LocalDate.now(), 1);
+=======
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    String message1 = "";
+    try {
+      Listing x =
+          new Listing(1, "Funland", "It's funland! Fun fun fun, mega good!", 1, LocalDate.now(), 1);
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
@@ -157,7 +196,11 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
+<<<<<<< HEAD
               1,
+=======
+              2,
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
               "Bunland",
               "It's fun on the bun! - Futurama robot man",
               10000000,
@@ -176,11 +219,19 @@ public class CreateListingTests {
   @Test
   public void dateWithinRangeTest() {
     // testing if correct error is thrown for the Date < 2021-01-02 case.
+<<<<<<< HEAD
+=======
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     String message1 = "";
     try {
       Listing x =
           new Listing(
+<<<<<<< HEAD
               9,
+=======
+              1,
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
               "Funland",
               "It's funland! I have to update all of these because the description is too short!",
               100,
@@ -196,7 +247,11 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
+<<<<<<< HEAD
               10,
+=======
+              2,
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
               "Funland",
               "It's funland! The land of descriptions longer than 20 characters!",
               10,
@@ -214,11 +269,19 @@ public class CreateListingTests {
    */
   @Test
   public void ownerNonEmptyTest() {
+<<<<<<< HEAD
+=======
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     String message = "";
     try {
       Listing x =
           new Listing(
+<<<<<<< HEAD
               11,
+=======
+              1,
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
               "Ultimate bogland",
               "it's a bog. one could say it boggles the mind hahaha",
               100,
@@ -238,7 +301,11 @@ public class CreateListingTests {
   public void ownerExistsTest() {
     // test that using a saved ID allows for listing to be created without errors.
     User u = new User(4053, "bringostar", "14LoversLane!", "punch@judy.com");
+<<<<<<< HEAD
     Listing y = new Listing(12, "lovdplace", "a".repeat(25), 100, LocalDate.now(), 4053);
+=======
+    Listing y = new Listing(1, "loveplace", "a".repeat(25), 100, LocalDate.now(), 4053);
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     assertEquals(y.getOwnerID(), 4053);
 
     // test that an invalid owner ID causes an error of R4-8 to be thrown.
@@ -246,7 +313,11 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
+<<<<<<< HEAD
               20,
+=======
+              2,
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
               "Ultimate bogland",
               "it's a bog. one could say it boggles the mind hahaha",
               100,
@@ -266,7 +337,11 @@ public class CreateListingTests {
   public void sharedTitleTest() {
     // tests that the first time a title is used, no errors are thrown.
     User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+<<<<<<< HEAD
     Listing y = new Listing(100, "loveplace", "a".repeat(25), 100, LocalDate.now(), 1);
+=======
+    Listing y = new Listing(1, "loveplace", "a".repeat(25), 100, LocalDate.now(), 1);
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
     assertEquals(y.getOwnerID(), 1);
 
     // tests if an error is thrown if the same title is used again.
@@ -274,7 +349,11 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
+<<<<<<< HEAD
               200,
+=======
+              2,
+>>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
               "loveplace",
               "it's a bog. one could say it boggles the mind hahaha",
               100,
