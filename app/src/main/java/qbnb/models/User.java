@@ -101,4 +101,38 @@ public class User {
     return this.userID;
   }  
 
+
+  public Boolean setAddress(int streetNum, String unitNum, String streetName, String city, String prov, String country) {
+    if (this.address == null) {
+      this.address = new Address(streetNum, unitNum, streetName, city, prov, country);
+      return true;
+    }
+
+    return false;
+  }
+
+  //to be implemented later
+  public Boolean updateAddress() {
+    return true;
+  }
+
+  public Boolean deleteGuest() {
+    this.guestProfile = null;
+    return true;
+  }
+
+  public Boolean addGuest() {
+    this.guestProfile = new Guest();
+    return true;
+  }
+
+  public Boolean deleteHost() {
+    this.hostProfile = null;
+    return true;
+  }
+
+  public Boolean addHost() {
+    this.hostProfile = new Host();
+    return true;
+  }
 }
