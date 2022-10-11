@@ -230,16 +230,18 @@ public class CreateListingTests {
     assertEquals("R4-7", message);
   }
 
-  /** Tests requirement R4-7B: ownerID has to match an ID within the database.
-   * TEST ASSUMES THAT USERS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION. */
+  /**
+   * Tests requirement R4-7B: ownerID has to match an ID within the database. TEST ASSUMES THAT
+   * USERS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION.
+   */
   @Test
   public void ownerExistsTest() {
-    //test that using a saved ID allows for listing to be created without errors.
-    User u = new User(4053,"bringostar","14LoversLane!","punch@judy.com");
-    Listing y = new Listing(12,"lovdplace","a".repeat(25), 100, LocalDate.now(), 4053);
+    // test that using a saved ID allows for listing to be created without errors.
+    User u = new User(4053, "bringostar", "14LoversLane!", "punch@judy.com");
+    Listing y = new Listing(12, "lovdplace", "a".repeat(25), 100, LocalDate.now(), 4053);
     assertEquals(y.getOwnerID(), 4053);
 
-    //test that an invalid owner ID causes an error of R4-8 to be thrown.
+    // test that an invalid owner ID causes an error of R4-8 to be thrown.
     String message = "";
     try {
       Listing x =
@@ -256,16 +258,18 @@ public class CreateListingTests {
     assertEquals("R4-7", message);
   }
 
-  /** Tests requirement R4-8: A user cannot create a listing with a title that is already in-use.
-   * TEST ASSUMES THAT LISTINGS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION */
+  /**
+   * Tests requirement R4-8: A user cannot create a listing with a title that is already in-use.
+   * TEST ASSUMES THAT LISTINGS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION
+   */
   @Test
   public void sharedTitleTest() {
-    //tests that the first time a title is used, no errors are thrown.
-    User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
-    Listing y = new Listing(100,"loveplace","a".repeat(25), 100, LocalDate.now(), 1);
+    // tests that the first time a title is used, no errors are thrown.
+    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    Listing y = new Listing(100, "loveplace", "a".repeat(25), 100, LocalDate.now(), 1);
     assertEquals(y.getOwnerID(), 1);
 
-    //tests if an error is thrown if the same title is used again.
+    // tests if an error is thrown if the same title is used again.
     String message = "";
     try {
       Listing x =
