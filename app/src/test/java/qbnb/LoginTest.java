@@ -18,6 +18,25 @@ import qbnb.models.*;
  */
 public class LoginTest {
     User userTest = new User("johndoe@gmail.com","Password123#");
+    
+    /**
+     * Test login functionality. 
+     * Pass correct email and password through Login function.
+     */
+    @Test
+    public void correctLoginTest() {
+        Assertions.assertTrue(userTest.Login("johndoe@gmail.com","Password123#"));
+    }
+
+    /**
+     * Test login functionality. 
+     * Pass incorrect but valid email and password through Login function.
+     */
+    @Test
+    public void incorrectLoginTest() {
+        Assertions.assertTrue(userTest.Login("johndoe1@gmail.com","Passwprd123#"));
+    }
+
     /**
      * Test R1-1: Email cannot be empty. password cannot be empty.
      * Try to login with an empty email and password if the Login() returns false, test is passed.
