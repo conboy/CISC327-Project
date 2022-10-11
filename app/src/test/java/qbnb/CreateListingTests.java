@@ -37,7 +37,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              2,
               "     Front space land",
               "A super fun land of nonsense anc whimsy innit!",
               100,
@@ -53,7 +53,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              3,
               "End space land    ",
               "A super fun land of nonsense anc whimsy innit!",
               100,
@@ -76,7 +76,7 @@ public class CreateListingTests {
       String desc = "a".repeat(200); // simple way of writing an arbitrarily long description
       Listing x =
           new Listing(
-              1,
+              4,
               "The Really Really Long Named Place Of Absolute Joy And Wonder And Merriment And Amusement which is better known as The Ultimate Funkodome of the 31st Century",
               desc,
               100,
@@ -97,7 +97,7 @@ public class CreateListingTests {
     // testing if error is thrown for the title length < 20 case - 'R4-3' is expected error message.
     String message1 = "";
     try {
-      Listing x = new Listing(1, "Funland", "It's funland!", 100, LocalDate.now(), 1);
+      Listing x = new Listing(5, "Funland", "It's funland!", 100, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
@@ -107,7 +107,7 @@ public class CreateListingTests {
     String message2 = "";
     try {
       String desc = "bee".repeat(1000); // simple way of writing an arbitrarily long description
-      Listing x = new Listing(1, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
+      Listing x = new Listing(6, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
@@ -124,7 +124,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              7,
               "Ultimate bogland of supreme boggieness innit",
               "it's a bog, just sucks tbh",
               100,
@@ -146,7 +146,7 @@ public class CreateListingTests {
     String message1 = "";
     try {
       Listing x =
-          new Listing(1, "Funland", "It's funland! Fun fun fun, mega good!", 1, LocalDate.now(), 1);
+          new Listing(8, "Funland", "It's funland! Fun fun fun, mega good!", 1, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
@@ -180,7 +180,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              9,
               "Funland",
               "It's funland! I have to update all of these because the description is too short!",
               100,
@@ -196,7 +196,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              10,
               "Funland",
               "It's funland! The land of descriptions longer than 20 characters!",
               10,
@@ -218,7 +218,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              11,
               "Ultimate bogland",
               "it's a bog. one could say it boggles the mind hahaha",
               100,
@@ -236,7 +236,7 @@ public class CreateListingTests {
   public void ownerExistsTest() {
     //test that using a saved ID allows for listing to be created without errors.
     User u = new User(4053,"bringostar","14LoversLane!","punch@judy.com");
-    Listing y = new Listing(1,"loveplace","a".repeat(25), 100, LocalDate.now(), 4053);
+    Listing y = new Listing(12,"lovdplace","a".repeat(25), 100, LocalDate.now(), 4053);
     assertEquals(y.getOwnerID(), 4053);
 
     //test that an invalid owner ID causes an error of R4-8 to be thrown.
@@ -244,7 +244,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              2,
+              20,
               "Ultimate bogland",
               "it's a bog. one could say it boggles the mind hahaha",
               100,
@@ -262,7 +262,7 @@ public class CreateListingTests {
   public void sharedTitleTest() {
     //tests that the first time a title is used, no errors are thrown.
     User u = new User(1,"bringostar","14LoversLane!","punch@judy.com");
-    Listing y = new Listing(1,"loveplace","a".repeat(25), 100, LocalDate.now(), 1);
+    Listing y = new Listing(100,"loveplace","a".repeat(25), 100, LocalDate.now(), 1);
     assertEquals(y.getOwnerID(), 1);
 
     //tests if an error is thrown if the same title is used again.
@@ -270,7 +270,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              2,
+              200,
               "loveplace",
               "it's a bog. one could say it boggles the mind hahaha",
               100,
