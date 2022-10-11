@@ -2,7 +2,6 @@ package qbnb.models;
 
 import org.apache.commons.validator.routines.EmailValdator;
 
-
 /** Is the parent and base for any user on the platform */
 public class User {
   private long userID;
@@ -48,6 +47,7 @@ public class User {
   public Boolean setEmail(String email) {
     if (checkEmail(email)) {
       this.email = email;
+      return true;
     }
 
     return false;
