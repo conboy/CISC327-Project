@@ -40,14 +40,17 @@ public class Listing {
       int id, String title, String description, double price, LocalDate modDate, int owner) {
     ListingDao DAO = new ListingDao();
     List<Listing> allListings = DAO.getAll();
+    System.out.println(allListings.size());
 
     // Not stated on the specification but a logical extension of the system we are implementing.
     // If list titles have to be unique then list IDs really absolutely should be unique!
     // This may be changed to simply increment the previous listingID by one, since it's something
     // that could be abstracted tbh.
-    for (Listing listing : allListings) {
-      if (listing.getListingID() == id) {
-        throw new IllegalArgumentException("R4-0");
+    if (allListings.size() > 0) {
+      for (Listing listing : allListings) {
+        if (listing.getListingID() == id) {
+          throw new IllegalArgumentException("R4-0");
+        }
       }
     }
     this.listingID = id;
@@ -91,7 +94,7 @@ public class Listing {
         break;
       }
     }
-    if (!matchingUserID) throw new IllegalArgumentException("R4-8");
+    if (!matchingUserID) throw new IllegalArgumentException("R4-7");
     this.ownerID = owner;
 
     DAO.save(this);
