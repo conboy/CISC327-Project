@@ -39,8 +39,8 @@ public class UpdateListingTests {
     User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     Listing validListing =
         new Listing(
-            1,
-            "The lovely zone",
+            2,
+            "The lovelier zone",
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
@@ -61,8 +61,9 @@ public class UpdateListingTests {
     User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     LocalDate d = LocalDate.parse("2022-01-01");
     Listing validListing =
-        new Listing(1, "The lovely zone", "I love to live in a lovely zone! You know?", 100, d, 1);
-    validListing.UpdateListing("newTitle", null, 0);
+        new Listing(
+            3, "The loveliest zone", "I love to live in a lovely zone! You know?", 100, d, 1);
+    validListing.UpdateListing("newlynewTitle", null, 0);
     assertNotEquals(d, validListing.getModificationDate());
   }
 
@@ -79,8 +80,8 @@ public class UpdateListingTests {
     User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     Listing validListing =
         new Listing(
-            1,
-            "The lovely zone",
+            4,
+            "The lovely dovely zone",
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
@@ -102,8 +103,8 @@ public class UpdateListingTests {
     User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     Listing validListing =
         new Listing(
-            1,
-            "The lovely zone",
+            5,
+            "The sucker ducker zone",
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
@@ -120,8 +121,8 @@ public class UpdateListingTests {
     User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     Listing validListing =
         new Listing(
-            1,
-            "The lovely zone",
+            6,
+            "The pizza party zone",
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
@@ -140,8 +141,8 @@ public class UpdateListingTests {
     User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     Listing validListing =
         new Listing(
-            1,
-            "The lovely zone",
+            7,
+            "The zoney zone",
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
@@ -160,9 +161,9 @@ public class UpdateListingTests {
     User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
     Listing validListing =
         new Listing(
-            1,
-            "The lovely zone",
-            "I love to live in a lovely zone! You know?",
+            43294,
+            "The hippie girls zone",
+            "I met a very cute farmer/hippie at the weekend, don't judge me",
             100,
             LocalDate.now(),
             1);
@@ -178,8 +179,8 @@ public class UpdateListingTests {
   @Test
   public void sharedTitleTest() {
     User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
-    Listing x = new Listing(1, "sunland", "be".repeat(50), 204, LocalDate.now(), 1);
-    Listing y = new Listing(1, "loveplace", "ba".repeat(25), 100, LocalDate.now(), 1);
+    Listing x = new Listing(83237249, "sunland", "be".repeat(50), 204, LocalDate.now(), 1);
+    Listing y = new Listing(843294, "loveplace", "ba".repeat(25), 100, LocalDate.now(), 1);
     assertFalse(x.UpdateListing("loveplace", null, 900));
   }
 }
