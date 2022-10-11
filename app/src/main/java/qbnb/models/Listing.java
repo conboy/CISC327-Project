@@ -1,4 +1,4 @@
-package models;
+package qbnb.models;
 
 public class Listing {
 

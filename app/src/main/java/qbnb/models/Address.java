@@ -9,7 +9,7 @@ class Address {
     private String country;
 
     protected Address() {
-
+        
     }
 
     protected Address(int streetNum, String unitNum, String streetName, String city, String provState, String Country) throws IllegalArgumentException {

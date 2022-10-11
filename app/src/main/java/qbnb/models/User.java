@@ -101,9 +101,8 @@ public class User {
     return this.userID;
   }  
 
-
   public Boolean setAddress(int streetNum, String unitNum, String streetName, String city, String prov, String country) {
-    if (this.address == null) {
+    if (this.address.getUnitNumber() == null) {
       this.address = new Address(streetNum, unitNum, streetName, city, prov, country);
       return true;
     }
