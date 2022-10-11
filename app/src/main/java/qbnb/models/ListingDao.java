@@ -3,7 +3,6 @@ package qbnb.models;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import models.Dao;
 
 /** Uses DAO API to act as a persistence layer for Listing domain models. */
 public final class ListingDao implements Dao<Listing> {

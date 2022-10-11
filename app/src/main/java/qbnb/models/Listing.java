@@ -1,7 +1,6 @@
 package qbnb.models;
 
 import java.time.LocalDate;
-<<<<<<< HEAD
 import java.util.List;
 
 // TODO: implement database functionality!
@@ -175,30 +174,6 @@ public class Listing {
     return modificationDate;
   }
 
-  /** Returns owner ID */
-=======
-
-// TEMPORARY CLASS TO HELP WITH BUILD ERRORS
-public class Listing {
-
-  private int listingID;
-  private String title;
-  private String desc;
-  private double price;
-  private LocalDate md;
-  private int ownerID;
-
-  /** Creates and initialises a new Listing. TODO: Fully implement this method! */
-  public Listing(int id, String t, String d, double pr, LocalDate date, int owner) {
-    listingID = id;
-    title = t;
-    desc = d;
-    price = pr;
-    md = date;
-    ownerID = owner;
-  }
-
->>>>>>> 6bc926c1a65bac80755be60fa1b5e04651cc86d0
   public int getOwnerID() {
     return ownerID;
   }
