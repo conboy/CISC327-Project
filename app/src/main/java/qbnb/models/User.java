@@ -59,7 +59,9 @@ public class User {
 
   private Boolean checkUsername(String username) {
     if (!username.equals("") && username.equals(username.trim()) && (2 <= username.length()) && (20 >= username.length()))  {
-      return true;
+      if(!username.matches(".*[^a-zA-Z0-9].*")) {
+        return true;
+      }
     }
 
     return false;

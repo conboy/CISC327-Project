@@ -10,7 +10,13 @@ public class Address {
     private String country;
 
     public Address() {
-        
+        this.streetNumber = -1;
+        this.unitNumber = null;
+        this.streetName = null;
+        this.city = null;
+        this.postalZip = null;
+        this.provState = null;
+        this.country = null;
     }
     
     public Address(int streetNum, String unitNum, String streetName, String city, String postalCode, String provState, String Country) throws IllegalArgumentException {
