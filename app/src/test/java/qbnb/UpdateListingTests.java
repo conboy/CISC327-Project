@@ -20,7 +20,9 @@ public class UpdateListingTests {
    */
   @Test
   public void ownerIDImmutableTest() {
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    dao.save(u);
     Listing validListing =
         new Listing(
             1,
@@ -28,15 +30,19 @@ public class UpdateListingTests {
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
-            1);
+            u.getUserID());
     validListing.UpdateListing("newTitle", "very new and cool description", 101);
-    assertEquals(validListing.getOwnerID(), 1);
+    assertEquals(validListing.getOwnerID(), u.getUserID());
   }
 
   /** Tests R5-2: price can be increased but cannot be decreased. */
   @Test
   public void priceCannotDecreaseTest() {
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     Listing validListing =
         new Listing(
             2,
@@ -44,7 +50,7 @@ public class UpdateListingTests {
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
-            1);
+            u.getUserID());
 
     // testing that price can increase
     boolean valid = validListing.UpdateListing(null, null, 150);
@@ -58,11 +64,20 @@ public class UpdateListingTests {
   /** Tests R5-3: modifiedDate changes automatically on update. */
   @Test
   public void modificationDateAutoUpdateTest() {
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     LocalDate d = LocalDate.parse("2022-01-01");
     Listing validListing =
         new Listing(
-            3, "The loveliest zone", "I love to live in a lovely zone! You know?", 100, d, 1);
+            3,
+            "The loveliest zone",
+            "I love to live in a lovely zone! You know?",
+            100,
+            d,
+            u.getUserID());
     validListing.UpdateListing("newlynewTitle", null, 0);
     assertNotEquals(d, validListing.getModificationDate());
   }
@@ -77,7 +92,11 @@ public class UpdateListingTests {
   @Test
   public void alphanumericTitleTest() {
     // checking non-numeric characters
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     Listing validListing =
         new Listing(
             4,
@@ -85,7 +104,7 @@ public class UpdateListingTests {
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
-            1);
+            u.getUserID());
 
     // checking non-numeric characters
     assertFalse(validListing.UpdateListing("%%%Land%%", null, 0));
@@ -100,7 +119,11 @@ public class UpdateListingTests {
   /** Tests requirement R4-2: The title of the product is no longer than 80 characters. */
   @Test
   public void titleLengthTest() {
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     Listing validListing =
         new Listing(
             5,
@@ -108,7 +131,7 @@ public class UpdateListingTests {
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
-            1);
+            u.getUserID());
     assertFalse(validListing.UpdateListing("Long".repeat(50), null, 0));
   }
 
@@ -118,7 +141,11 @@ public class UpdateListingTests {
    */
   @Test
   public void descriptionLengthTest() {
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     Listing validListing =
         new Listing(
             6,
@@ -126,7 +153,7 @@ public class UpdateListingTests {
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
-            1);
+            u.getUserID());
 
     // testing if error is thrown for the title length < 20 case.
     assertFalse(validListing.UpdateListing(null, "tiny title", 0));
@@ -138,7 +165,11 @@ public class UpdateListingTests {
   /** Tests requirement R4-4: Description has to be longer than the product's title. */
   @Test
   public void descriptionLongerThanTitleTest() {
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     Listing validListing =
         new Listing(
             7,
@@ -146,7 +177,7 @@ public class UpdateListingTests {
             "I love to live in a lovely zone! You know?",
             100,
             LocalDate.now(),
-            1);
+            u.getUserID());
     assertFalse(
         validListing.UpdateListing(
             "the ultimate frizbee area of dreams and legend",
@@ -158,7 +189,11 @@ public class UpdateListingTests {
   @Test
   public void priceWithinRangeTest() {
     // testing if correct error is thrown for the price < 10 case.
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     Listing validListing =
         new Listing(
             43294,
@@ -166,7 +201,7 @@ public class UpdateListingTests {
             "I met a very cute farmer/hippie at the weekend, don't judge me",
             100,
             LocalDate.now(),
-            1);
+            u.getUserID());
 
     // testing if correct error is thrown for the price < 10 case.
     assertFalse(validListing.UpdateListing(null, null, 9));
@@ -178,9 +213,15 @@ public class UpdateListingTests {
   /** Tests requirement R4-8: A user cannot create a listing with a title that is already in-use. */
   @Test
   public void sharedTitleTest() {
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
-    Listing x = new Listing(83237249, "sunland", "be".repeat(50), 204, LocalDate.now(), 1);
-    Listing y = new Listing(843294, "loveplace", "ba".repeat(25), 100, LocalDate.now(), 1);
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
+    Listing x =
+        new Listing(83237249, "sunland", "be".repeat(50), 204, LocalDate.now(), u.getUserID());
+    Listing y =
+        new Listing(843294, "loveplace", "ba".repeat(25), 100, LocalDate.now(), u.getUserID());
     assertFalse(x.UpdateListing("loveplace", null, 900));
   }
 }

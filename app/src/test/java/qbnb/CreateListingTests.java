@@ -20,6 +20,11 @@ public class CreateListingTests {
    */
   @Test
   public void alphanumericTitleTest() {
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     // checking non-numeric characters - error with message R4-1 should be thrown
     String message1 = "";
     try {
@@ -30,7 +35,7 @@ public class CreateListingTests {
               "A super fun factory of nonsense anc whimsy innit!",
               100,
               LocalDate.now(),
-              1);
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
@@ -47,7 +52,7 @@ public class CreateListingTests {
               "A super fun land of nonsense anc whimsy innit!",
               100,
               LocalDate.now(),
-              1);
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
@@ -63,7 +68,7 @@ public class CreateListingTests {
               "A super fun land of nonsense anc whimsy innit!",
               100,
               LocalDate.now(),
-              1);
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message3 = e.getMessage();
     }
@@ -76,6 +81,11 @@ public class CreateListingTests {
    */
   @Test
   public void titleLengthTest() {
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     String message = "";
     try {
       String desc = "a".repeat(200); // simple way of writing an arbitrarily long description
@@ -86,7 +96,7 @@ public class CreateListingTests {
               desc,
               100,
               LocalDate.now(),
-              1);
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message = e.getMessage();
     }
@@ -100,9 +110,14 @@ public class CreateListingTests {
   @Test
   public void descriptionLengthTest() {
     // testing if error is thrown for the title length < 20 case - 'R4-3' is expected error message.
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     String message1 = "";
     try {
-      Listing x = new Listing(5, "Funland", "It's funland!", 100, LocalDate.now(), 1);
+      Listing x = new Listing(5, "Funland", "It's funland!", 100, LocalDate.now(), u.getUserID());
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
@@ -112,7 +127,8 @@ public class CreateListingTests {
     String message2 = "";
     try {
       String desc = "bee".repeat(1000); // simple way of writing an arbitrarily long description
-      Listing x = new Listing(6, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
+      Listing x =
+          new Listing(6, "The entire bee movie script", desc, 10, LocalDate.now(), u.getUserID());
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
@@ -125,6 +141,11 @@ public class CreateListingTests {
    */
   @Test
   public void descriptionLongerThanTitleTest() {
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     String message = "";
     try {
       Listing x =
@@ -134,7 +155,7 @@ public class CreateListingTests {
               "it's a bog, just sucks tbh",
               100,
               LocalDate.now(),
-              1);
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message = e.getMessage();
     }
@@ -147,11 +168,22 @@ public class CreateListingTests {
    */
   @Test
   public void priceWithinRangeTest() {
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     // testing if correct error is thrown for the price < 10 case.
     String message1 = "";
     try {
       Listing x =
-          new Listing(8, "Funland", "It's funland! Fun fun fun, mega good!", 1, LocalDate.now(), 1);
+          new Listing(
+              8,
+              "Funland",
+              "It's funland! Fun fun fun, mega good!",
+              1,
+              LocalDate.now(),
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
@@ -167,7 +199,7 @@ public class CreateListingTests {
               "It's fun on the bun! - Futurama robot man",
               10000000,
               LocalDate.now(),
-              1);
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
@@ -180,6 +212,11 @@ public class CreateListingTests {
    */
   @Test
   public void dateWithinRangeTest() {
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     // testing if correct error is thrown for the Date < 2021-01-02 case.
     String message1 = "";
     try {
@@ -190,7 +227,7 @@ public class CreateListingTests {
               "It's funland! I have to update all of these because the description is too short!",
               100,
               LocalDate.parse("2021-01-01"),
-              1);
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
@@ -206,7 +243,7 @@ public class CreateListingTests {
               "It's funland! The land of descriptions longer than 20 characters!",
               10,
               LocalDate.parse("2025-01-03"),
-              1);
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
@@ -219,6 +256,11 @@ public class CreateListingTests {
    */
   @Test
   public void ownerNonEmptyTest() {
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     String message = "";
     try {
       Listing x =
@@ -241,10 +283,14 @@ public class CreateListingTests {
    */
   @Test
   public void ownerExistsTest() {
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     // test that using a saved ID allows for listing to be created without errors.
-    User u = new User(4053, "bringostar", "14LoversLane!", "punch@judy.com");
-    Listing y = new Listing(12, "lovdplace", "a".repeat(25), 100, LocalDate.now(), 4053);
-    assertEquals(y.getOwnerID(), 4053);
+    Listing y = new Listing(12, "lovdplace", "a".repeat(25), 100, LocalDate.now(), u.getUserID());
+    assertEquals(y.getOwnerID(), u.getUserID());
 
     // test that an invalid owner ID causes an error of R4-8 to be thrown.
     String message = "";
@@ -256,7 +302,7 @@ public class CreateListingTests {
               "it's a bog. one could say it boggles the mind hahaha",
               100,
               LocalDate.now(),
-              20);
+              767676873);
     } catch (IllegalArgumentException e) {
       message = e.getMessage();
     }
@@ -269,10 +315,14 @@ public class CreateListingTests {
    */
   @Test
   public void sharedTitleTest() {
+    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
+    UserDao dao = new UserDao();
+    if (!dao.getAll().contains(u)) {
+      dao.save(u);
+    }
     // tests that the first time a title is used, no errors are thrown.
-    User u = new User(1, "bringostar", "14LoversLane!", "punch@judy.com");
-    Listing y = new Listing(100, "loveplace", "a".repeat(25), 100, LocalDate.now(), 1);
-    assertEquals(y.getOwnerID(), 1);
+    Listing y = new Listing(100, "loveplace", "a".repeat(25), 100, LocalDate.now(), u.getUserID());
+    assertEquals(y.getOwnerID(), u.getUserID());
 
     // tests if an error is thrown if the same title is used again.
     String message = "";
@@ -284,7 +334,7 @@ public class CreateListingTests {
               "it's a bog. one could say it boggles the mind hahaha",
               100,
               LocalDate.now(),
-              1);
+              u.getUserID());
     } catch (IllegalArgumentException e) {
       message = e.getMessage();
     }

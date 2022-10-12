@@ -30,14 +30,14 @@ public class Listing {
 
   // The ID of the user who created the listing and owns the property. Used to reference the owner's
   // info when necessary.
-  private int ownerID;
+  private long ownerID;
 
   /**
    * Creates and initialises a new Listing. If any of the requirements as established in Sprint #2
    * R4 are broken, an Illegal Argument exception is thrown.
    */
   public Listing(
-      int id, String title, String description, double price, LocalDate modDate, int owner) {
+      int id, String title, String description, double price, LocalDate modDate, long owner) {
     ListingDao DAO = new ListingDao();
     List<Listing> allListings = DAO.getAll();
     System.out.println(allListings.size());
@@ -86,7 +86,7 @@ public class Listing {
     // ID system is a pretty insecure primary key to be fair - might alter this system at the start
     // of the next sprint!
     UserDao uDao = new UserDao();
-    if (owner < 1) throw new IllegalArgumentException("R4-7");
+    if (owner == 0) throw new IllegalArgumentException("R4-7");
     boolean matchingUserID = false;
     for (User user : uDao.getAll()) {
       if (user.getUserID() == owner) {
@@ -175,7 +175,7 @@ public class Listing {
   }
 
   /** Returns owner ID */
-  public int getOwnerID() {
+  public long getOwnerID() {
     return ownerID;
   }
 }
