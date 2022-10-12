@@ -8,6 +8,5 @@ public class Listing {
   private double bathroomCount;
 
   /** Creates and initialises a new Listing. TODO: Fully implement this method! */
-  public Listing() {
-  }
+  public Listing() {}
 }

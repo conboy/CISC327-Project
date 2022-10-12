@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Allows the creation of consistent data access objects which act as a
- * persistence layer for thier
+ * Allows the creation of consistent data access objects which act as a persistence layer for thier
  * respective domain object.
  */
 public interface Dao<T> {
