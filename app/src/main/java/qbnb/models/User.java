@@ -42,7 +42,7 @@ public class User {
   private Boolean checkEmail(String email) {
     return (email.matches(
         "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)[a-zA-Z]{2,7}$"))
-        && (email.substring(0, emai.indexOf("@")).length() <= 64);
+        && (email.substring(0, email.indexOf("@")).length() <= 64);
   }
 
   /**
