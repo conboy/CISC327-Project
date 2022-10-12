@@ -29,9 +29,6 @@ public class User {
         this.hostProfile = new Host();
       }
     } else {
-      System.out.println(setEmail(email));
-      System.out.println(setUsername(username));
-      System.out.println(setPassword(password));
       throw new IllegalArgumentException("Improper data has been provided to constuct a user");
     }
   }
@@ -268,5 +265,22 @@ public class User {
    */
   public Host getHostAccount() {
     return this.hostProfile;
+  }
+
+  /**
+   * A user can log in using her/his email address and the password. The login function checks if
+   * the email/password requirements follow: R1-1: Email cannot be empty. password cannot be empty.
+   * R1-3: The email has to follow addr-spec defined in RFC 5322 R1-4: Password has to meet the
+   * required complexity: minimum length 6, at least one upper case, at least one lower case, and at
+   * least one special character.
+   */
+  public boolean Login(String email, String password) {
+    boolean loggedIn = false;
+    if (checkEmail(email) && checkPassword(password)) {
+      if (email == this.email && password == this.password) {
+        loggedIn = true;
+      }
+    }
+    return loggedIn;
   }
 }
