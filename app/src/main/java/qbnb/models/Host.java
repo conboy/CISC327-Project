@@ -14,6 +14,12 @@ class Host extends User {
     this.reviews = new ArrayList<Review>();
   }
 
+  /**
+   * Adds a balance to the account
+   * 
+   * @param balance - balance to be added
+   * @return Boolean
+   */
   public Boolean addBalance(double balance) {
     if (balance > 0) {
       this.accountBalance += balance;
@@ -23,6 +29,12 @@ class Host extends User {
     return false;
   }
 
+  /**
+   * Charges and deducts from an account
+   * 
+   * @param amount - amount to be deducted
+   * @return Boolean
+   */
   public Boolean chargeAccount(double amount) {
     if (amount > 0 && (accountBalance - amount) >= 0.00) {
       this.accountBalance -= amount;
@@ -32,32 +44,68 @@ class Host extends User {
     return false;
   }
 
-  // logic to be implemented later
+  /**
+   * Adds booking to list of bookings
+   * 
+   * @TODO implement later
+   * @param booking - booking to be added
+   * @return Boolean
+   */
   public Boolean addBooking(Listing booking) {
     return true;
   }
 
-  // logic to be implemented later
+  /**
+   * removes a booking from the list of bookings
+   * 
+   * @TODO implement later
+   * @param booking - booking to be removed
+   * @return Boolean
+   */
   public Boolean removeBooking(Listing booking) {
     return true;
   }
 
-  // logic to be implemented later
+  /**
+   * Retrieve booking from list of bookings
+   * 
+   * @TODO implement later
+   * @param booking - booking to be retrieved
+   * @return Boolean
+   */
   public Boolean getBooking(Listing booking) {
     return true;
   }
 
-  // logic to be implemented later
+  /**
+   * Add a review to the list of reviews
+   * 
+   * @TODO implement later
+   * @param review - review to be added
+   * @return Boolean
+   */
   public Boolean addReview(Review review) {
     return true;
   }
 
-  // logic to be implemented later
+  /**
+   * Removes a review from the list of reviews
+   * 
+   * @TODO implement later
+   * @param review - review to be removed
+   * @return Boolean
+   */
   public Boolean removeReview(Review review) {
     return true;
   }
 
-  // logic to be implemented later
+  /**
+   * Retrieves a review from the list of reviews
+   * 
+   * @TODO implement later
+   * @param review - review to be retrieved
+   * @return Boolean
+   */
   public Boolean getReview(Review review) {
     return true;
   }

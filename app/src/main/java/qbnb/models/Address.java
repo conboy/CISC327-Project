@@ -26,8 +26,8 @@ public class Address {
             throw new IllegalArgumentException("Please Check The Address Given");
         }
     }
-  
-    /** 
+
+    /**
      * Sets the street number
      * 
      * @param number - desired street number
@@ -41,8 +41,8 @@ public class Address {
 
         return false;
     }
- 
-    /** 
+
+    /**
      * returns the street number of the address
      * 
      * @return int
@@ -50,8 +50,8 @@ public class Address {
     public int getStreetNumber() {
         return this.streetNumber;
     }
-  
-    /** 
+
+    /**
      * sets the desired unit number for the address
      * 
      * @TODO - any further logic that may be required
@@ -63,8 +63,8 @@ public class Address {
 
         return true;
     }
- 
-    /** 
+
+    /**
      * returns the unit number if applicable
      * 
      * @return String
@@ -72,8 +72,8 @@ public class Address {
     public String getUnitNumber() {
         return this.unitNumber;
     }
-    
-    /** 
+
+    /**
      * Sets the street name of the address
      * 
      * @TODO - any further logic that might be needed
@@ -85,8 +85,8 @@ public class Address {
 
         return true;
     }
-    
-    /** 
+
+    /**
      * Returns the street name of the address
      * 
      * @return String
@@ -94,8 +94,8 @@ public class Address {
     public String getStreetName() {
         return this.streetName;
     }
-  
-    /** 
+
+    /**
      * Sets the city of the address
      * 
      * @TODO - if any further logic is needed
@@ -107,8 +107,8 @@ public class Address {
 
         return true;
     }
- 
-    /** 
+
+    /**
      * Returns the city of the address
      * 
      * @return String
@@ -116,8 +116,8 @@ public class Address {
     public String getCity() {
         return this.city;
     }
-    
-    /** 
+
+    /**
      * Sets the Postal code or the zip code for the address
      * 
      * @TODO - further logic to come later
@@ -132,14 +132,14 @@ public class Address {
 
     /**
      * returns the current postal or zip code for the address
-     *  
+     * 
      * @return String
      */
     public String getPostalZip() {
         return this.postalZip;
     }
-   
-    /** 
+
+    /**
      * Sets the province or state for the object
      * 
      * @TODO - further logic to come later
@@ -151,17 +151,17 @@ public class Address {
 
         return true;
     }
-    
+
     /**
      * returns the province or state of the address
-     *  
+     * 
      * @return String
      */
     public String getProvState() {
         return this.provState;
     }
-    
-    /** 
+
+    /**
      * Set the country for the address
      * 
      * @TODO - further implementation to come later
@@ -173,8 +173,8 @@ public class Address {
 
         return true;
     }
-    
-    /** 
+
+    /**
      * Returns a printable string of the address
      * 
      * @return String
