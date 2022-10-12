@@ -20,6 +20,7 @@ public class User {
   public User(String email, String username, String password, Boolean isGuest)
       throws IllegalArgumentException {
     if (setEmail(email) && setUsername(username) && setPassword(password)) {
+      // creates user ID, user has no other method of doing this (R3-1)
       this.userID = hashUserID();
       this.address = new Address();
 
@@ -70,7 +71,7 @@ public class User {
   }
 
   /**
-   * Checks the username for the user based on given parameters
+   * Checks that a string only has alphanumeric characters for a username (R3-4)
    *
    * @param username - desired username
    * @return Boolean
@@ -110,12 +111,14 @@ public class User {
   }
 
   /**
-   * Validates the password given based on required criteria
+   * Validates the password given based on R1
+   *
+   * <p>is public to be used for validation is tests
    *
    * @param password - desired password
    * @return Boolean
    */
-  private Boolean checkPassword(String password) {
+  public Boolean checkPassword(String password) {
     return (password.length() >= 6
         && password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*., ?]).+$"));
   }
@@ -123,10 +126,12 @@ public class User {
   /**
    * Set a new password for the user
    *
+   * <p>Method is private because users should not change password once initialized (R3-1)
+   *
    * @param password - desired password
    * @return Boolean
    */
-  public Boolean setPassword(String password) {
+  private Boolean setPassword(String password) {
     if (checkPassword(password)) {
       this.password = password;
       return true;
@@ -196,8 +201,21 @@ public class User {
    *
    * @return Boolean - if address sucessefully updated
    */
-  public Boolean updateAddress() {
-    return true;
+  public Boolean updateAddress(
+      int streetNum,
+      String unitNum,
+      String streetName,
+      String city,
+      String postalCode,
+      String prov,
+      String country) {
+    // checks that the postal code is valid (R3-3 and R3-2)
+    if (postalCode.matches("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$")) {
+      this.address = new Address(streetNum, unitNum, streetName, city, postalCode, prov, country);
+      return true;
+    }
+
+    return false;
   }
 
   /**
