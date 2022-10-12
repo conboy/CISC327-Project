@@ -1,6 +1,6 @@
 package qbnb.models;
 
-import org.apache.commons.validator.routines.EmailValdator;
+// import org.apache.commons.validator.routines.EmailValdator;
 
 /** Is the parent and base for any user on the platform */
 public class User {
@@ -42,7 +42,9 @@ public class User {
    * @return Boolean
    */
   private Boolean checkEmail(String email) {
-    return EmailValdator.getInstrance(true).isValid(email);
+    // return EmailValdator.getInstrance(true).isValid(email);
+    return email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+"
+        + "[a-zA-Z]{2,7}$");
   }
 
   /**
