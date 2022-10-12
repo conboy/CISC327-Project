@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.User;
 
+/** Tests ! */
 public class TestUserCreation {
   User testUser1 = new User("testUser1@gmail.com", "testUser1", "Password1!", true);
 

@@ -1,6 +1,6 @@
 package qbnb.models;
 
-import org.apache.commons.validator.routines.EmailValdator;
+// import org.apache.commons.validator.routines.EmailValdator;
 
 /** Is the parent and base for any user on the platform */
 public class User {
@@ -12,8 +12,7 @@ public class User {
   private Guest guestProfile;
   private Host hostProfile;
 
-  public User() {
-  }
+  public User() {}
 
   /** Create the default user as a guest */
   public User(String email, String username, String password) {
@@ -43,8 +42,8 @@ public class User {
    * @return Boolean
    */
   private Boolean checkEmail(String email) {
-    return EmailValdator.getInstrance(true).isValid(email);
-    // return true;
+    // return EmailValdator.getInstrance(true).isValid(email);
+    return true;
   }
 
   /**
@@ -169,16 +168,16 @@ public class User {
   }
 
   /**
-   * Sets adress based on given parameters @TODO: further implementation of this
-   * 
-   * @TODO implement later
-   * @param streetNum  - street number
-   * @param unitNum    - unit number if applicable (null if not)
+   * Sets adress based on given parameters @TODO: further implementation of this @TODO implement
+   * later
+   *
+   * @param streetNum - street number
+   * @param unitNum - unit number if applicable (null if not)
    * @param streetName - street name
-   * @param city       - city name
+   * @param city - city name
    * @param postalCode - postal orzip code
-   * @param prov       - province or state
-   * @param country    - country
+   * @param prov - province or state
+   * @param country - country
    * @return Boolean - true if the adress was sucessfully set
    */
   public Boolean setAddress(

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.User;
 
+/** Tests ! */
 public class UsernameTest {
   User testUser = new User();
 
