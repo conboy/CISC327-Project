@@ -104,7 +104,7 @@ public class Guest extends User {
   }
 
   /**
-   * retireves review from list of reviews @TODO implement later
+   * Retrieves review from list of reviews @TODO implement later
    *
    * @param review
    * @return Boolean
