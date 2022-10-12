@@ -6,6 +6,11 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import qbnb.models.*;
 
+/**
+ * Runs all tests that correspond to the R4 requirements in sprint 1. Each time a Listing creation
+ * fails due to a specific criteria not being met, this code expects an error to be thrown with a
+ * message corresponding to the requirement broken. ALL TESTS SHOULD PASS!
+ */
 public class CreateListingTests {
 
   /**
