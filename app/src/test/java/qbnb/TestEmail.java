@@ -54,7 +54,8 @@ public class TestEmail {
   @Test
   public void testLongLocal() {
     Assertions.assertFalse(
-        testUser.setEmail("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@leyne.com"));
+        testUser.setEmail(
+            "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzghdfsjklhgfkslhgfjdsk@leyne.com"));
   }
 
   /** Testing to see if failure if empty email */

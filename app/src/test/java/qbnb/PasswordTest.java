@@ -11,7 +11,7 @@ public class PasswordTest {
   /** Testing to see if proper password passes */
   @Test
   public void testCorrectPassword() {
-    Assertions.assertTrue(testUser.setPassword("Password1$"));
+    Assertions.assertTrue(testUser.setPassword("Password1#"));
   }
 
   /** Testing to see if special character is omited */
