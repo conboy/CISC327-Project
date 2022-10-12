@@ -10,4 +10,8 @@ public class User {
   public User() {}
 
   public User(String email, String password) {}
+
+  public boolean login(String email, String password){
+    return false;
+  }
 }
