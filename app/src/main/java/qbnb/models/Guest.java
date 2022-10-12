@@ -9,7 +9,7 @@ public class Guest extends User {
   private double accountBalance;
 
   public Guest() {
-    this.accountBalance = 100.00;
+    this.accountBalance = 100;
     this.bookings = new ArrayList<Listing>();
     this.reviews = new ArrayList<Review>();
   }

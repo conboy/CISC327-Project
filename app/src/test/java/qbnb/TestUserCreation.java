@@ -11,12 +11,12 @@ public class TestUserCreation {
   /** Test if user is given $100.00 when they are created */
   @Test
   public void testStartingBalance() {
-    Assertions.assertTrue(testUser1.getGuestAccount().getBalance() == 100.00);
+    Assertions.assertTrue(testUser1.getGuestAccount().getBalance() == 100);
   }
 
   /** Test if user has empty postal code at account opening */
   @Test
-  public void testStartingPOstalCode() {
+  public void testStartingPostalCode() {
     Assertions.assertTrue(testUser1.getAddress().getPostalZip() == null);
   }
 
