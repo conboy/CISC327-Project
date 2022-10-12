@@ -29,6 +29,9 @@ public class User {
         this.hostProfile = new Host();
       }
     } else {
+      System.out.println(setEmail(email));
+      System.out.println(setUsername(username));
+      System.out.println(setPassword(password));
       throw new IllegalArgumentException("Improper data has been provided to constuct a user");
     }
   }
@@ -77,7 +80,7 @@ public class User {
    */
   private Boolean checkUsername(String username) {
     if (username.equals(username.trim()) && (2 <= username.length()) && (20 >= username.length())) {
-      if (!username.matches("[A-Za-z0-9]+")) {
+      if (username.matches("[A-Za-z0-9]+")) {
         return true;
       }
     }
@@ -94,6 +97,7 @@ public class User {
   public Boolean setUsername(String username) {
     if (checkUsername(username)) {
       this.username = username;
+      return true;
     }
 
     return false;
