@@ -1,10 +1,7 @@
 package qbnb;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import qbnb.models.*;
 
 /**
  * Runs test on the function User.Login() These tests check if the function did these correctly:
