@@ -24,7 +24,7 @@ public class TestUserCreation {
   @Test
   public void testStartingAddress() {
     Assertions.assertEquals(testUser1.getAddress().getStreetNumber(), -1);
-    Assertions.assertEquals(testUser1.getAddress().getUnitNumber(), "x");
-    Assertions.assertEquals(testUser1.getAddress().getStreetName(), "x");
+    Assertions.assertEquals(testUser1.getAddress().getUnitNumber(), null);
+    Assertions.assertEquals(testUser1.getAddress().getStreetName(), null);
   }
 }
