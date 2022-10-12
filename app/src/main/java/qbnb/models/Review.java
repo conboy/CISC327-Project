@@ -11,6 +11,5 @@ public class Review {
   private int reviewRating;
   private String reviewBody;
 
-  public Review() {
-  }
+  public Review() {}
 }
