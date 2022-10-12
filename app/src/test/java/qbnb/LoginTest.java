@@ -21,7 +21,7 @@ public class LoginTest {
   /** Test login functionality. Pass correct email and password through Login function. */
   @Test
   public void correctLoginTest() {
-    Assertions.assertTrue(userTest.Login("johndoe@gmail.com", "Password123#"));
+    Assertions.assertTrue(userTest.login("johndoe@gmail.com", "Password123#"));
   }
 
   /**
@@ -29,7 +29,7 @@ public class LoginTest {
    */
   @Test
   public void incorrectLoginTest() {
-    Assertions.assertTrue(userTest.Login("johndoe1@gmail.com", "Passwprd123#"));
+    Assertions.assertTrue(userTest.login("johndoe1@gmail.com", "Passwprd123#"));
   }
 
   /**
@@ -38,7 +38,7 @@ public class LoginTest {
    */
   @Test
   public void cannotBeEmptyTest() {
-    Assertions.assertFalse(userTest.Login("", ""));
+    Assertions.assertFalse(userTest.login("", ""));
   }
 
   /**
@@ -47,7 +47,7 @@ public class LoginTest {
    */
   @Test
   public void invalidEmailTest() {
-    Assertions.assertFalse(userTest.Login("johndoegmail.com", "Password123#"));
+    Assertions.assertFalse(userTest.login("johndoegmail.com", "Password123#"));
   }
 
   /**
@@ -57,7 +57,7 @@ public class LoginTest {
    */
   @Test
   public void invalidPasswordTest() {
-    Assertions.assertFalse(userTest.Login("johndoe@gmail.com", "Pass"));
+    Assertions.assertFalse(userTest.login("johndoe@gmail.com", "Pass"));
   }
 
   /**
@@ -66,7 +66,7 @@ public class LoginTest {
    */
   @Test
   public void invalidUserTest() {
-    Assertions.assertFalse(userTest.Login(" %^`~= ", "Pass"));
+    Assertions.assertFalse(userTest.login(" %^`~= ", "Pass"));
   }
 
   /**
@@ -75,6 +75,6 @@ public class LoginTest {
    */
   @Test
   public void shortUserTest() {
-    Assertions.assertFalse(userTest.Login("a", "Pass"));
+    Assertions.assertFalse(userTest.login("a", "Pass"));
   }
 }
