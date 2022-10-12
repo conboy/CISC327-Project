@@ -16,7 +16,7 @@ class Host extends User {
 
   /**
    * Adds a balance to the account
-   * 
+   *
    * @param balance - balance to be added
    * @return Boolean
    */
@@ -31,7 +31,7 @@ class Host extends User {
 
   /**
    * Charges and deducts from an account
-   * 
+   *
    * @param amount - amount to be deducted
    * @return Boolean
    */
@@ -45,9 +45,8 @@ class Host extends User {
   }
 
   /**
-   * Adds booking to list of bookings
-   * 
-   * @TODO implement later
+   * Adds booking to list of bookings @TODO implement later
+   *
    * @param booking - booking to be added
    * @return Boolean
    */
@@ -56,9 +55,8 @@ class Host extends User {
   }
 
   /**
-   * removes a booking from the list of bookings
-   * 
-   * @TODO implement later
+   * removes a booking from the list of bookings @TODO implement later
+   *
    * @param booking - booking to be removed
    * @return Boolean
    */
@@ -67,9 +65,8 @@ class Host extends User {
   }
 
   /**
-   * Retrieve booking from list of bookings
-   * 
-   * @TODO implement later
+   * Retrieve booking from list of bookings @TODO implement later
+   *
    * @param booking - booking to be retrieved
    * @return Boolean
    */
@@ -78,9 +75,8 @@ class Host extends User {
   }
 
   /**
-   * Add a review to the list of reviews
-   * 
-   * @TODO implement later
+   * Add a review to the list of reviews @TODO implement later
+   *
    * @param review - review to be added
    * @return Boolean
    */
@@ -89,9 +85,8 @@ class Host extends User {
   }
 
   /**
-   * Removes a review from the list of reviews
-   * 
-   * @TODO implement later
+   * Removes a review from the list of reviews @TODO implement later
+   *
    * @param review - review to be removed
    * @return Boolean
    */
@@ -100,9 +95,8 @@ class Host extends User {
   }
 
   /**
-   * Retrieves a review from the list of reviews
-   * 
-   * @TODO implement later
+   * Retrieves a review from the list of reviews @TODO implement later
+   *
    * @param review - review to be retrieved
    * @return Boolean
    */

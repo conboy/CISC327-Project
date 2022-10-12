@@ -12,37 +12,32 @@ public class User {
   private Guest guestProfile;
   private Host hostProfile;
 
-  public User() {
-
-  }
+  public User() {}
 
   /** Create the default user as a guest */
   public User(String email, String username, String password) {
     this(email, username, password, true);
   }
 
-  public User(String email, String username, String password, Boolean isGuest) throws IllegalArgumentException {
+  public User(String email, String username, String password, Boolean isGuest)
+      throws IllegalArgumentException {
     if (setEmail(email) && setUsername(username) && setPassword(password)) {
       this.userID = hashUserID();
       this.address = new Address();
 
       if (isGuest) {
         this.guestProfile = new Guest();
-      }
-
-      else {
+      } else {
         this.hostProfile = new Host();
       }
-    }
-
-    else {
+    } else {
       throw new IllegalArgumentException("Improper data has been provided to constuct a user");
     }
   }
 
   /**
    * Checks the desired email based on the RFC 5322 spec
-   * 
+   *
    * @param email - desired email
    * @return Boolean
    */
@@ -52,7 +47,7 @@ public class User {
 
   /**
    * Sets the desired email for the user
-   * 
+   *
    * @param email - desired email
    * @return Boolean
    */
@@ -67,7 +62,7 @@ public class User {
 
   /**
    * Returns the unique email for the user
-   * 
+   *
    * @return String
    */
   public String getEmail() {
@@ -76,12 +71,14 @@ public class User {
 
   /**
    * Checks the username for the user based on given parameters
-   * 
+   *
    * @param username - desired username
    * @return Boolean
    */
   private Boolean checkUsername(String username) {
-    if (!username.equals("") && username.equals(username.trim()) && (2 <= username.length())
+    if (!username.equals("")
+        && username.equals(username.trim())
+        && (2 <= username.length())
         && (20 >= username.length())) {
       if (!username.matches(".*[^a-zA-Z0-9].*")) {
         return true;
@@ -93,7 +90,7 @@ public class User {
 
   /**
    * Sets the desired username for the user
-   * 
+   *
    * @param username - desired username
    * @return Boolean
    */
@@ -107,7 +104,7 @@ public class User {
 
   /**
    * returns the username of the user
-   * 
+   *
    * @return String
    */
   public String getUsername() {
@@ -116,18 +113,21 @@ public class User {
 
   /**
    * Validates the password given based on required criteria
-   * 
+   *
    * @param password - desired password
    * @return Boolean
    */
   private Boolean checkPassword(String password) {
-    return password.length() >= 6 && password.matches(".*\\d.*") && password.matches(".*[A-Z].*")
-        && password.matches(".*[a-z].*") && password.matches(".*[^a-zA-Z0-9].*");
+    return password.length() >= 6
+        && password.matches(".*\\d.*")
+        && password.matches(".*[A-Z].*")
+        && password.matches(".*[a-z].*")
+        && password.matches(".*[^a-zA-Z0-9].*");
   }
 
   /**
    * Set a new password for the user
-   * 
+   *
    * @param password - desired password
    * @return Boolean
    */
@@ -141,7 +141,7 @@ public class User {
 
   /**
    * returns the user's passowrd
-   * 
+   *
    * @return String
    */
   public String getPassowrd() {
@@ -150,7 +150,7 @@ public class User {
 
   /**
    * Creates the userID for the user using the verified email and hashCode()
-   * 
+   *
    * @return long
    */
   private long hashUserID() {
@@ -159,7 +159,7 @@ public class User {
 
   /**
    * Returns the userID of the user
-   * 
+   *
    * @return long
    */
   public long getUserID() {
@@ -167,21 +167,25 @@ public class User {
   }
 
   /**
-   * Sets adress based on given parameters
-   * 
-   * @TODO: further implementation of this to be done later
-   * 
-   * @param streetNum  - street number
-   * @param unitNum    - unit number if applicable (null if not)
+   * Sets adress based on given parameters @TODO: further implementation of this to be done later
+   *
+   * @param streetNum - street number
+   * @param unitNum - unit number if applicable (null if not)
    * @param streetName - street name
-   * @param city       - city name
+   * @param city - city name
    * @param postalCode - postal orzip code
-   * @param prov       - province or state
-   * @param country    - country
+   * @param prov - province or state
+   * @param country - country
    * @return Boolean - true if the adress was sucessfully set
    */
-  public Boolean setAddress(int streetNum, String unitNum, String streetName, String city, String postalCode,
-      String prov, String country) {
+  public Boolean setAddress(
+      int streetNum,
+      String unitNum,
+      String streetName,
+      String city,
+      String postalCode,
+      String prov,
+      String country) {
     if (this.address.getStreetNumber() == -1) {
       this.address = new Address(streetNum, unitNum, streetName, city, postalCode, prov, country);
       return true;
@@ -191,10 +195,8 @@ public class User {
   }
 
   /**
-   * Updates th address object for the user
-   * 
-   * @TODO: to be implemented in full later
-   * 
+   * Updates th address object for the user @TODO: to be implemented in full later
+   *
    * @return Boolean - if address sucessefully updated
    */
   public Boolean updateAddress() {
@@ -203,7 +205,7 @@ public class User {
 
   /**
    * gets and returns the address object belonging to the user
-   * 
+   *
    * @return Address
    */
   public Address getAddress() {
@@ -212,7 +214,7 @@ public class User {
 
   /**
    * Deletes the guest profile for the user
-   * 
+   *
    * @return Boolean
    */
   public Boolean deleteGuest() {
@@ -222,7 +224,7 @@ public class User {
 
   /**
    * Adds a guest account for the user
-   * 
+   *
    * @return Boolean
    */
   public Boolean addGuest() {
@@ -232,7 +234,7 @@ public class User {
 
   /**
    * Gets and returns the guest account for the user
-   * 
+   *
    * @return Guest
    */
   public Guest getGuestAccount() {
@@ -241,7 +243,7 @@ public class User {
 
   /**
    * Delete's the user's host profile
-   * 
+   *
    * @return Boolean
    */
   public Boolean deleteHost() {
@@ -251,7 +253,7 @@ public class User {
 
   /**
    * Adds a blank host profile for the user
-   * 
+   *
    * @return Boolean
    */
   public Boolean addHost() {
@@ -261,7 +263,7 @@ public class User {
 
   /**
    * Gets and retuns the host profile for the user
-   * 
+   *
    * @return Host
    */
   public Host getHostAccount() {
