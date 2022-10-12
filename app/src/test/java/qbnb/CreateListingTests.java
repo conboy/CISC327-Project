@@ -27,7 +27,7 @@ public class CreateListingTests {
       Listing x =
           new Listing(
               1,
-              "Quantum guy's £$@$!@£$$@! factory",
+              "Quantum guy's $@?$!@$($@! factory",
               "A super fun factory of nonsense anc whimsy innit!",
               100,
               LocalDate.now(),
