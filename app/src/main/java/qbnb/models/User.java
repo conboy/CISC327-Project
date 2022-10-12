@@ -277,7 +277,7 @@ public class User {
   public boolean Login(String email, String password) {
     boolean loggedIn = false;
     if (checkEmail(email) && checkPassword(password)) {
-      if (email == this.email && password == this.password) {
+      if (email.equals(this.email) && password.equals(this.password)) {
         loggedIn = true;
       }
     }
