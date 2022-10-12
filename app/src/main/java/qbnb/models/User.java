@@ -171,7 +171,7 @@ public class User {
   /**
    * Sets adress based on given parameters @TODO: further implementation of this
    * 
-   *@TODO implement later
+   * @TODO implement later
    * @param streetNum  - street number
    * @param unitNum    - unit number if applicable (null if not)
    * @param streetName - street name
