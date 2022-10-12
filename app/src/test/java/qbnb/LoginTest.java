@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.User;
 
-
 /**
  * Runs test on the function User.Login() These tests check if the function did these correctly:
  * R1-1: Email cannot be empty. password cannot be empty. R1-3: The email has to follow addr-spec
@@ -17,7 +16,7 @@ import qbnb.models.User;
 public class LoginTest {
 
   // Create test user
-  User userTest = new User(1, "johndoeshaggerman", "Password123#", "johndoe@gmail.com");
+  User userTest = new User("johndoe@gmail.com", "johndoesman", "Password123#", true);
 
   /** Test login functionality. Pass correct email and password through Login function. */
   @Test
