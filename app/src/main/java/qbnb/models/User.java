@@ -81,9 +81,14 @@ public class User {
    * @return Boolean
    */
   private Boolean checkUsername(String username) {
+<<<<<<< HEAD
     if (!username.equals("") && username.equals(username.trim()) && (2 <= username.length())
         && (20 >= username.length())) {
       if (!username.matches(".*[^a-zA-Z0-9].*")) {
+=======
+    if (!username.equals("") && username.equals(username.trim()) && (2 <= username.length()) && (20 >= username.length()))  {
+      if(!username.matches(".*[^a-zA-Z0-9].*")) {
+>>>>>>> 26d9ee5d37b7ef850abf0da412d1e81b1fed8d65
         return true;
       }
     }

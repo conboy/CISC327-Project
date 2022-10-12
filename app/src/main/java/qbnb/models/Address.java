@@ -18,11 +18,17 @@ public class Address {
         this.provState = null;
         this.country = null;
     }
+<<<<<<< HEAD
 
     public Address(int streetNum, String unitNum, String streetName, String city, String postalCode, String provState,
             String Country) throws IllegalArgumentException {
         if (!(setStreetNumber(streetNum) && setUnitNumber(unitNum) && setStreetName(streetName) && setCity(city)
                 && setPostalZip(postalCode) && setProvState(provState) && setCountry(Country))) {
+=======
+    
+    public Address(int streetNum, String unitNum, String streetName, String city, String postalCode, String provState, String Country) throws IllegalArgumentException {
+        if (!(setStreetNumber(streetNum) && setUnitNumebr(unitNum) && setStreetName(streetName) && setCity(city) && setPostalZip(postalCode) && setProvState(provState) && setCountry(Country))) {
+>>>>>>> 26d9ee5d37b7ef850abf0da412d1e81b1fed8d65
             throw new IllegalArgumentException("Please Check The Address Given");
         }
     }

@@ -29,7 +29,11 @@ public class TestUserCreation {
      */
     @Test
     public void testStartingAddress() {
+<<<<<<< HEAD
         Assertions.assertTrue(testUser1.getAddress().getStreetNumber() == -1
                 && testUser1.getAddress().getUnitNumber() == null && testUser1.getAddress().getStreetName() == null);
+=======
+        Assertions.assertTrue(testUser1.getAddress().getStreetNumber() == -1 && testUser1.getAddress().getUnitNumber() == null && testUser1.getAddress().getStreetName() == null);
+>>>>>>> 26d9ee5d37b7ef850abf0da412d1e81b1fed8d65
     }
 }
