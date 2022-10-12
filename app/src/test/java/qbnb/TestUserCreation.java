@@ -23,5 +23,13 @@ public class TestUserCreation {
     public void testStartingPOstalCode() {
         Assertions.assertTrue(testUser1.getAddress().getPostalZip() == null);
     }
-    
+
+    /**
+     * Test if user has empty address at account opening
+     */
+    @Test
+    public void testStartingAddress() {
+        Assertions.assertTrue(testUser1.getAddress().getStreetNumber() == -1
+                && testUser1.getAddress().getUnitNumber() == null && testUser1.getAddress().getStreetName() == null);
+    }
 }

@@ -32,32 +32,32 @@ class Host extends User {
     return false;
   }
 
-  //logic to be implemented later
+  // logic to be implemented later
   public Boolean addBooking(Listing booking) {
     return true;
   }
 
-  //logic to be implemented later
+  // logic to be implemented later
   public Boolean removeBooking(Listing booking) {
     return true;
   }
-  
-  //logic to be implemented later
+
+  // logic to be implemented later
   public Boolean getBooking(Listing booking) {
     return true;
   }
 
-  //logic to be implemented later
+  // logic to be implemented later
   public Boolean addReview(Review review) {
     return true;
   }
 
-  //logic to be implemented later
+  // logic to be implemented later
   public Boolean removeReview(Review review) {
     return true;
   }
-  
-  //logic to be implemented later
+
+  // logic to be implemented later
   public Boolean getReview(Review review) {
     return true;
   }

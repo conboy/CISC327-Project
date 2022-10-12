@@ -7,7 +7,7 @@ import qbnb.models.User;
 
 public class TestEmail {
     User testUser = new User();
-    
+
     /**
      * Testing to see if proper email passes
      */
@@ -16,7 +16,7 @@ public class TestEmail {
         Assertions.assertTrue(testUser.setEmail("aidan@leyne.com"));
     }
 
-    /** 
+    /**
      * Testing to see if failure if @ is missed
      */
     @Test
