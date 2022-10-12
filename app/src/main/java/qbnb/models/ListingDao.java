@@ -54,4 +54,9 @@ public final class ListingDao implements Dao<Listing> {
   public void delete(Listing l) {
     listings.remove(l);
   }
+
+  /* Delete ALL listings from the DAO. TESTING ONLY */
+  public static void deleteAll() {
+    listings = new ArrayList<Listing>();
+  }
 }

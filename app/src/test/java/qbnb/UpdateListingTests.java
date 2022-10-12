@@ -33,6 +33,7 @@ public class UpdateListingTests {
             u.getUserID());
     validListing.UpdateListing("newTitle", "very new and cool description", 101);
     assertEquals(validListing.getOwnerID(), u.getUserID());
+    ListingDao.deleteAll();
   }
 
   /** Tests R5-2: price can be increased but cannot be decreased. */
@@ -59,6 +60,7 @@ public class UpdateListingTests {
     // testing that price cannot decrease
     valid = validListing.UpdateListing(null, null, 75);
     assertFalse(valid);
+    ListingDao.deleteAll();
   }
 
   /** Tests R5-3: modifiedDate changes automatically on update. */
@@ -80,6 +82,7 @@ public class UpdateListingTests {
             u.getUserID());
     validListing.UpdateListing("newlynewTitle", null, 0);
     assertNotEquals(d, validListing.getModificationDate());
+    ListingDao.deleteAll();
   }
 
   // R5-4: Make sure all the R4 criteria are also followed when updating!!
@@ -114,6 +117,7 @@ public class UpdateListingTests {
 
     // checking space characters at the end of title - error with message R4-1 should be thrown
     assertFalse(validListing.UpdateListing("Space Land ", null, 0));
+    ListingDao.deleteAll();
   }
 
   /** Tests requirement R4-2: The title of the product is no longer than 80 characters. */
@@ -133,6 +137,7 @@ public class UpdateListingTests {
             LocalDate.now(),
             u.getUserID());
     assertFalse(validListing.UpdateListing("Long".repeat(50), null, 0));
+    ListingDao.deleteAll();
   }
 
   /**
@@ -160,6 +165,7 @@ public class UpdateListingTests {
 
     // testing if error is thrown for the title length > 2000 case.
     assertFalse(validListing.UpdateListing(null, "long description".repeat(250), 0));
+    ListingDao.deleteAll();
   }
 
   /** Tests requirement R4-4: Description has to be longer than the product's title. */
@@ -183,6 +189,7 @@ public class UpdateListingTests {
             "the ultimate frizbee area of dreams and legend",
             "i suck at frizbee, what about u",
             0));
+    ListingDao.deleteAll();
   }
 
   /** Tests requirement R4-5: Price has to be within the range [10, 10000]. */
@@ -208,6 +215,7 @@ public class UpdateListingTests {
 
     // testing if error is thrown for the price > 10000 case.
     assertFalse(validListing.UpdateListing(null, null, 99999999));
+    ListingDao.deleteAll();
   }
 
   /** Tests requirement R4-8: A user cannot create a listing with a title that is already in-use. */
@@ -216,10 +224,12 @@ public class UpdateListingTests {
     User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
     UserDao dao = new UserDao();
     dao.save(u);
-    Listing x =
-        new Listing(83237249, "sunland", "be".repeat(50), 204, LocalDate.now(), u.getUserID());
+    System.out.println("1");
+    Listing x = new Listing(8323, "sunland", "be".repeat(50), 204, LocalDate.now(), u.getUserID());
+    System.out.println("2");
     Listing y =
         new Listing(843294, "loveplace", "ba".repeat(25), 100, LocalDate.now(), u.getUserID());
     assertFalse(x.UpdateListing("loveplace", null, 900));
+    ListingDao.deleteAll();
   }
 }

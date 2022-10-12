@@ -73,6 +73,7 @@ public class CreateListingTests {
       message3 = e.getMessage();
     }
     assertEquals("R4-1", message3);
+    ListingDao.deleteAll();
   }
 
   /**
@@ -101,6 +102,7 @@ public class CreateListingTests {
       message = e.getMessage();
     }
     assertEquals("R4-2", message);
+    ListingDao.deleteAll();
   }
 
   /**
@@ -133,6 +135,7 @@ public class CreateListingTests {
       message2 = e.getMessage();
     }
     assertEquals("R4-3", message2);
+    ListingDao.deleteAll();
   }
 
   /**
@@ -160,6 +163,7 @@ public class CreateListingTests {
       message = e.getMessage();
     }
     assertEquals("R4-4", message);
+    ListingDao.deleteAll();
   }
 
   /**
@@ -204,6 +208,7 @@ public class CreateListingTests {
       message2 = e.getMessage();
     }
     assertEquals("R4-5", message2);
+    ListingDao.deleteAll();
   }
 
   /**
@@ -248,6 +253,7 @@ public class CreateListingTests {
       message2 = e.getMessage();
     }
     assertEquals("R4-6", message2);
+    ListingDao.deleteAll();
   }
 
   /**
@@ -275,6 +281,7 @@ public class CreateListingTests {
       message = e.getMessage();
     }
     assertEquals("R4-7", message);
+    ListingDao.deleteAll();
   }
 
   /**
@@ -307,6 +314,7 @@ public class CreateListingTests {
       message = e.getMessage();
     }
     assertEquals("R4-7", message);
+    ListingDao.deleteAll();
   }
 
   /**
@@ -339,5 +347,6 @@ public class CreateListingTests {
       message = e.getMessage();
     }
     assertEquals("R4-8", message);
+    ListingDao.deleteAll();
   }
 }

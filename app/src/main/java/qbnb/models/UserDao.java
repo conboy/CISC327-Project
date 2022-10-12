@@ -36,4 +36,9 @@ public class UserDao implements Dao<User> {
   public void delete(User user) {
     // TODO
   }
+
+  /** Used to clear the DAO at the end of testing */
+  public void deleteAll() {
+    users = new ArrayList<User>();
+  }
 }
