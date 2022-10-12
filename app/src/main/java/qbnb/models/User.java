@@ -41,8 +41,8 @@ public class User {
    */
   private Boolean checkEmail(String email) {
     return (email.matches(
-        "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)[a-zA-Z]{2,7}$"))
-        && (email.substring(0, email.indexOf("@")).length() <= 64);
+            "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)[a-zA-Z]{2,7}$")
+        && (email.substring(0, email.indexOf("@")).length() <= 64));
   }
 
   /**
@@ -76,9 +76,7 @@ public class User {
    * @return Boolean
    */
   private Boolean checkUsername(String username) {
-    if (username.equals(username.trim())
-        && (2 <= username.length())
-        && (20 >= username.length())) {
+    if (username.equals(username.trim()) && (2 <= username.length()) && (20 >= username.length())) {
       if (!username.matches("[A-Za-z0-9]+")) {
         return true;
       }
@@ -117,8 +115,8 @@ public class User {
    * @return Boolean
    */
   private Boolean checkPassword(String password) {
-    return password.length() >= 6
-        && password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)” + “(?=.*[-+_!@#$%^&*., ?]).+$");
+    return (password.length() >= 6
+        && password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[-+_!@#$%^&*., ?]).+$"));
   }
 
   /**
@@ -130,6 +128,7 @@ public class User {
   public Boolean setPassword(String password) {
     if (checkPassword(password)) {
       this.password = password;
+      return true;
     }
 
     return false;
