@@ -1,16 +1,10 @@
 package qbnb;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.time.LocalDate;
-import org.junit.jupiter.api.Test;
-import qbnb.models.*;
+import org.junit.Assert;
+import org.junit.Test;
+import qbnb.models.Listing;
 
-/**
- * Runs all tests that correspond to the R4 requirements in sprint 1. Each time a Listing creation
- * fails due to a specific criteria not being met, this code expects an error to be thrown with a
- * message corresponding to the requirement broken. ALL TESTS SHOULD PASS!
- */
 public class CreateListingTests {
 
   /**
@@ -20,26 +14,21 @@ public class CreateListingTests {
    */
   @Test
   public void alphanumericTitleTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
     // checking non-numeric characters - error with message R4-1 should be thrown
     String message1 = "";
     try {
       Listing x =
           new Listing(
               1,
-              "Quantum guy's $@?$!@$($@! factory",
+              "Quantum guy's £$@$!@£$$@! factory",
               "A super fun factory of nonsense anc whimsy innit!",
               100,
               LocalDate.now(),
-              u.getUserID());
+              1);
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
-    assertEquals("R4-1", message1);
+    Assert.assertEquals("R4-1", message1);
 
     // checking space characters at the beginning of title - error with message R4-1 should be
     // thrown
@@ -47,33 +36,32 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              2,
+              1,
               "     Front space land",
               "A super fun land of nonsense anc whimsy innit!",
               100,
               LocalDate.now(),
-              u.getUserID());
+              1);
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
-    assertEquals("R4-1", message2);
+    Assert.assertEquals("R4-1", message2);
 
     // checking space characters at the end of title - error with message R4-1 should be thrown
     String message3 = "";
     try {
       Listing x =
           new Listing(
-              3,
+              1,
               "End space land    ",
               "A super fun land of nonsense anc whimsy innit!",
               100,
               LocalDate.now(),
-              u.getUserID());
+              1);
     } catch (IllegalArgumentException e) {
       message3 = e.getMessage();
     }
-    assertEquals("R4-1", message3);
-    ListingDao.deleteAll();
+    Assert.assertEquals("R4-1", message3);
   }
 
   /**
@@ -82,27 +70,23 @@ public class CreateListingTests {
    */
   @Test
   public void titleLengthTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
     String message = "";
     try {
       String desc = "a".repeat(200); // simple way of writing an arbitrarily long description
       Listing x =
           new Listing(
-              4,
-              "The Really Really Long Named Place also known as".repeat(10),
+              1,
+              "The Really Really Long Named Place Of Absolute Joy And Wonder And Merriment And"
+                  + " Amusement which is better known as The Ultimate Funkodome of the 31st"
+                  + " Century",
               desc,
               100,
               LocalDate.now(),
-              u.getUserID());
+              1);
     } catch (IllegalArgumentException e) {
       message = e.getMessage();
     }
-    assertEquals("R4-2", message);
-    ListingDao.deleteAll();
+    Assert.assertEquals("R4-2", message);
   }
 
   /**
@@ -112,30 +96,23 @@ public class CreateListingTests {
   @Test
   public void descriptionLengthTest() {
     // testing if error is thrown for the title length < 20 case - 'R4-3' is expected error message.
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
     String message1 = "";
     try {
-      Listing x = new Listing(5, "Funland", "It's funland!", 100, LocalDate.now(), u.getUserID());
+      Listing x = new Listing(1, "Funland", "It's funland!", 100, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
-    assertEquals("R4-3", message1);
+    Assert.assertEquals("R4-3", message1);
 
     // testing if error is thrown for the title length > 2000 case.
     String message2 = "";
     try {
       String desc = "bee".repeat(1000); // simple way of writing an arbitrarily long description
-      Listing x =
-          new Listing(6, "The entire bee movie script", desc, 10, LocalDate.now(), u.getUserID());
+      Listing x = new Listing(1, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
-    assertEquals("R4-3", message2);
-    ListingDao.deleteAll();
+    Assert.assertEquals("R4-3", message2);
   }
 
   /**
@@ -144,26 +121,13 @@ public class CreateListingTests {
    */
   @Test
   public void descriptionLongerThanTitleTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
     String message = "";
     try {
-      Listing x =
-          new Listing(
-              7,
-              "Ultimate bogland of supreme boggieness innit",
-              "it's a bog, just sucks tbh",
-              100,
-              LocalDate.now(),
-              u.getUserID());
+      Listing x = new Listing(1, "Ultimate bogland", "it's a bog", 100, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message = e.getMessage();
     }
-    assertEquals("R4-4", message);
-    ListingDao.deleteAll();
+    Assert.assertEquals("R4-4", message);
   }
 
   /**
@@ -172,26 +136,14 @@ public class CreateListingTests {
    */
   @Test
   public void priceWithinRangeTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
     // testing if correct error is thrown for the price < 10 case.
     String message1 = "";
     try {
-      Listing x =
-          new Listing(
-              8,
-              "Funland",
-              "It's funland! Fun fun fun, mega good!",
-              1,
-              LocalDate.now(),
-              u.getUserID());
+      Listing x = new Listing(1, "Funland", "It's funland!", 1, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
-    assertEquals("R4-5", message1);
+    Assert.assertEquals("R4-5", message1);
 
     // testing if error is thrown for the price > 10000 case.
     String message2 = "";
@@ -203,12 +155,11 @@ public class CreateListingTests {
               "It's fun on the bun! - Futurama robot man",
               10000000,
               LocalDate.now(),
-              u.getUserID());
+              1);
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
-    assertEquals("R4-5", message2);
-    ListingDao.deleteAll();
+    Assert.assertEquals("R4-5", message2);
   }
 
   /**
@@ -217,43 +168,23 @@ public class CreateListingTests {
    */
   @Test
   public void dateWithinRangeTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
     // testing if correct error is thrown for the Date < 2021-01-02 case.
     String message1 = "";
     try {
-      Listing x =
-          new Listing(
-              9,
-              "Funland",
-              "It's funland! I have to update all of these because the description is too short!",
-              100,
-              LocalDate.parse("2021-01-01"),
-              u.getUserID());
+      Listing x = new Listing(1, "Funland", "It's funland!", 100, LocalDate.parse("2021-01-01"), 1);
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
-    assertEquals("R4-6", message1);
+    Assert.assertEquals("R4-6", message1);
 
     // testing if correct error is thrown for the Date > 2025-01-02 case.
     String message2 = "";
     try {
-      Listing x =
-          new Listing(
-              10,
-              "Funland",
-              "It's funland! The land of descriptions longer than 20 characters!",
-              10,
-              LocalDate.parse("2025-01-03"),
-              u.getUserID());
+      Listing x = new Listing(1, "Funland", "It's funland!", 10, LocalDate.parse("2025-01-03"), 1);
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }
-    assertEquals("R4-6", message2);
-    ListingDao.deleteAll();
+    Assert.assertEquals("R4-6", message2);
   }
 
   /**
@@ -262,91 +193,26 @@ public class CreateListingTests {
    */
   @Test
   public void ownerNonEmptyTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
     String message = "";
     try {
-      Listing x =
-          new Listing(
-              11,
-              "Ultimate bogland",
-              "it's a bog. one could say it boggles the mind hahaha",
-              100,
-              LocalDate.now(),
-              -1);
+      Listing x = new Listing(1, "Ultimate bogland", "it's a bog", 100, LocalDate.now(), -1);
     } catch (IllegalArgumentException e) {
       message = e.getMessage();
     }
-    assertEquals("R4-7", message);
-    ListingDao.deleteAll();
+    Assert.assertEquals("R4-7", message);
   }
 
-  /**
-   * Tests requirement R4-7B: ownerID has to match an ID within the database. TEST ASSUMES THAT
-   * USERS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION.
-   */
+  /** Tests requirement R4-7B: ownerID has to match an ID within the database. */
   @Test
   public void ownerExistsTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
-    // test that using a saved ID allows for listing to be created without errors.
-    Listing y = new Listing(12, "lovdplace", "a".repeat(25), 100, LocalDate.now(), u.getUserID());
-    assertEquals(y.getOwnerID(), u.getUserID());
-
-    // test that an invalid owner ID causes an error of R4-8 to be thrown.
-    String message = "";
-    try {
-      Listing x =
-          new Listing(
-              20,
-              "Ultimate bogland",
-              "it's a bog. one could say it boggles the mind hahaha",
-              100,
-              LocalDate.now(),
-              767676873);
-    } catch (IllegalArgumentException e) {
-      message = e.getMessage();
-    }
-    assertEquals("R4-7", message);
-    ListingDao.deleteAll();
+    // TODO: cannot be validated without database integration!
+    Assert.fail();
   }
 
-  /**
-   * Tests requirement R4-8: A user cannot create a listing with a title that is already in-use.
-   * TEST ASSUMES THAT LISTINGS ARE SAVED TO DATABASE UPON SUCCESSFUL INITIALISATION
-   */
+  /** Tests requirement R4-8: A user cannot create a listing with a title that is already in-use. */
   @Test
   public void sharedTitleTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
-    // tests that the first time a title is used, no errors are thrown.
-    Listing y = new Listing(100, "loveplace", "a".repeat(25), 100, LocalDate.now(), u.getUserID());
-    assertEquals(y.getOwnerID(), u.getUserID());
-
-    // tests if an error is thrown if the same title is used again.
-    String message = "";
-    try {
-      Listing x =
-          new Listing(
-              200,
-              "loveplace",
-              "it's a bog. one could say it boggles the mind hahaha",
-              100,
-              LocalDate.now(),
-              u.getUserID());
-    } catch (IllegalArgumentException e) {
-      message = e.getMessage();
-    }
-    assertEquals("R4-8", message);
-    ListingDao.deleteAll();
+    // TODO: cannot be validated without database integration!
+    Assert.fail();
   }
 }
