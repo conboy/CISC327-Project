@@ -12,8 +12,7 @@ public class Transaction {
   private Booking booking;
 
   /**
-   * Create a Transaction with the listing and client Ids as well as the price and
-   * dates for the
+   * Create a Transaction with the listing and client Ids as well as the price and dates for the
    * booking
    */
   public Transaction(long listing, long client, float price, Booking times) {

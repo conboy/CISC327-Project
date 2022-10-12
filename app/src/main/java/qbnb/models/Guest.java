@@ -16,7 +16,7 @@ public class Guest extends User {
 
   /**
    * Adds a specified balance to the account
-   * 
+   *
    * @param balance - balance to be added
    * @return Boolean
    */
@@ -31,7 +31,7 @@ public class Guest extends User {
 
   /**
    * Charges an account a specified balance
-   * 
+   *
    * @param amount - balance to be charged
    * @return Boolean
    */
@@ -46,7 +46,7 @@ public class Guest extends User {
 
   /**
    * Returns the balance of the account
-   * 
+   *
    * @return double
    */
   public double getBalance() {
@@ -54,9 +54,8 @@ public class Guest extends User {
   }
 
   /**
-   * Adds a booking to the list of bookings
-   * 
-   * @TODO implement later
+   * Adds a booking to the list of bookings @TODO implement later
+   *
    * @param booking - booking to be added
    * @return Boolean
    */
@@ -65,9 +64,8 @@ public class Guest extends User {
   }
 
   /**
-   * Removes a booking from the list of bookings
-   * 
-   * @TODO implement later
+   * Removes a booking from the list of bookings @TODO implement later
+   *
    * @param booking - booking to be removed
    * @return Boolean
    */
@@ -76,9 +74,8 @@ public class Guest extends User {
   }
 
   /**
-   * Returns a specified booking from the list of bookings
-   * 
-   * @TODO implement later
+   * Returns a specified booking from the list of bookings @TODO implement later
+   *
    * @param booking - booking to be returned
    * @return Boolean
    */
@@ -87,9 +84,8 @@ public class Guest extends User {
   }
 
   /**
-   * Adds a review to the list of reviews
-   * 
-   * @TODO implement later
+   * Adds a review to the list of reviews @TODO implement later
+   *
    * @param review - review to be added
    * @return Boolean
    */
@@ -98,9 +94,8 @@ public class Guest extends User {
   }
 
   /**
-   * Removes a review from the list of reviews
-   * 
-   * @TODO implement later
+   * Removes a review from the list of reviews @TODO implement later
+   *
    * @param review - review to be removed
    * @return Boolean
    */
@@ -109,9 +104,8 @@ public class Guest extends User {
   }
 
   /**
-   * retireves review from list of reviews
-   * 
-   * @TODO implement later
+   * retireves review from list of reviews @TODO implement later
+   *
    * @param review
    * @return Boolean
    */
