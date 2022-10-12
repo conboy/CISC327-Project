@@ -40,8 +40,8 @@ public class User {
    * @return Boolean
    */
   private Boolean checkEmail(String email) {
-    return email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+"
-        + "[a-zA-Z]{2,7}$");
+    return email.matches(
+        "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)[a-zA-Z]{2,7}$");
   }
 
   /**
