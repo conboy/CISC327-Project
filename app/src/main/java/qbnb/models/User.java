@@ -118,9 +118,7 @@ public class User {
    */
   private Boolean checkPassword(String password) {
     return password.length() >= 6
-        && password.matches("(.)*(\\\\d)(.)*")
-        && password.matches(".*[A-Z].*")
-        && password.matches(".*[A-Z].*")
+        && password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$")
         && password.matches("[^a-zA-Z0-9]");
   }
 
