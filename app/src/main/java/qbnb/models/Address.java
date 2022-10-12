@@ -64,7 +64,8 @@ public class Address {
   }
 
   /**
-   * sets the desired unit number for the address @TODO - any further logic that may be required
+   * sets the desired unit number for the address @TODO - any further logic that
+   * may be required
    *
    * @param unitNumber - desired unit number
    * @return Boolean
@@ -85,7 +86,8 @@ public class Address {
   }
 
   /**
-   * Sets the street name of the address @TODO - any further logic that might be needed
+   * Sets the street name of the address @TODO - any further logic that might be
+   * needed
    *
    * @param streetName
    * @return Boolean
@@ -127,7 +129,8 @@ public class Address {
   }
 
   /**
-   * Sets the Postal code or the zip code for the address @TODO - further logic to come later
+   * Sets the Postal code or the zip code for the address @TODO - further logic to
+   * come later
    *
    * @param postalZip - desired postal or zip code
    * @return Boolean
