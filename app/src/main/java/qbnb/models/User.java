@@ -115,6 +115,10 @@ public class User {
     return true;
   }
 
+  public Address getAddress() {
+    return this.address;
+  }
+
   public Boolean deleteGuest() {
     this.guestProfile = null;
     return true;
@@ -123,6 +127,10 @@ public class User {
   public Boolean addGuest() {
     this.guestProfile = new Guest();
     return true;
+  }
+
+  public Guest getGuestAccount() {
+    return this.guestProfile;
   }
 
   public Boolean deleteHost() {

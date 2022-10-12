@@ -1,24 +1,25 @@
 package qbnb.models;
 
-class Address {
+public class Address {
     private int streetNumber;
     private String unitNumber;
     private String streetName;
     private String city;
+    private String postalZip;
     private String provState;
     private String country;
 
-    protected Address() {
+    public Address() {
         
     }
     
-    protected Address(int streetNum, String unitNum, String streetName, String city, String provState, String Country) throws IllegalArgumentException {
-        if (!(setStreetNumber(streetNum) && setUnitNumebr(unitNum) && setStreetName(streetName) && setCity(city) && setProvState(provState) && setCountry(Country))) {
+    public Address(int streetNum, String unitNum, String streetName, String city, String postalCode, String provState, String Country) throws IllegalArgumentException {
+        if (!(setStreetNumber(streetNum) && setUnitNumebr(unitNum) && setStreetName(streetName) && setCity(city) && setPostalZip(postalCode) && setProvState(provState) && setCountry(Country))) {
             throw new IllegalArgumentException("Please Check The Address Given");
         }
     }
     
-    protected Boolean setStreetNumber(int number) {
+    public Boolean setStreetNumber(int number) {
         if(number > 0 ) {
             this.streetNumber = number;
             return true;
@@ -27,51 +28,61 @@ class Address {
         return false;
     }
 
-    protected int getStreetNumber() {
+    public int getStreetNumber() {
         return this.streetNumber;
     }
 
-    protected Boolean setUnitNumebr(String unitNumber) {
+    public Boolean setUnitNumebr(String unitNumber) {
         this.unitNumber = unitNumber;
 
         return true;
     }
 
-    protected String getUnitNumber() {
+    public String getUnitNumber() {
         return this.unitNumber;
     }
 
-    protected Boolean setStreetName(String streetName) {
+    public Boolean setStreetName(String streetName) {
         this.streetName = streetName;
 
         return true;
     }
 
-    protected String getStreetName() {
+    public String getStreetName() {
         return this.streetName;
     }
 
-    protected Boolean setCity(String city) {
+    public Boolean setCity(String city) {
         this.city = city;
         
         return true;
     }
 
-    protected String getCity() {
+    public String getCity() {
         return this.city;
     }
 
-    protected Boolean setProvState(String provState) {
+    public Boolean setPostalZip(String postalZip) {
+        this.postalZip = postalZip;
+
+        return true;
+    }
+
+    public String getPostalZip() {
+        return this.postalZip;
+    }
+
+    public Boolean setProvState(String provState) {
         this.provState = provState;
 
         return true;
     }
 
-    protected String getProvState() {
+    public String getProvState() {
         return this.provState;
     }
 
-    protected Boolean setCountry(String country) {
+    public Boolean setCountry(String country) {
         this.country = country;
 
         return true;

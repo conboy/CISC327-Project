@@ -9,51 +9,50 @@ public class UsernameTest {
     User testUser = new User();
     
     /**
-     * Testing to see if proper password passes
+     * Testing to see if proper username passes
      */
     @Test
-    public void testCorrectPassword() {
-        Assertions.assertTrue(testUser.setPassword("Password1$"));
+    public void testCorrectUsername() {
+        Assertions.assertTrue(testUser.setUsername("aidan leyne"));
     }
 
     /** 
-     * Testing to see if special character is omited
+     * Testing to see if failure if username is too short
      */
     @Test
-    public void testMissingNonAphaNumCharacter() {
-        Assertions.assertFalse(testUser.setPassword("Password1"));
+    public void testShortUsername() {
+        Assertions.assertFalse(testUser.setUsername("A"));
     }
 
     /**
-     * Testing to see if failure if num is omited
+     * Testing to see if failure if username is too long
      */
     @Test
-    public void testMissingNum() {
-        Assertions.assertFalse(testUser.setPassword("Password#"));
+    public void testLongUsername() {
+        Assertions.assertFalse(testUser.setUsername("abcdefghijklmnopqrstuvwxyz"));
     }
 
     /**
-     * Testing to see if failure if capital is omited
+     * Testing to see if failure if empty username
      */
     @Test
-    public void testMissingCapital() {
-        Assertions.assertFalse(testUser.setPassword("password1#"));
+    public void testEmptyUsername() {
+        Assertions.assertFalse(testUser.setUsername(""));
     }
 
     /**
-     * Testing to see if failure if lower case is omited
+     * Testing to see if failure if starting with space
      */
     @Test
-    public void testMissingLowerCase() {
-        Assertions.assertFalse(testUser.setPassword("PASSWORD1#"));
+    public void testStartingSpace() {
+        Assertions.assertFalse(testUser.setUsername(" aidanleyne"));
     }
 
     /**
-     * Testing to see if length req. is not met
+     * Testing to see if failure if ending with space
      */
     @Test
-    public void testShortPassword() {
-        Assertions.assertFalse(testUser.setPassword("PwD1$"));
+    public void testEndingSpace() {
+        Assertions.assertFalse(testUser.setUsername("aidanleyne "));
     }
-    
 }

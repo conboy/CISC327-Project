@@ -8,13 +8,13 @@ class Host extends User {
   private ArrayList<Review> reviews;
   private double accountBalance;
 
-  protected Host() {
+  public Host() {
     this.accountBalance = 100.00;
     this.listings = new ArrayList<Listing>();
     this.reviews = new ArrayList<Review>();
   }
 
-  protected Boolean addBalance(double balance) {
+  public Boolean addBalance(double balance) {
     if (balance > 0) {
       this.accountBalance += balance;
       return true;
@@ -23,7 +23,7 @@ class Host extends User {
     return false;
   }
 
-  protected Boolean chargeAccount(double amount) {
+  public Boolean chargeAccount(double amount) {
     if (amount > 0 && (accountBalance - amount) >= 0.00) {
       this.accountBalance -= amount;
       return true;
@@ -33,32 +33,32 @@ class Host extends User {
   }
 
   //logic to be implemented later
-  protected Boolean addBooking(Listing booking) {
+  public Boolean addBooking(Listing booking) {
     return true;
   }
 
   //logic to be implemented later
-  protected Boolean removeBooking(Listing booking) {
+  public Boolean removeBooking(Listing booking) {
     return true;
   }
   
   //logic to be implemented later
-  protected Boolean getBooking(Listing booking) {
+  public Boolean getBooking(Listing booking) {
     return true;
   }
 
   //logic to be implemented later
-  protected Boolean addReview(Review review) {
+  public Boolean addReview(Review review) {
     return true;
   }
 
   //logic to be implemented later
-  protected Boolean removeReview(Review review) {
+  public Boolean removeReview(Review review) {
     return true;
   }
   
   //logic to be implemented later
-  protected Boolean getReview(Review review) {
+  public Boolean getReview(Review review) {
     return true;
   }
 }
