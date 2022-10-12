@@ -1,6 +1,7 @@
 package qbnb;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.*;
@@ -14,6 +15,8 @@ import qbnb.models.*;
  * suffix. R1-6: User name has to be longer than 2 characters and less than 20 characters.
  */
 public class LoginTest {
+
+  // Create test user
   User userTest = new User("johndoe@gmail.com", "Password123#");
 
   /** Test login functionality. Pass correct email and password through Login function. */
