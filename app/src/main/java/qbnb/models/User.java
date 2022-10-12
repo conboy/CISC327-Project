@@ -58,8 +58,8 @@ public class User {
   }
 
   private Boolean checkUsername(String username) {
-    if (!username.equals("") && username.equals(username.trim()))  {
-      
+    if (!username.equals("") && username.equals(username.trim()) && (2 <= username.length()) && (20 >= username.length()))  {
+      return true;
     }
 
     return false;
