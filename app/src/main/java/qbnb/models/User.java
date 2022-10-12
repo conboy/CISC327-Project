@@ -81,7 +81,7 @@ public class User {
         && username.equals(username.trim())
         && (2 <= username.length())
         && (20 >= username.length())) {
-      if (!username.matches(".*[^a-zA-Z0-9].*")) {
+      if (!username.matches("[^a-zA-Z0-9]")) {
         return true;
       }
     }
