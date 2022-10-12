@@ -4,9 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.User;
 
-/**
- * Runs tests on all requirements for user creation as specified for sprint 2.
- */
 public class TestUserCreation {
   User testUser1 = new User("testUser1@gmail.com", "testUser1", "Password1!", true);
 

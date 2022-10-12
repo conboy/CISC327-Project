@@ -4,9 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.User;
 
-/**
- * Runs tests on all requirements for emails as specified for sprint 2.
- */
 public class TestEmail {
   User testUser = new User();
 
