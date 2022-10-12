@@ -11,7 +11,7 @@ public class UsernameTest {
   /** Testing to see if proper username passes */
   @Test
   public void testCorrectUsername() {
-    Assertions.assertTrue(testUser.setUsername("aidanleyne"));
+    Assertions.assertTrue(testUser.setUsername("aidanleyne10"));
   }
 
   /** Testing to see if failure if username is too short */
