@@ -1,4 +1,4 @@
-package models;
+package qbnb.models;
 
 import java.util.ArrayList;
 
