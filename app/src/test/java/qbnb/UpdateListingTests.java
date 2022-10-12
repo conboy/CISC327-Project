@@ -215,9 +215,7 @@ public class UpdateListingTests {
   public void sharedTitleTest() {
     User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
     UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
+    dao.save(u);
     Listing x =
         new Listing(83237249, "sunland", "be".repeat(50), 204, LocalDate.now(), u.getUserID());
     Listing y =
