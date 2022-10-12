@@ -22,6 +22,9 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.0.1-jre'
+
+    // This dependency is used for Email Validation
+    // compile 'org.apache.commons:commons-configuration2:2.8.0'
 }
 
 application {
