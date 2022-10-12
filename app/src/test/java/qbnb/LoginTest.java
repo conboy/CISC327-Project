@@ -15,7 +15,7 @@ import qbnb.models.User;
 public class LoginTest {
 
   // Create test user
-  User userTest = new User("johndoe@gmail.com", "Password123#");
+  User userTest = new User(1, "johndoeshaggerman", "Password123#", "johndoe@gmail.com");
 
   /** Test login functionality. Pass correct email and password through Login function. */
   @Test
@@ -28,7 +28,7 @@ public class LoginTest {
    */
   @Test
   public void incorrectLoginTest() {
-    Assertions.assertTrue(userTest.Login("johndoe1@gmail.com", "Passwprd123#"));
+    Assertions.assertFalse(userTest.Login("johndoe1@gmail.com", "Passwprd123#"));
   }
 
   /**
