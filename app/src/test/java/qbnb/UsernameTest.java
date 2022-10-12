@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.User;
 
+/**
+ * Runs tests on all requirements for usernames as specified for sprint 2.
+ */
 public class UsernameTest {
   User testUser = new User();
 
