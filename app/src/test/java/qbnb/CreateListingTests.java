@@ -84,7 +84,7 @@ public class CreateListingTests {
       Listing x =
           new Listing(
               4,
-              "The Really Really Long Named Place, also known as ".repeat(10),
+              "The Really Really Long Named Place also known as".repeat(10),
               desc,
               100,
               LocalDate.now(),
