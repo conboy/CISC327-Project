@@ -174,6 +174,7 @@ public class Listing {
     return modificationDate;
   }
 
+  /** Returns owner ID */
   public int getOwnerID() {
     return ownerID;
   }
