@@ -1,5 +1,6 @@
 package qbnb.models;
 
+import com.google.gson.Gson;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +9,16 @@ import java.util.Optional;
  * respective domain object.
  */
 public interface Dao<T> {
+  Gson gson = new Gson(); // JSON Parser and converter
 
+  /** serialize the DAO to JSON. */
+  default String serialize() {
+        return gson.toJson(this);
+  }
+
+  /** deserialize JSON to a Dao */
+  Dao<T> deserialize(String json);
+  
   Optional<T> get(long id);
 
   List<T> getAll();
