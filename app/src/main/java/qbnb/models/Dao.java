@@ -9,16 +9,14 @@ import java.util.Optional;
  * respective domain object.
  */
 public interface Dao<T> {
-  Gson gson = new Gson(); // JSON Parser and converter
 
+  Gson gson = new Gson();
+  
   /** serialize the DAO to JSON. */
   default String serialize() {
         return gson.toJson(this);
   }
 
-  /** deserialize JSON to a Dao */
-  Dao<T> deserialize(String json);
-  
   Optional<T> get(long id);
 
   List<T> getAll();

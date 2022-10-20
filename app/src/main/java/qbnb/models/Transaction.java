@@ -2,7 +2,6 @@ package qbnb.models;
 
 import java.util.Date;
 import java.time.LocalDate;
-import org.javatuples.Pair;
 
 /** Acts as a record of booking and payment when a user books a listing. */
 public class Transaction {
@@ -11,7 +10,8 @@ public class Transaction {
   private long listingId;
   private long clientId;
   private float ammount;
-  private Pair<LocalDate, LocalDate> booking;
+  private String start;
+  private String end;
 
   /**
    * Create a Transaction with the listing and client Ids as well as the price and dates for the
@@ -22,7 +22,17 @@ public class Transaction {
     listingId = listing;
     clientId = client;
     ammount = price;
-    booking = Pair.with(start, end);
+    this.start = start.toString();
+    this.end = end.toString();
+  }
+
+  public Transaction() {
+     id = new Date().getTime();
+     listingId = 0;
+     clientId = 0;
+     ammount = 0;
+     start = LocalDate.now().toString();
+     end = LocalDate.now().toString();
   }
 
   public long getId() {
@@ -57,11 +67,19 @@ public class Transaction {
     this.ammount = ammount;
   }
 
-  public Pair<LocalDate, LocalDate> getBooking() {
-    return booking;
+  public void setStart(LocalDate start) {
+        this.start = start.toString();
   }
 
-  public void setBooking(LocalDate start, LocalDate end) {
-    this.booking = booking;
+  public LocalDate getStart() {
+    return LocalDate.parse(start);
+  }
+
+  public void setEnd(LocalDate end) {
+        this.end = end.toString();
+  }
+
+  public LocalDate getEnd() {
+return LocalDate.parse(end);
   }
 }
