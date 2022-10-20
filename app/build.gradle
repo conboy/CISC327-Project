@@ -34,9 +34,6 @@ dependencies {
 
     // This dependency is used to simplify JSON serialization
     implementation 'com.google.code.gson:gson:2.9.1'
-    
-    // https://mavenlibs.com/maven/dependency/org.javatuples/javatuples
-    implementation 'org.javatuples:javatuples:1.2'
 
     // This dependency is used for Email Validation
     // compile 'org.apache.commons:commons-configuration2:2.8.0'

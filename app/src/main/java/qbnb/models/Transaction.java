@@ -1,7 +1,7 @@
 package qbnb.models;
 
-import java.util.Date;
 import java.time.LocalDate;
+import java.util.Date;
 
 /** Acts as a record of booking and payment when a user books a listing. */
 public class Transaction {
@@ -22,17 +22,10 @@ public class Transaction {
     listingId = listing;
     clientId = client;
     ammount = price;
+    // start & end are strings to make serialization work. They are converted
+    // from and to LocalDate when getting and setting respectively.
     this.start = start.toString();
     this.end = end.toString();
-  }
-
-  public Transaction() {
-     id = new Date().getTime();
-     listingId = 0;
-     clientId = 0;
-     ammount = 0;
-     start = LocalDate.now().toString();
-     end = LocalDate.now().toString();
   }
 
   public long getId() {
@@ -68,7 +61,7 @@ public class Transaction {
   }
 
   public void setStart(LocalDate start) {
-        this.start = start.toString();
+    this.start = start.toString();
   }
 
   public LocalDate getStart() {
@@ -76,10 +69,10 @@ public class Transaction {
   }
 
   public void setEnd(LocalDate end) {
-        this.end = end.toString();
+    this.end = end.toString();
   }
 
   public LocalDate getEnd() {
-return LocalDate.parse(end);
+    return LocalDate.parse(end);
   }
 }

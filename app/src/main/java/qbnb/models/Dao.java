@@ -11,10 +11,10 @@ import java.util.Optional;
 public interface Dao<T> {
 
   Gson gson = new Gson();
-  
+
   /** serialize the DAO to JSON. */
   default String serialize() {
-        return gson.toJson(this);
+    return gson.toJson(this);
   }
 
   Optional<T> get(long id);
