@@ -1,5 +1,6 @@
 package qbnb.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /** Acts as a record of booking and payment when a user books a listing. */
@@ -9,18 +10,22 @@ public class Transaction {
   private long listingId;
   private long clientId;
   private float ammount;
-  private Booking booking;
+  private String start;
+  private String end;
 
   /**
    * Create a Transaction with the listing and client Ids as well as the price and dates for the
    * booking
    */
-  public Transaction(long listing, long client, float price, Booking times) {
+  public Transaction(long listing, long client, float price, LocalDate start, LocalDate end) {
     id = new Date().getTime();
     listingId = listing;
     clientId = client;
     ammount = price;
-    booking = times;
+    // start & end are strings to make serialization work. They are converted
+    // from and to LocalDate when getting and setting respectively.
+    this.start = start.toString();
+    this.end = end.toString();
   }
 
   public long getId() {
@@ -55,41 +60,19 @@ public class Transaction {
     this.ammount = ammount;
   }
 
-  public Booking getBooking() {
-    return booking;
+  public void setStart(LocalDate start) {
+    this.start = start.toString();
   }
 
-  public void setBooking(Booking booking) {
-    this.booking = booking;
-  }
-}
-
-/** Contains the time-period for a booking related to a transaction */
-class Booking {
-
-  private Date start;
-  private Date end;
-
-  /** Create a booking with the year, month, and day of 2 dates */
-  public Booking(int y1, int m1, int d1, int y2, int m2, int d2) {
-
-    start = new Date(y1, m1, d1);
-    end = new Date(y2, m2, d2);
+  public LocalDate getStart() {
+    return LocalDate.parse(start);
   }
 
-  public Date getStart() {
-    return start;
+  public void setEnd(LocalDate end) {
+    this.end = end.toString();
   }
 
-  public void setStart(int y, int m, int d) {
-    this.start = new Date(y, m, d);
-  }
-
-  public Date getEnd() {
-    return end;
-  }
-
-  public void setEnd(int y, int m, int d) {
-    this.end = new Date(y, m, d);
+  public LocalDate getEnd() {
+    return LocalDate.parse(end);
   }
 }
