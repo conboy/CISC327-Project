@@ -1,6 +1,12 @@
 package qbnb.models;
 
 import com.google.gson.Gson;
+import java.io.*;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,10 +17,33 @@ import java.util.Optional;
 public interface Dao<T> {
 
   Gson gson = new Gson();
+  /**
+   * Load JSON string of instance. @Param location the path where the json file to be read is
+   * located. @Return if file cannot be read, null; else JSON string.
+   */
+  static String read(String location) {
+    Path path = Paths.get(location);
+    // Add a deserialize method to be used in XDao
+    try {
+      return Files.readString(path);
+    } catch (IOException ex) {
+      return null;
+    }
+  }
 
-  /** serialize the DAO to JSON. */
-  default String serialize() {
-    return gson.toJson(this);
+  /**
+   * Save instance to file in JSON. @Param location the path where the file to be written to is
+   * located. @Return if the file cannot be written to, false; else true.
+   */
+  default boolean write(String location) {
+    Path path = Paths.get(location);
+    String json = gson.toJson(this);
+    try {
+      Files.writeString(path, json, StandardCharsets.UTF_8);
+      return true;
+    } catch (IOException ex) {
+      return false;
+    }
   }
 
   Optional<T> get(long id);
