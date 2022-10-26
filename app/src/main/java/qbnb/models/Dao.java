@@ -17,13 +17,18 @@ import java.util.Optional;
 public interface Dao<T> {
 
   Gson gson = new Gson();
+
+  /** Convert string to path with correct foratting for system. */
+  private static Path formatForSystem(String path) {
+    String formattedPath = path.replaceAll("[\\\\/]", File.separator);
+    return Paths.get(formattedPath);
+  }
   /**
    * Load JSON string of instance. @Param location the path where the json file to be read is
    * located. @Return if file cannot be read, null; else JSON string.
    */
   static String read(String location) {
-    Path path = Paths.get(location);
-    // Add a deserialize method to be used in XDao
+    Path path = formatForSystem(location);
     try {
       return Files.readString(path);
     } catch (IOException ex) {
@@ -36,7 +41,7 @@ public interface Dao<T> {
    * located. @Return if the file cannot be written to, false; else true.
    */
   default boolean write(String location) {
-    Path path = Paths.get(location);
+    Path path = formatForSystem(location);
     String json = gson.toJson(this);
     try {
       Files.writeString(path, json, StandardCharsets.UTF_8);
