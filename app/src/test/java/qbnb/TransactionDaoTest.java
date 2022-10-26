@@ -9,8 +9,9 @@ public class TransactionDaoTest {
 
   @Test
   public void toDB() {
-    Assertions.assertTrue(dao.serialize(AppTest.TEST_PATH));
+    Assertions.assertTrue(dao.serialize(AppConf.TEST_PATH));
   }
+
   /**
    * TODO: MAKE THESE WORK ! @Test public void fromDB() {
    * Assertions.assertNotNull(TransactionDao.deserialize(AppTest.TEST_PATH)); } @Test public void

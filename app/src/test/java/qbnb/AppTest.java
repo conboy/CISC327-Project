@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class AppTest {
-  public static final String TEST_PATH = "/db/test.json";
 
   @Test
   void appHasAGreeting() {

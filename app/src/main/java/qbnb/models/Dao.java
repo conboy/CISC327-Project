@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import qbnb.AppConf;
 
 /**
  * Allows the creation of consistent data access objects which act as a persistence layer for thier
@@ -20,7 +21,12 @@ public interface Dao<T> {
 
   /** Convert string to path with correct foratting for system. */
   private static Path formatForSystem(String path) {
-    String formattedPath = path.replaceAll("[\\\\/]", File.separator);
+    String formattedPath;
+    if (System.getProperty("os.name").contains("Windows")) {
+      formattedPath = AppConf.WIN_PROJECT_PATH + path;
+    } else {
+      formattedPath = AppConf.PROJECT_PATH + path;
+    }
     return Paths.get(formattedPath);
   }
   /**
@@ -37,8 +43,8 @@ public interface Dao<T> {
   }
 
   /**
-   * Save instance to file in JSON. @Param location the path where the file to be written to is
-   * located. @Return if the file cannot be written to, false; else true.
+   * Save instance to file in JSON. @Param location The project path (root of project is root) where
+   * json may be saved. @Return if the file cannot be written to, false; else true.
    */
   default boolean write(String location) {
     Path path = formatForSystem(location);
