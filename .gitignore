@@ -16,3 +16,6 @@ build
 # Ignore db files
 db/*
 
+# ignore Configuration file
+app/src/main/java/qbnb/AppConf.java
+
