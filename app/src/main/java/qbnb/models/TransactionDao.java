@@ -14,8 +14,17 @@ public class TransactionDao implements Dao<Transaction> {
     transactions.add(trans);
   }
 
-  public static TransactionDao deserialize(String json) {
-    return gson.fromJson(json, TransactionDao.class);
+  public TransactionDao() {
+    transactions.add(new Transaction());
+  }
+
+  public boolean serialize(String transactionPath) {
+    return write(transactionPath);
+  }
+
+  public static TransactionDao deserialize(String transactionPath) {
+    String result = Dao.read(transactionPath);
+    return gson.fromJson(result, TransactionDao.class);
   }
 
   public Optional<Transaction> get(long id) {
