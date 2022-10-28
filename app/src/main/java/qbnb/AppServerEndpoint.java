@@ -1,17 +1,17 @@
 package qbnb;
 
-import java.util.logging.Logger;
 import jakarta.websocket.CloseReason;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
+import java.util.logging.Logger;
 
 @ServerEndpoint(value = "/game")
 public class AppServerEndpoint {
 
-  private Logger logger = Logger.getLogger(this.getClass().getName());      
+  private Logger logger = Logger.getLogger(this.getClass().getName());
 
   @OnOpen
   public void onOpen(Session session) {
