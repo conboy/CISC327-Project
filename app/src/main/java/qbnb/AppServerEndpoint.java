@@ -6,9 +6,9 @@ import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
+import java.util.logging.Logger;
 import qbnb.models.User;
 import qbnb.models.UserDao;
-import java.util.logging.Logger;
 
 @ServerEndpoint(value = "/game")
 public class AppServerEndpoint {
@@ -42,8 +42,13 @@ public class AppServerEndpoint {
         } catch (Exception e) {
           return "Unable to create user";
         }
-        
-        return "Created new user\nemail: " + email + "\nusername: " + username + "\npass: " + password;
+
+        return "Created new user\nemail: "
+            + email
+            + "\nusername: "
+            + username
+            + "\npass: "
+            + password;
       default:
         return "Failed";
     }
