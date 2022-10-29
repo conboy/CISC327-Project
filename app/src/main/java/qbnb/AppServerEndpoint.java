@@ -7,11 +7,14 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 import java.util.logging.Logger;
+import qbnb.models.User;
+import qbnb.models.UserDao;
 
 @ServerEndpoint(value = "/game")
 public class AppServerEndpoint {
 
   private Logger logger = Logger.getLogger(this.getClass().getName());
+  UserDao userDao = new UserDao();
 
   @OnOpen
   public void onOpen(Session session) {
@@ -30,7 +33,22 @@ public class AppServerEndpoint {
         // TODO: What happens when register is called
         // Creates user object and shows user what they typed in text fields in alert dialog on web
         // app
-        return "email: " + " pass: ";
+        String email = arr[1];
+        String username = arr[2];
+        String password = arr[3];
+        try {
+          User user = new User(email, username, password, false);
+          userDao.save(user);
+        } catch (Exception e) {
+          return "Unable to create user";
+        }
+
+        return "Created new user\nemail: "
+            + email
+            + "\nusername: "
+            + username
+            + "\npass: "
+            + password;
       default:
         return "Failed";
     }
