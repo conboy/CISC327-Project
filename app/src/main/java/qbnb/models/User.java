@@ -145,7 +145,7 @@ public class User {
    *
    * @return String
    */
-  public String getPassowrd() {
+  public String getPassword() {
     return this.password;
   }
 
