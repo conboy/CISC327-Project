@@ -11,8 +11,8 @@ import java.util.HashMap;
  */
 public class UserDao {
 
-  private HashMap<Long, User> users = new HashMap<Long, User>();
   private final Gson gson = new Gson();
+  private HashMap<Long, User> users = new HashMap<Long, User>();
 
   /** 
    * Returns json copy of wanted user
@@ -108,5 +108,14 @@ public class UserDao {
     this.users = new HashMap<Long, User>();
 
     return true;    
+  }
+
+  /** 
+   * Converts Json from a string to the working user hashmap data structure
+   * 
+   * @param data - data to be deserialized
+   */
+  public void deserialize(String data) {
+    this.users = gson.fromJson(data, HashMap.class);
   }
 }
