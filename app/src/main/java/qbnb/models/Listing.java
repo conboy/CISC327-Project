@@ -1,7 +1,6 @@
 package qbnb.models;
 
 import java.time.LocalDate;
-import java.util.List;
 
 // TODO: implement database functionality!
 
@@ -13,7 +12,7 @@ import java.util.List;
 public class Listing {
 
   // The ID of the listing object - used to identify between individual listings.
-  private int listingID;
+  private Long listingID;
 
   // The title of the listing that is shown to users. Alphanumeric only.
   private String title;
@@ -37,10 +36,7 @@ public class Listing {
    * R4 are broken, an Illegal Argument exception is thrown.
    */
   public Listing(
-      int id, String title, String description, double price, LocalDate modDate, long owner) {
-    ListingDao DAO = new ListingDao();
-    List<Listing> allListings = DAO.getAll();
-    System.out.println(allListings.size());
+      Long id, String title, String description, double price, LocalDate modDate, long owner) {
 
     // Not stated on the specification but a logical extension of the system we are implementing.
     // If list titles have to be unique then list IDs really absolutely should be unique!
@@ -96,8 +92,6 @@ public class Listing {
     }
     if (!matchingUserID) throw new IllegalArgumentException("R4-7");
     this.ownerID = owner;
-
-    DAO.save(this);
   }
 
   /**
@@ -150,7 +144,7 @@ public class Listing {
   /// == GETTER METHODS == ///
 
   /** Returns listing ID */
-  public int getListingID() {
+  public Long getListingID() {
     return listingID;
   }
 

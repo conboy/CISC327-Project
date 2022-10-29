@@ -1,21 +1,20 @@
 package qbnb.models;
 
 import com.google.gson.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Optional;
 
 /** Uses DAO API to act as a persistence layer for Transaction domain models. */
 public class TransactionDao implements Dao<Transaction> {
 
-  private List<Transaction> transactions = new ArrayList<Transaction>();
+  private HashMap<Long, Transaction> transactions = new HashMap<Long, Transaction>();
 
   public TransactionDao(Transaction trans) {
-    transactions.add(trans);
+    this.save(trans);
   }
 
   public TransactionDao() {
-    transactions.add(new Transaction());
+    this.save(new Transaction());
   }
 
   public boolean serialize(String transactionPath) {
@@ -28,22 +27,23 @@ public class TransactionDao implements Dao<Transaction> {
   }
 
   public Optional<Transaction> get(long id) {
-    return Optional.ofNullable(transactions.get((int) id));
+    return Optional.ofNullable(transactions.get(id));
   }
 
-  public List<Transaction> getAll() {
+  public HashMap<Long, Transaction> getAll() {
     return transactions;
   }
 
   public void save(Transaction trans) {
-    transactions.add(trans);
+    transactions.put(trans.getId(), trans);
   }
 
   public void update(Transaction trans, String[] params) {
-    int x = 1 + 1;
+    // transactions.replace(trans, new Transaction((Long) params[0], (Long) params[1], (Long)
+    // params[2], (float) params[3], LocalDate.parse(params[4]), LocalDate.parse(params[5])));
   }
 
   public void delete(Transaction trans) {
-    transactions.remove(trans);
+    transactions.remove(trans.getId());
   }
 }
