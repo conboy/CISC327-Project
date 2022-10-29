@@ -51,8 +51,8 @@ public class AppServerEndpoint {
             + "\npass: "
             + password;
       case "login":
-        String email = arr[1];
-        String password = arr[2];
+        email = arr[1];
+        password = arr[2];
         boolean loggedIn = false;
         try {
           List<User> users = userDao.getAll();
