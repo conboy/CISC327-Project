@@ -7,6 +7,7 @@
   textarea {
     resize: none;
    }
+
   </style>
 </head>
 <body>
@@ -35,6 +36,7 @@ socket.onclose = function(event) {
 socket.onerror = function(error) {
   alert(`[error]`);
 };
+
 </script>
 
 <h1> Update listing Teehee </h1>
@@ -49,7 +51,10 @@ socket.onerror = function(error) {
 <input type="number" min="10" max="10000" size="80" maxlength="80" id="price" name="price"
        value="10"> <br> <br>
 <button id="submit" name="submit" type="submit"
-        onclick="socket.send('update_listing:' + oldtitle.value + ':' + listingtitle.value + ':' + desc.value + ':' + price.value)"> Update Listing! </button> <br> <br>
+        onclick="socket.send('update_listing:' + oldtitle.value + ':' + listingtitle.value + ':' + desc.value + ':' + price.value)">
+  Update Listing!
+</button>
+<br> <br>
 
 </body>
 </html>
