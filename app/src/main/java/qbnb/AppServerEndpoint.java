@@ -6,12 +6,16 @@ import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
+import java.util.List;
 import java.util.logging.Logger;
+import qbnb.models.User;
+import qbnb.models.UserDao;
 
 @ServerEndpoint(value = "/game")
 public class AppServerEndpoint {
 
   private Logger logger = Logger.getLogger(this.getClass().getName());
+  UserDao userDao = new UserDao();
 
   @OnOpen
   public void onOpen(Session session) {
@@ -31,6 +35,22 @@ public class AppServerEndpoint {
         // Creates user object and shows user what they typed in text fields in alert dialog on web
         // app
         return "email: " + " pass: ";
+      case "login":
+        String email = arr[1];
+        String password = arr[2];
+        boolean loggedIn = false;
+        try {
+          List<User> users = userDao.getAll();
+          for (User user : users) {
+            loggedIn = user.Login(email, password);
+            if (loggedIn == true) {
+              return "Logged in successfully";
+            }
+          }
+          return "Wrong log in";
+        } catch (Exception e) {
+          return "Failed";
+        }
       default:
         return "Failed";
     }
