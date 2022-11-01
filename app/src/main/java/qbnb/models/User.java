@@ -6,7 +6,8 @@ public class User {
   private String username;
   private String password;
   private String email;
-  private Address address;
+  private String address;
+  private String postalCode;
   private Guest guestProfile;
   private Host hostProfile;
 
@@ -22,7 +23,8 @@ public class User {
     if (setEmail(email) && setUsername(username) && setPassword(password)) {
       // creates user ID, user has no other method of doing this (R3-1)
       this.userID = hashUserID();
-      this.address = new Address();
+      this.address = "";
+      this.postalCode = "";
 
       if (isGuest) {
         this.guestProfile = new Guest();
@@ -167,64 +169,28 @@ public class User {
     return this.userID;
   }
 
-  /**
-   * Sets adress based on given parameters @TODO: further implementation of this @TODO implement
-   * later
-   *
-   * @param streetNum - street number
-   * @param unitNum - unit number if applicable (null if not)
-   * @param streetName - street name
-   * @param city - city name
-   * @param postalCode - postal orzip code
-   * @param prov - province or state
-   * @param country - country
-   * @return Boolean - true if the adress was sucessfully set
-   */
-  public Boolean setAddress(
-      int streetNum,
-      String unitNum,
-      String streetName,
-      String city,
-      String postalCode,
-      String prov,
-      String country) {
-    if (this.address.getStreetNumber() == -1) {
-      this.address = new Address(streetNum, unitNum, streetName, city, postalCode, prov, country);
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Updates th address object for the user @TODO: to be implemented in full later
-   *
-   * @return Boolean - if address sucessefully updated
-   */
-  public Boolean updateAddress(
-      int streetNum,
-      String unitNum,
-      String streetName,
-      String city,
-      String postalCode,
-      String prov,
-      String country) {
-    // checks that the postal code is valid (R3-3 and R3-2)
-    if (postalCode.matches("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$")) {
-      this.address = new Address(streetNum, unitNum, streetName, city, postalCode, prov, country);
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * gets and returns the address object belonging to the user
-   *
-   * @return Address
-   */
-  public Address getAddress() {
+  /** Returns the address object belonging to the user */
+  public String getAddress() {
     return this.address;
+  }
+
+  /** Sets adress based on given parameters. */
+  public Boolean setAddress(String address) {
+    this.address = address;
+    return true;
+  }
+
+  public String getPostalCode() {
+    return this.postalCode;
+  }
+
+  public boolean setPostalCode(String code) {
+    if (code.matches("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$")) {
+      this.postalCode = code;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -283,6 +249,13 @@ public class User {
    */
   public Host getHostAccount() {
     return this.hostProfile;
+  }
+
+  public boolean update(String name, String mail, String address, String postalCode) {
+    return this.setUsername(name)
+        && this.setEmail(mail)
+        && this.setAddress(address)
+        && this.setPostalCode(postalCode);
   }
 
   /**
