@@ -1,8 +1,9 @@
-package qbnb.models;
+package qbnb.models.daos;
 
 import com.google.gson.*;
 import java.util.HashMap;
 import java.util.Optional;
+import qbnb.models.*;
 
 /** Uses DAO API to act as a persistence layer for Transaction domain models. */
 public class TransactionDao implements Dao<Transaction> {

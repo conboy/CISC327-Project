@@ -1,7 +1,8 @@
-package qbnb.models;
+package qbnb.models.daos;
 
 import java.util.HashMap;
 import java.util.Optional;
+import qbnb.models.*;
 
 /** Uses DAO API to act as a persistence layer for Listing domain models. */
 public final class ListingDao implements Dao<Listing> {

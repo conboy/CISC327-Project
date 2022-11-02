@@ -2,7 +2,7 @@ package qbnb;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import qbnb.models.TransactionDao;
+import qbnb.models.daos.TransactionDao;
 
 public class TransactionDaoTest {
   TransactionDao dao = new TransactionDao();

@@ -1,4 +1,4 @@
-package qbnb.models;
+package qbnb.models.daos;
 
 import com.google.gson.Gson;
 import java.io.*;

@@ -1,8 +1,9 @@
-package qbnb.models;
+package qbnb.models.daos;
 
 import com.google.gson.*;
 import java.util.HashMap;
 import java.util.Optional;
+import qbnb.models.*;
 
 /** Presistence layer for User instances. */
 public class UserDao implements Dao<User> {
