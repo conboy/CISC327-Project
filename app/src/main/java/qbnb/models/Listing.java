@@ -1,7 +1,8 @@
 package qbnb.models;
 
 import java.time.LocalDate;
-import java.util.List;
+import qbnb.models.daos.ListingDao;
+import qbnb.models.daos.UserDao;
 
 // TODO: implement database functionality!
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class Listing {
 
   // The ID of the listing object - used to identify between individual listings.
-  private int listingID;
+  private Long listingID;
 
   // The title of the listing that is shown to users. Alphanumeric only.
   private String title;
@@ -37,25 +38,25 @@ public class Listing {
    * R4 are broken, an Illegal Argument exception is thrown.
    */
   public Listing(
-      int id, String title, String description, double price, LocalDate modDate, long owner) {
-    ListingDao DAO = new ListingDao();
-    List<Listing> allListings = DAO.getAll();
-    System.out.println(allListings.size());
+      Long id, String title, String description, double price, LocalDate modDate, long owner) {
 
     // Not stated on the specification but a logical extension of the system we are implementing.
     // If list titles have to be unique then list IDs really absolutely should be unique!
     // This may be changed to simply increment the previous listingID by one, since it's something
     // that could be abstracted tbh.
-    if (allListings.size() > 0) {
-      for (Listing listing : allListings) {
-        if (listing.getListingID() == id) {
+
+    ListingDao DAO = new ListingDao();
+
+    if (DAO.getAll().values().size() > 0) {
+      for (Listing listing : DAO.getAll().values()) {
+        if (listing.getListingID().equals(id)) {
           throw new IllegalArgumentException("R4-0");
         }
       }
     }
     this.listingID = id;
 
-    for (Listing listing : allListings) {
+    for (Listing listing : DAO.getAll().values()) {
       if (listing.getTitle().equals(title)) {
         throw new IllegalArgumentException("R4-8");
       }
@@ -88,7 +89,7 @@ public class Listing {
     UserDao uDao = new UserDao();
     if (owner == 0) throw new IllegalArgumentException("R4-7");
     boolean matchingUserID = false;
-    for (User user : uDao.getAll()) {
+    for (User user : uDao.getAll().values()) {
       if (user.getUserID() == owner) {
         matchingUserID = true;
         break;
@@ -96,8 +97,6 @@ public class Listing {
     }
     if (!matchingUserID) throw new IllegalArgumentException("R4-7");
     this.ownerID = owner;
-
-    DAO.save(this);
   }
 
   /**
@@ -115,7 +114,7 @@ public class Listing {
     ListingDao DAO = new ListingDao();
 
     if (newTitle != null) {
-      for (Listing listing : DAO.getAll()) {
+      for (Listing listing : DAO.getAll().values()) {
         if (listing.getTitle().equals(newTitle)) {
           return false;
         }
@@ -139,18 +138,22 @@ public class Listing {
 
     // if the function is still executing, we can be sure all attributes fit requirements -> update
     // their values now!
+    String[] params = new String[3];
     if (newTitle != null) this.title = newTitle;
+    params[0] = newTitle;
     if (newDesc != null) this.description = newDesc;
+    params[1] = newDesc;
     if (newPrice > 0) this.price = newPrice;
+    params[2] = Double.toString(newPrice);
     this.modificationDate = LocalDate.now();
-    DAO.update(this);
+    DAO.update(this, params);
     return true;
   }
 
   /// == GETTER METHODS == ///
 
   /** Returns listing ID */
-  public int getListingID() {
+  public Long getListingID() {
     return listingID;
   }
 

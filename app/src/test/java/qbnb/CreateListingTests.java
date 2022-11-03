@@ -19,7 +19,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              1L,
               "Quantum guy's £$@$!@£$$@! factory",
               "A super fun factory of nonsense anc whimsy innit!",
               100,
@@ -36,7 +36,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              1L,
               "     Front space land",
               "A super fun land of nonsense anc whimsy innit!",
               100,
@@ -52,7 +52,7 @@ public class CreateListingTests {
     try {
       Listing x =
           new Listing(
-              1,
+              1L,
               "End space land    ",
               "A super fun land of nonsense anc whimsy innit!",
               100,
@@ -75,7 +75,7 @@ public class CreateListingTests {
       String desc = "a".repeat(200); // simple way of writing an arbitrarily long description
       Listing x =
           new Listing(
-              1,
+              1L,
               "The Really Really Long Named Place Of Absolute Joy And Wonder And Merriment And"
                   + " Amusement which is better known as The Ultimate Funkodome of the 31st"
                   + " Century",
@@ -98,7 +98,7 @@ public class CreateListingTests {
     // testing if error is thrown for the title length < 20 case - 'R4-3' is expected error message.
     String message1 = "";
     try {
-      Listing x = new Listing(1, "Funland", "It's funland!", 100, LocalDate.now(), 1);
+      Listing x = new Listing(1L, "Funland", "It's funland!", 100, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message1 = e.getMessage();
     }
@@ -108,7 +108,7 @@ public class CreateListingTests {
     String message2 = "";
     try {
       String desc = "bee".repeat(1000); // simple way of writing an arbitrarily long description
-      Listing x = new Listing(1, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
+      Listing x = new Listing(1L, "The entire bee movie script", desc, 10, LocalDate.now(), 1);
     } catch (IllegalArgumentException e) {
       message2 = e.getMessage();
     }

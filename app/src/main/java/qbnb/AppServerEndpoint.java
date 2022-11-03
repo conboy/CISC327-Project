@@ -6,10 +6,11 @@ import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import qbnb.models.User;
-import qbnb.models.UserDao;
+import qbnb.models.daos.UserDao;
 
 @ServerEndpoint(value = "/game")
 public class AppServerEndpoint {
@@ -55,7 +56,7 @@ public class AppServerEndpoint {
         password = arr[2];
         boolean loggedIn = false;
         try {
-          List<User> users = userDao.getAll();
+          List<User> users = new ArrayList<User>(userDao.getAll().values());
           for (User user : users) {
             loggedIn = user.Login(email, password);
             if (loggedIn == true) {

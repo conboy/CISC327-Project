@@ -1,4 +1,4 @@
-package qbnb.models;
+package qbnb.models.daos;
 
 import com.google.gson.Gson;
 import java.io.*;
@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Optional;
 import qbnb.AppConf;
 
@@ -59,7 +59,7 @@ public interface Dao<T> {
 
   Optional<T> get(long id);
 
-  List<T> getAll();
+  HashMap<Long, T> getAll();
 
   /** add an object to the persistence layer. */
   void save(T t);
