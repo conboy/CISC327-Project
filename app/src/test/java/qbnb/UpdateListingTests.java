@@ -92,15 +92,46 @@ public class UpdateListingTests {
    */
   @Test
   public void alphanumericTitleTest() {
-    // Paste in updated test
-    Assertions.assertTrue(true);
+    // checking non-numeric characters
+    ListingDao DAO = new ListingDao();
+    Listing validListing = DAO.getByID(2004);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2004,
+              "R1 lovely dovely zone",
+              "I love to live in a lovely zone! You know?",
+              100,
+              LocalDate.now(),
+              404);
+    }
+
+    // checking non-numeric characters
+    Assertions.assertFalse(validListing.UpdateListing("%%%Land%%", null, 0));
+
+    // checking space characters at the beginning of title
+    Assertions.assertFalse(validListing.UpdateListing(" Space Land", null, 0));
+
+    // checking space characters at the end of title - error with message R4-1 should be thrown
+    Assertions.assertFalse(validListing.UpdateListing("Space Land ", null, 0));
   }
 
   /** Tests requirement R4-2: The title of the product is no longer than 80 characters. */
   @Test
   public void titleLengthTest() {
-    // Paste in updated test
-    Assertions.assertTrue(true);
+    ListingDao DAO = new ListingDao();
+    Listing validListing = DAO.getByID(2005);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2005,
+              "R2 sucker ducker zone",
+              "I love to live in a sucker ducker zone! You know?",
+              100,
+              LocalDate.now(),
+              404);
+    }
+    Assertions.assertFalse(validListing.UpdateListing("Long".repeat(50), null, 0));
   }
 
   /**
@@ -109,28 +140,84 @@ public class UpdateListingTests {
    */
   @Test
   public void descriptionLengthTest() {
-    // Paste in updated test
-    Assertions.assertTrue(true);
+    ListingDao DAO = new ListingDao();
+    Listing validListing = DAO.getByID(2006);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2006,
+              "R3 pizza party zone",
+              "I really don't believe that prince, you know?",
+              100,
+              LocalDate.now(),
+              404);
+    }
+
+    // testing if error is thrown for the title length < 20 case.
+    Assertions.assertFalse(validListing.UpdateListing(null, "tiny title", 0));
+
+    // testing if error is thrown for the title length > 2000 case.
+    Assertions.assertFalse(validListing.UpdateListing(null, "long description".repeat(250), 0));
   }
 
   /** Tests requirement R4-4: Description has to be longer than the product's title. */
   @Test
   public void descriptionLongerThanTitleTest() {
-    // Paste in updated test
-    Assertions.assertTrue(true);
+    ListingDao DAO = new ListingDao();
+    Listing validListing = DAO.getByID(2007);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2007,
+              "R4 The zoney zone",
+              "I love to live in a zoned zone! You know?",
+              100,
+              LocalDate.now(),
+              404);
+    }
+    Assertions.assertFalse(
+        validListing.UpdateListing(
+            "R4 the ultimate frizbee area of dreams and legend",
+            "i suck at frizbee, what about u",
+            0));
   }
 
   /** Tests requirement R4-5: Price has to be within the range [10, 10000]. */
   @Test
   public void priceWithinRangeTest() {
-    // Paste in updated test
-    Assertions.assertTrue(true);
+    ListingDao DAO = new ListingDao();
+    Listing validListing = DAO.getByID(2008);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2008,
+              "R5 The hippie girls zone",
+              "I met a very cute farmer/hippie at the weekend, don't judge me",
+              100,
+              LocalDate.now(),
+              404);
+    }
+
+    // testing if correct error is thrown for the price < 10 case.
+    Assertions.assertFalse(validListing.UpdateListing(null, null, 9));
+
+    // testing if error is thrown for the price > 10000 case.
+    Assertions.assertFalse(validListing.UpdateListing(null, null, 99999999));
   }
 
   /** Tests requirement R4-8: A user cannot create a listing with a title that is already in-use. */
   @Test
   public void sharedTitleTest() {
-    // Paste in updated test
-    Assertions.assertTrue(true);
+    ListingDao DAO = new ListingDao();
+    Listing x = DAO.getByID(2009);
+    if (x == null) {
+      x = new Listing(2009, "R8 sunland", "be".repeat(50), 204, LocalDate.now(), 404);
+    }
+
+    Listing y = DAO.getByID(2010);
+    if (y == null) {
+      y = new Listing(2010, "R8 loveplace", "ba".repeat(25), 100, LocalDate.now(), 404);
+    }
+    Assertions.assertFalse(x.UpdateListing("R8 loveplace", null, 900));
   }
 }
