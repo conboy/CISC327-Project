@@ -29,6 +29,7 @@ public interface Dao<T> {
     }
     return Paths.get(formattedPath);
   }
+
   /**
    * Load JSON string of instance. @Param location the path where the json file to be read is
    * located. @Return if file cannot be read, null; else JSON string.
@@ -49,6 +50,21 @@ public interface Dao<T> {
   default boolean write(String location) {
     Path path = formatForSystem(location);
     String json = gson.toJson(this);
+    try {
+      Files.writeString(path, json, StandardCharsets.UTF_8);
+      return true;
+    } catch (IOException ex) {
+      return false;
+    }
+  }
+
+  /**
+   * Overloaded version of the usual write that allows for the use of custom Gson Serializers.
+   * Necessary for the serializing of Dates.
+   */
+  default boolean write(String location, Gson customSerial) {
+    Path path = formatForSystem(location);
+    String json = customSerial.toJson(this);
     try {
       Files.writeString(path, json, StandardCharsets.UTF_8);
       return true;

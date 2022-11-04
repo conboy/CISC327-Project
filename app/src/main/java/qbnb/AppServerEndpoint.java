@@ -6,10 +6,14 @@ import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import qbnb.models.Listing;
 import qbnb.models.User;
+import qbnb.models.daos.ListingDao;
 import qbnb.models.daos.UserDao;
 
 @ServerEndpoint(value = "/game")
@@ -26,6 +30,7 @@ public class AppServerEndpoint {
   @OnMessage
   public String onMessage(String msg, Session session) {
 
+    ListingDao lDao = new ListingDao();
     logger.info("Message ... " + msg);
     String msgType = getMsgType(msg);
     String arr[] = msg.split(":");
@@ -66,6 +71,30 @@ public class AppServerEndpoint {
           return "Wrong log in";
         } catch (Exception e) {
           return "Failed";
+        }
+        // TODO: implement an ID generating algorithm that isn't as insecure as this one
+      case "create_listing":
+        // TODO
+        Listing l;
+        try {
+          l =
+              new Listing(
+                  (long) ((lDao.getAll().size()) + 1),
+                  arr[1],
+                  arr[2],
+                  Double.parseDouble(arr[3]),
+                  LocalDate.now(),
+                  404);
+          return "Listing saved successfully!";
+        } catch (Exception e) {
+          return "Error occurred and listing was not saved.\nError: " + e.getMessage();
+        }
+      case "update_listing":
+        try {
+          lDao.update(arr[1], Arrays.copyOfRange(arr, 2, arr.length));
+          return "Listing updated successfully!";
+        } catch (Exception e) {
+          return "Error occurred and listing was not updated.\nError: " + e.getMessage();
         }
       default:
         return "Failed";
