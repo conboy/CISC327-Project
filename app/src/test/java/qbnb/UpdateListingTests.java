@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.*;
+import qbnb.models.daos.ListingDao;
 
 /**
  * Runs test on the function Listing.UpdateListing() These tests assume that UpdateListing() returns
@@ -23,7 +24,7 @@ public class UpdateListingTests {
    */
   @Test
   public void ownerIDImmutableTest() {
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
     Listing validListing = DAO.getByID(2001L);
     if (validListing == null) {
       validListing =
@@ -42,7 +43,7 @@ public class UpdateListingTests {
   /** Tests R5-2: price can be increased but cannot be decreased. */
   @Test
   public void priceCannotDecreaseTest() {
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
     Listing validListing = DAO.getByID(2002L);
     if (validListing == null) {
       validListing =
@@ -67,7 +68,7 @@ public class UpdateListingTests {
   @Test
   public void modificationDateAutoUpdateTest() {
     LocalDate d = LocalDate.parse("2022-01-01");
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
     Listing validListing = DAO.getByID(2003);
     if (validListing == null) {
       validListing =
@@ -119,7 +120,7 @@ public class UpdateListingTests {
   /** Tests requirement R4-2: The title of the product is no longer than 80 characters. */
   @Test
   public void titleLengthTest() {
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
     Listing validListing = DAO.getByID(2005);
     if (validListing == null) {
       validListing =
@@ -140,7 +141,7 @@ public class UpdateListingTests {
    */
   @Test
   public void descriptionLengthTest() {
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
     Listing validListing = DAO.getByID(2006);
     if (validListing == null) {
       validListing =
@@ -163,7 +164,7 @@ public class UpdateListingTests {
   /** Tests requirement R4-4: Description has to be longer than the product's title. */
   @Test
   public void descriptionLongerThanTitleTest() {
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
     Listing validListing = DAO.getByID(2007);
     if (validListing == null) {
       validListing =
@@ -185,7 +186,7 @@ public class UpdateListingTests {
   /** Tests requirement R4-5: Price has to be within the range [10, 10000]. */
   @Test
   public void priceWithinRangeTest() {
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
     Listing validListing = DAO.getByID(2008);
     if (validListing == null) {
       validListing =
@@ -208,7 +209,7 @@ public class UpdateListingTests {
   /** Tests requirement R4-8: A user cannot create a listing with a title that is already in-use. */
   @Test
   public void sharedTitleTest() {
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
     Listing x = DAO.getByID(2009);
     if (x == null) {
       x = new Listing(2009, "R8 sunland", "be".repeat(50), 204, LocalDate.now(), 404);

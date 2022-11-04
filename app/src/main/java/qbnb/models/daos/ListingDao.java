@@ -1,14 +1,10 @@
 package qbnb.models.daos;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import qbnb.models.*;
@@ -22,7 +18,7 @@ public final class ListingDao implements Dao<Listing> {
   // pretty sure the json should save to the json each time a save, update or delete is made tho!
 
   // Helper class - correctly formats LocalDates into JSON
-  class LocalDateSerializer implements JsonSerializer<LocalDate> {
+  static class LocalDateSerializer implements JsonSerializer<LocalDate> {
     public JsonElement serialize(LocalDate src, Type typeOfSrc, JsonSerializationContext context) {
       return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE)); // "yyyy-mm-dd"
     }
@@ -38,8 +34,7 @@ public final class ListingDao implements Dao<Listing> {
   }
 
   /* The GSON objects that will help to serialize and deserialize objects respectively */
-  private final Gson gsonSerial =
-      new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateSerializer()).create();
+  // private Gson gsonSerial; -> this is now created at serialization, otherwise errors occur!
   private static final Gson gsonDeserial =
       new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateDeserializer()).create();
 
@@ -47,21 +42,26 @@ public final class ListingDao implements Dao<Listing> {
   private static HashMap<Long, Listing> listings = new HashMap<Long, Listing>();
 
   /* The location of the listings json file within the project */
-  private final String listingPath = "/db/listings.json";
+  private static final String listingPath = "/db/listings.json";
 
-  /* Serialize listings into a JSON file so that they may be saved permanently! */
-  public boolean serialize() {
-    return write(listingPath, gsonSerial);
+  /* Serialize ListingDao into a JSON file so that they may be saved permanently! */
+  public void serialize() {
+    Gson gsonSerial =
+        new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateSerializer()).create();
+    write(listingPath, gsonSerial);
   }
 
-  public static ListingDao deserialize(String listingPath) {
+  /* Deserialize the listings JSON file into an instance of ListingDao, loading saved listings! */
+  public static ListingDao deserialize() {
     String result = Dao.read(listingPath);
-    return gsonDeserial.fromJson(result, ListingDao.class);
+    ListingDao dao = gsonDeserial.fromJson(result, ListingDao.class);
+    if (dao == null) return new ListingDao();
+    else return dao;
   }
 
   /* Gets a Listing at the specified point of the DAO list. */
   @Override
-  public Optional get(long id) {
+  public Optional<Listing> get(long id) {
     return Optional.ofNullable(listings.get(id));
   }
 
@@ -79,32 +79,29 @@ public final class ListingDao implements Dao<Listing> {
   }
 
   /* Search through the DAO list, and update the specified listing if it is present.
-   *  If the listing is not present, a warning is output to console. */
+   *  If the listing is not present, a warning is output to console.
+   *  Honestly pretty useless for listing. If you want to change it just run UpdateListing. */
   @Override
   public void update(Listing listing, String[] params) {
-    boolean found = false;
-    for (int i = 0; i < listings.size(); i++) {
-      if (listings.get(i).equals(listing)) {
-        // If listing is found, update it through it's inbuilt update procedure.
-        listings.get(i).UpdateListing(params[0], params[1], Double.parseDouble(params[2]));
-        serialize();
-        found = true;
-      }
-    }
-    if (!found) {
+    Optional<Listing> check = get(listing.getListingID());
+    if (check.isPresent()) {
+      // if the listing of the same ID is present, overwrite it!
+      save(listing);
+    } else {
       System.out.println("Listing was not found! No object in the DAO was updated.");
+      // TODO: save the listing to the DAO if it is not already present!
     }
   }
 
   /* An alternate update method that bases updates on title.
-   *  This works because titles are required to be unique! */
+   *  This works because titles are required to be unique!
+   * TODO: test to see if this works with the socket implementation. */
   public void update(String title, String[] params) {
     boolean found = false;
-    for (int i = 0; i < listings.size(); i++) {
-      if (listings.get(i).getTitle().equals(title)) {
+    for (Listing listing : listings.values()) {
+      if (listing.getTitle().equals(title)) {
         // If listing is found, update it through it's inbuilt update procedure.
-        listings.get(i).UpdateListing(params[0], params[1], Double.parseDouble(params[2]));
-        serialize();
+        listing.UpdateListing(params[0], params[1], Double.parseDouble(params[2]));
         found = true;
       }
     }
@@ -123,6 +120,17 @@ public final class ListingDao implements Dao<Listing> {
   /* Delete ALL listings from the DAO. TESTING ONLY */
   public static void deleteAll() {
     listings = new HashMap<Long, Listing>();
+  }
+
+  /* Gets and returns a listing by ID. Provides the same functionality as get() but makes writing tests easier.
+   *  TODO: Remove all instances of this in favour of the slightly more complicated get() method */
+  public Listing getByID(long id) {
+    for (Listing l : listings.values()) {
+      if (l.getListingID() == id) {
+        return l;
+      }
+    }
+    return null;
   }
 
   /* Clear the JSON file completely. Might be necessary to prevent tests from leaking.

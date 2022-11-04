@@ -16,7 +16,9 @@ public class UserDao implements Dao<User> {
 
   public static UserDao deserialize(String userPath) {
     String result = Dao.read(userPath);
-    return gson.fromJson(result, UserDao.class);
+    UserDao dao = gson.fromJson(result, UserDao.class);
+    if (dao == null) return new UserDao();
+    else return dao;
   }
 
   @Override

@@ -1,9 +1,12 @@
 package qbnb;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.*;
+import qbnb.models.daos.ListingDao;
+import qbnb.models.daos.UserDao;
 
 /**
  * All tests that involve the creation of Listing elements. Not currently based in any sort of
@@ -256,19 +259,20 @@ public class CreateListingTests {
   @Test
   public void ownerExistsTest() {
     User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
+    UserDao dao = UserDao.deserialize("/db/users.json");
+    dao.save(u);
 
     // test that using a saved ID allows for listing to be created without errors.
     // updated to check whether 1013 pre-exists during execution.
-    ListingDao DAO = new ListingDao();
-    Listing y = DAO.getByID(1013);
-    if (y == null) {
+    ListingDao DAO = ListingDao.deserialize();
+    Optional<Listing> check = DAO.get(1013);
+    Listing y;
+    if (check.isEmpty()) {
       y =
           new Listing(
               1013, "R7 lovely place", "aa".repeat(25), 100, LocalDate.now(), u.getUserID());
+    } else {
+      y = check.get();
     }
     Assertions.assertEquals(y.getOwnerID(), u.getUserID());
 
@@ -295,20 +299,16 @@ public class CreateListingTests {
    */
   @Test
   public void sharedTitleTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
-
     // test that upon creating our initial listing, no errors occur.
     // updated to check whether 1015 pre-exists during execution.
-    ListingDao DAO = new ListingDao();
-    Listing y = DAO.getByID(1015);
-    if (y == null) {
-      y =
-          new Listing(
-              1015, "R8 lovely place", "aa".repeat(25), 100, LocalDate.now(), u.getUserID());
+    ListingDao DAO = ListingDao.deserialize();
+    System.out.println(DAO);
+    Optional<Listing> check = DAO.get(1015);
+    Listing y;
+    if (check.isEmpty()) {
+      y = new Listing(1015, "R8 lovely place", "aa".repeat(25), 100, LocalDate.now(), 404);
+    } else {
+      y = check.get();
     }
     Assertions.assertNotNull(y);
 
@@ -323,7 +323,7 @@ public class CreateListingTests {
               "jk, it's a bog. one could say it boggles the mind hahaha",
               100,
               LocalDate.now(),
-              u.getUserID());
+              404);
     } catch (IllegalArgumentException e) {
       message = e.getMessage();
     }

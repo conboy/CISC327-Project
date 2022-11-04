@@ -7,8 +7,8 @@ import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 import qbnb.models.Listing;
@@ -72,7 +72,7 @@ public class AppServerEndpoint {
         } catch (Exception e) {
           return "Failed";
         }
-      //TODO: implement an ID generating algorithm that isn't as insecure as this one
+        // TODO: implement an ID generating algorithm that isn't as insecure as this one
       case "create_listing":
         // TODO
         Listing l;
