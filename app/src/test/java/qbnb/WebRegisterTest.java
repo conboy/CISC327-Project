@@ -1,29 +1,43 @@
 package qbnb;
 
-import static java.lang.Thread.sleep;
-import static qbnb.AppConf.PROJECT_PATH;
-import static qbnb.AppConf.WIN_PROJECT_PATH;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import static java.lang.Thread.sleep;
+
 public class WebRegisterTest {
+  WebDriver driver;
   boolean isLogin = false;
-  private static String OS = System.getProperty("os.name").toLowerCase();
+
+  @BeforeAll
+  static void setupClass() {
+    WebDriverManager.chromedriver().setup();
+
+
+  }
+  @BeforeEach
+  void setupTest() {
+    driver = new ChromeDriver();
+  }
+  @AfterEach
+  void teardown() {
+    driver.quit();
+  }
+
   @Test
-  void correctRegisterTest() throws InterruptedException {
-    String baseUrl = getURL();
-    WebDriver driver = new ChromeDriver();
-    driver.get(baseUrl);
+  void validRegisterTest() throws InterruptedException {
+    String baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
+    System.out.println(baseURL);
+    driver.get(baseURL);
     WebElement email = driver.findElement(By.id("email"));
     WebElement username = driver.findElement(By.id("user"));
     WebElement password = driver.findElement(By.id("pass"));
     WebElement submit = driver.findElement(By.id("submit"));
-    email.sendKeys("johndoe@test.com");
+    email.sendKeys("johndoe@gmail.com");
     username.sendKeys("JohnDoe");
     password.sendKeys("JohnDoe123#");
     submit.click();
@@ -35,9 +49,9 @@ public class WebRegisterTest {
 
   @Test
   void invalidEmailTest() throws InterruptedException {
-    String baseUrl = getURL();
-    WebDriver driver = new ChromeDriver();
-    driver.get(baseUrl);
+    String baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
+    System.out.println(baseURL);
+    driver.get(baseURL);
     WebElement email = driver.findElement(By.id("email"));
     WebElement username = driver.findElement(By.id("user"));
     WebElement password = driver.findElement(By.id("pass"));
@@ -54,9 +68,9 @@ public class WebRegisterTest {
 
   @Test
   void invalidUserTest() throws InterruptedException {
-    String baseUrl = getURL();
-    WebDriver driver = new ChromeDriver();
-    driver.get(baseUrl);
+    String baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
+    System.out.println(baseURL);
+    driver.get(baseURL);
     WebElement email = driver.findElement(By.id("email"));
     WebElement username = driver.findElement(By.id("user"));
     WebElement password = driver.findElement(By.id("pass"));
@@ -73,9 +87,9 @@ public class WebRegisterTest {
 
   @Test
   void invalidPassTest() throws InterruptedException {
-    String baseUrl = getURL();
-    WebDriver driver = new ChromeDriver();
-    driver.get(baseUrl);
+    String baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
+    System.out.println(baseURL);
+    driver.get(baseURL);
     WebElement email = driver.findElement(By.id("email"));
     WebElement username = driver.findElement(By.id("user"));
     WebElement password = driver.findElement(By.id("pass"));
@@ -88,21 +102,5 @@ public class WebRegisterTest {
     String alert = driver.switchTo().alert().getText();
     if (alert.equals("Success")) isLogin = true;
     Assertions.assertFalse(isLogin);
-  }
-
-  public String getURL() {
-    if (isWindows()) {
-      System.setProperty("webdriver.chrome.driver", WIN_PROJECT_PATH + "chromedriver.exe");
-      String baseUrl = WIN_PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
-      return baseUrl;
-    } else {
-      System.setProperty("webdriver.chrome.driver", PROJECT_PATH + "chromedriver.exe");
-      String baseUrl = PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
-      return baseUrl;
-    }
-  }
-
-  public static boolean isWindows() {
-    return OS.contains("win");
   }
 }
