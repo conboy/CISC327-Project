@@ -37,7 +37,7 @@ public class WebRegisterTest {
     WebElement username = driver.findElement(By.id("user"));
     WebElement password = driver.findElement(By.id("pass"));
     WebElement submit = driver.findElement(By.id("submit"));
-    email.sendKeys("johndoe@gmail.com");
+    email.sendKeys("johndoe@test.com");
     username.sendKeys("JohnDoe");
     password.sendKeys("JohnDoe123#");
     submit.click();
