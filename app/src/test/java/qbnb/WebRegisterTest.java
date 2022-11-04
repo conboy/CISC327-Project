@@ -1,13 +1,13 @@
 package qbnb;
 
+import static java.lang.Thread.sleep;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import static java.lang.Thread.sleep;
 
 public class WebRegisterTest {
   WebDriver driver;
@@ -16,13 +16,17 @@ public class WebRegisterTest {
   @BeforeAll
   static void setupClass() {
     WebDriverManager.chromedriver().setup();
-
-
   }
+
   @BeforeEach
   void setupTest() {
-    driver = new ChromeDriver();
+    try {
+      driver = new ChromeDriver();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
+
   @AfterEach
   void teardown() {
     driver.quit();
@@ -37,7 +41,7 @@ public class WebRegisterTest {
     WebElement username = driver.findElement(By.id("user"));
     WebElement password = driver.findElement(By.id("pass"));
     WebElement submit = driver.findElement(By.id("submit"));
-    email.sendKeys("johndoe@gmail.com");
+    email.sendKeys("johndoe@test.com");
     username.sendKeys("JohnDoe");
     password.sendKeys("JohnDoe123#");
     submit.click();
