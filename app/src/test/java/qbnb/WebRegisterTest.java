@@ -96,7 +96,7 @@ public class WebRegisterTest {
       String baseUrl = WIN_PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
       return baseUrl;
     } else {
-      System.setProperty("webdriver.chrome.driver", PROJECT_PATH + "chromedriver.exe");
+      System.setProperty("webdriver.chrome.driver", PROJECT_PATH + "chromedriver");
       String baseUrl = PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
       return baseUrl;
     }
