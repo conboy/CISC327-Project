@@ -1,6 +1,7 @@
 package qbnb;
 
 import static java.lang.Thread.sleep;
+import static qbnb.AppConf.PROJECT_PATH;
 import static qbnb.AppConf.WIN_PROJECT_PATH;
 
 import org.junit.jupiter.api.Assertions;
@@ -11,13 +12,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class WebRegisterTest {
-
+  boolean isLogin = false;
+  private static String OS = System.getProperty("os.name").toLowerCase();
   @Test
   void correctRegisterTest() throws InterruptedException {
-    boolean isLogin = false;
-    System.setProperty("webdriver.chrome.driver", WIN_PROJECT_PATH + "chromedriver.exe");
+    String baseUrl = getURL();
     WebDriver driver = new ChromeDriver();
-    String baseUrl = WIN_PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
     driver.get(baseUrl);
     WebElement email = driver.findElement(By.id("email"));
     WebElement username = driver.findElement(By.id("user"));
@@ -35,10 +35,8 @@ public class WebRegisterTest {
 
   @Test
   void invalidEmailTest() throws InterruptedException {
-    boolean isLogin = false;
-    System.setProperty("webdriver.chrome.driver", WIN_PROJECT_PATH + "chromedriver.exe");
+    String baseUrl = getURL();
     WebDriver driver = new ChromeDriver();
-    String baseUrl = WIN_PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
     driver.get(baseUrl);
     WebElement email = driver.findElement(By.id("email"));
     WebElement username = driver.findElement(By.id("user"));
@@ -56,10 +54,8 @@ public class WebRegisterTest {
 
   @Test
   void invalidUserTest() throws InterruptedException {
-    boolean isLogin = false;
-    System.setProperty("webdriver.chrome.driver", WIN_PROJECT_PATH + "chromedriver.exe");
+    String baseUrl = getURL();
     WebDriver driver = new ChromeDriver();
-    String baseUrl = WIN_PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
     driver.get(baseUrl);
     WebElement email = driver.findElement(By.id("email"));
     WebElement username = driver.findElement(By.id("user"));
@@ -77,10 +73,8 @@ public class WebRegisterTest {
 
   @Test
   void invalidPassTest() throws InterruptedException {
-    boolean isLogin = false;
-    System.setProperty("webdriver.chrome.driver", WIN_PROJECT_PATH + "chromedriver.exe");
+    String baseUrl = getURL();
     WebDriver driver = new ChromeDriver();
-    String baseUrl = WIN_PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
     driver.get(baseUrl);
     WebElement email = driver.findElement(By.id("email"));
     WebElement username = driver.findElement(By.id("user"));
@@ -94,5 +88,21 @@ public class WebRegisterTest {
     String alert = driver.switchTo().alert().getText();
     if (alert.equals("Success")) isLogin = true;
     Assertions.assertFalse(isLogin);
+  }
+
+  public String getURL() {
+    if (isWindows()) {
+      System.setProperty("webdriver.chrome.driver", WIN_PROJECT_PATH + "chromedriver.exe");
+      String baseUrl = WIN_PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
+      return baseUrl;
+    } else {
+      System.setProperty("webdriver.chrome.driver", PROJECT_PATH + "chromedriver.exe");
+      String baseUrl = PROJECT_PATH + "app\\src\\main\\js\\qbnb\\register.html";
+      return baseUrl;
+    }
+  }
+
+  public static boolean isWindows() {
+    return OS.contains("win");
   }
 }
