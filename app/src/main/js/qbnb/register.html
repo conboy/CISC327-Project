@@ -18,7 +18,7 @@
         <input type="text" id="user" name="user" value=""><br>
         <label for="password">Password:</label><br>
         <input type="password" id="pass" name="pass" value=""><br><br>
-        <input type="submit" onclick="socket.send('register:' + email.value + ':' + user.value + ':' + pass.value)" value="Submit">
+        <input type="submit" id="submit" onclick="socket.send('register:' + email.value + ':' + user.value + ':' + pass.value)" value="Submit">
     </main>
 	<script>
         let socket = new WebSocket("ws://localhost:8025/websockets/game");
