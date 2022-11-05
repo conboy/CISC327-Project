@@ -3,8 +3,11 @@ package qbnb;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import org.glassfish.tyrus.server.Server;
+import qbnb.models.*;
+import qbnb.models.daos.*;
 
 public class App {
+
   public String getGreeting() {
     return "Hello World!";
   }
@@ -21,11 +24,12 @@ public class App {
       server.start();
       BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
       System.out.print("Please press a key to stop the server.");
-      reader.readLine();
+      String check = null;
+      while (check == null) {
+        check = reader.readLine();
+      }
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-      server.stop();
     }
   }
 }

@@ -10,18 +10,18 @@
   </head>
   <body>
     <main>
-        <a href="updateUserProfile.html">Update Profile</a>
+        <a href="index">Home</a>
         <h1>Update User Profile</h1>  
         <form>
-                  <label for="name">User Name:</label><br>
-                  <input type="text" id="name" name="name"><br>
-                  <label for="mail">Email:</label><br>
-                  <input type="text" id="mail" name="mail"><br>
-                  <label for="address">Billing Address:</label><br>
-                  <input type="text" id="address" name="address"><br>
-                  <label for="postalCode">Postal Code:</label><br>
-                  <input type="text" id="postalCode" name="postalCode"><br><br>
-                  <input type="submit" onclick="socket.send('updateUserProfile:' + name.value + ':' + mail.value + ':' + address.value + ':' + postalCode.value)" value="Submit">
+          <label for="name">User Name:</label><br>
+          <input type="text" id="name" name="name"><br>
+          <label for="mail">Email:</label><br>
+          <input type="text" id="mail" name="mail"><br>
+          <label for="address">Billing Address:</label><br>
+          <input type="text" id="address" name="address"><br>
+          <label for="postalCode">Postal Code:</label><br>
+          <input type="text" id="postalCode" name="postalCode"><br><br>
+          <input type="submit" onclick="socket.send('updateUserProfile:' + name.value + ':' + mail.value + ':' + address.value + ':' + postalCode.value)" value="Submit">
         </form>
     </main>
 	<script>
