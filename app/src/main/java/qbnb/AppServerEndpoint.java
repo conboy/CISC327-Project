@@ -32,19 +32,12 @@ public class AppServerEndpoint {
 
     switch (msgType) {
       case "updateUserProfile":
-        Long id = Long.parseLong(arr[1]);
+        String id = arr[1];
         String newName = arr[2];
         String newMail = arr[3];
         String newAddress = arr[4];
         String newPostalCode = arr[5];
-
-        User updatedUser = userDao.get(id).get();
-        if (updatedUser.update(newName, newMail, newAddress, newPostalCode)) {
-          userDao.save(updatedUser);
-          return "User profile updated successfully";
-        } else {
-          return "Unable to update user profile";
-        }
+        putUpdateProfile(id, newName, newMail, newAddress, newPostalCode);
 
       case "register":
         // TODO: What happens when register is called
@@ -96,5 +89,22 @@ public class AppServerEndpoint {
   public String getMsgType(String msg) {
     String[] msgArray = msg.split(":");
     return msgArray[0];
+  }
+
+  public String putUpdateProfile(
+      String strId, String newName, String newMail, String newAddress, String newPostalCode) {
+    Long id;
+    try {
+      id = Long.parseLong(strId);
+    } catch (NumberFormatException e) {
+      return "Oops ! bad userID";
+    }
+    User updatedUser = userDao.get(id).get();
+    if (updatedUser.update(newName, newMail, newAddress, newPostalCode)) {
+      userDao.save(updatedUser);
+      return "User profile updated successfully";
+    } else {
+      return "Unable to update user profile";
+    }
   }
 }
