@@ -18,14 +18,12 @@ public class TestUserCreation {
   /** Test if user has empty postal code at account opening */
   @Test
   public void testStartingPostalCode() {
-    Assertions.assertNull(testUser1.getAddress().getPostalZip());
+    Assertions.assertEquals(testUser1.getPostalCode(), "");
   }
 
   /** Test if user has empty address at account opening */
   @Test
   public void testStartingAddress() {
-    Assertions.assertEquals(testUser1.getAddress().getStreetNumber(), -1);
-    Assertions.assertNull(testUser1.getAddress().getUnitNumber());
-    Assertions.assertNull(testUser1.getAddress().getStreetName());
+    Assertions.assertEquals(testUser1.getAddress(), "");
   }
 }

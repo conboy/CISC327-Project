@@ -10,10 +10,19 @@
   </head>
   <body>
     <main>
-        <h1>QBnB</h1>  
-        <a href="createlisting">Create Listing</a><br>
-        <a href="updatelisting">Update Listing</a><br>
-        <a href="updateUserProfile">Update Profile</a><br>
+        <a href="index">Home</a>
+        <h1>Update User Profile</h1>  
+        <form>
+          <label for="name">User Name:</label><br>
+          <input type="text" id="name" name="name"><br>
+          <label for="mail">Email:</label><br>
+          <input type="text" id="mail" name="mail"><br>
+          <label for="address">Billing Address:</label><br>
+          <input type="text" id="address" name="address"><br>
+          <label for="postalCode">Postal Code:</label><br>
+          <input type="text" id="postalCode" name="postalCode"><br><br>
+          <input type="submit" onclick="socket.send('updateUserProfile:' + ':123456789:'+ name.value + ':' + mail.value + ':' + address.value + ':' + postalCode.value)" value="Submit">
+        </form>
     </main>
 	<script>
         let socket = new WebSocket("ws://localhost:8025/websockets/game");
@@ -23,7 +32,7 @@ socket.onopen = function(e) {
 };
 
 socket.onmessage = function(event) {
-    alert(`[message] Data received from server: ${event.data}`);
+  alert(`${event.data}`);
 };
 
 socket.onclose = function(event) {
