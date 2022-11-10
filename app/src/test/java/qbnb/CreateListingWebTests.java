@@ -36,23 +36,25 @@ public class CreateListingWebTests {
    */
   @BeforeAll
   static void setupClass() {
-    ListingDao.deserialize()
-        .clearJSON(); // clean ListingDAO between tests to ensure that nothing leaks!
-    WebDriverManager.chromedriver().setup();
-    osCheck = System.getProperty("os.name").split(" ")[0];
-    if (osCheck.equals("Mac")) {
-      path = PROJECT_PATH;
-      baseUrl = "file://" + path + "/app/src/main/js/qbnb/createlisting.html";
-    } else {
-      path = WIN_PROJECT_PATH;
-      baseUrl = "file://" + path + "\\app\\src\\main\\js\\qbnb\\createlisting.html";
-    }
+    if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
+      ListingDao.deserialize()
+          .clearJSON(); // clean ListingDAO between tests to ensure that nothing leaks!
+      WebDriverManager.chromedriver().setup();
+      osCheck = System.getProperty("os.name").split(" ")[0];
+      if (osCheck.equals("Mac")) {
+        path = PROJECT_PATH;
+        baseUrl = "file://" + path + "/app/src/main/js/qbnb/createlisting.html";
+      } else {
+        path = WIN_PROJECT_PATH;
+        baseUrl = "file://" + path + "\\app\\src\\main\\js\\qbnb\\createlisting.html";
+      }
 
-    // start server; start web driver
-    thread = new AppThread();
-    thread.start();
-    driver = new ChromeDriver();
-    driver.get(baseUrl);
+      // start server; start web driver
+      thread = new AppThread();
+      thread.start();
+      driver = new ChromeDriver();
+      driver.get(baseUrl);
+    }
   }
 
   /** A test just to test out selenium and make sure that we can create a listing successfully! */
