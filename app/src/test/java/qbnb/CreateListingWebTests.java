@@ -22,7 +22,7 @@ public class CreateListingWebTests {
       AppThread thread = new AppThread();
       thread.start();
       boolean listingMade = false;
-      System.setProperty("webdriver.chrome.driver", path + "/chromedriver");
+      System.setProperty("webdriver.chrome.driver", path + "chromedriver");
       WebDriver driver = new ChromeDriver();
       String baseUrl = "file://" + path + "/app/src/main/js/qbnb/createlisting.html";
       driver.get(baseUrl);
