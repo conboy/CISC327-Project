@@ -17,12 +17,12 @@
 
 let socket = new WebSocket("ws://localhost:8025/websockets/game");
 
-socket.onopen = function(e) {
-  alert("[open] Connection established");
-};
+//socket.onopen = function(e) {
+//  alert("[open] Connection established");
+//};
 
 socket.onmessage = function(event) {
-  alert(`[message] Data received from server: ${event.data}`);
+  alert(`${event.data}`);
 };
 
 socket.onclose = function(event) {
