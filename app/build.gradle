@@ -66,6 +66,9 @@ tasks.named('test') {
 // Plugin Configuration
 
 // Config for com.moowork.node
+task runjs(type: NodeTask) {
+  script = file('src/main/js/AppServer.js')
+}
 node {
     // Whether to download and install a specific Node.js version or not
     // If false, it will use the globally installed Node.js
@@ -115,7 +118,7 @@ node {
     // The Node.js project directory location
     // This is where the package.json file and node_modules directory are located
     // By default it is at the root of the current project
-    nodeProjectDir = file("${project.projectDir}/node")
+    nodeProjectDir = file("${project.projectDir}/src/main/js")
     
     // Whether the plugin automatically should add the proxy configuration to npm and yarn commands
     // according the proxy configuration defined for Gradle

@@ -6,10 +6,14 @@ import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import qbnb.models.Listing;
 import qbnb.models.User;
+import qbnb.models.daos.ListingDao;
 import qbnb.models.daos.UserDao;
 
 @ServerEndpoint(value = "/game")
@@ -26,11 +30,20 @@ public class AppServerEndpoint {
   @OnMessage
   public String onMessage(String msg, Session session) {
 
+    ListingDao lDao = new ListingDao();
     logger.info("Message ... " + msg);
     String msgType = getMsgType(msg);
     String arr[] = msg.split(":");
 
     switch (msgType) {
+      case "updateUserProfile":
+        String id = arr[1];
+        String newName = arr[2];
+        String newMail = arr[3];
+        String newAddress = arr[4];
+        String newPostalCode = arr[5];
+        putUpdateProfile(id, newName, newMail, newAddress, newPostalCode);
+
       case "register":
         // TODO: What happens when register is called
         // Creates user object and shows user what they typed in text fields in alert dialog on web
@@ -67,6 +80,30 @@ public class AppServerEndpoint {
         } catch (Exception e) {
           return "Failed";
         }
+        // TODO: implement an ID generating algorithm that isn't as insecure as this one
+      case "create_listing":
+        // TODO
+        Listing l;
+        try {
+          l =
+              new Listing(
+                  (long) ((lDao.getAll().size()) + 1),
+                  arr[1],
+                  arr[2],
+                  Double.parseDouble(arr[3]),
+                  LocalDate.now(),
+                  404);
+          return "Listing saved successfully!";
+        } catch (Exception e) {
+          return "Error occurred and listing was not saved.\nError: " + e.getMessage();
+        }
+      case "update_listing":
+        try {
+          lDao.update(arr[1], Arrays.copyOfRange(arr, 2, arr.length));
+          return "Listing updated successfully!";
+        } catch (Exception e) {
+          return "Error occurred and listing was not updated.\nError: " + e.getMessage();
+        }
       default:
         return "Failed";
     }
@@ -81,5 +118,22 @@ public class AppServerEndpoint {
   public String getMsgType(String msg) {
     String[] msgArray = msg.split(":");
     return msgArray[0];
+  }
+
+  public String putUpdateProfile(
+      String strId, String newName, String newMail, String newAddress, String newPostalCode) {
+    Long id;
+    try {
+      id = Long.parseLong(strId);
+    } catch (NumberFormatException e) {
+      return "Oops ! bad userID";
+    }
+    User updatedUser = userDao.get(id).get();
+    if (updatedUser.update(newName, newMail, newAddress, newPostalCode)) {
+      userDao.save(updatedUser);
+      return "User profile updated successfully";
+    } else {
+      return "Unable to update user profile";
+    }
   }
 }

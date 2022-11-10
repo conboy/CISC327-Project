@@ -12,33 +12,23 @@ public class R3Test {
   public void UpdateAccessTest() {
     Assertions.assertTrue(testUser.setUsername("aNewUser"));
     Assertions.assertTrue(testUser.setEmail("user@mail.com"));
-    Assertions.assertTrue(
-        testUser.updateAddress(
-            123, "unit num", "easy street", "Kingston", "K7L 3T3", "Ontario", "Canada"));
+    Assertions.assertTrue(testUser.setAddress("123 easy street, Whistler BC, Canada"));
   }
 
   /** Validates R3-2 and R3-3 -- postal code is a valid canadian one */
   @Test
   public void updatePostalCodeTest() {
     String zipGood = "V8E 0E8";
-    Assertions.assertTrue(
-        testUser.updateAddress(
-            123, "unit num", "easy street", "Kingston", zipGood, "Ontario", "Canada"));
+    Assertions.assertTrue(testUser.setPostalCode(zipGood));
 
     String zipBad = "V8E 0E!";
-    Assertions.assertFalse(
-        testUser.updateAddress(
-            123, "unit num", "easy street", "Kingston", zipBad, "Ontario", "Canada"));
+    Assertions.assertFalse(testUser.setPostalCode(zipBad));
 
     String zipWrong = "x";
-    Assertions.assertFalse(
-        testUser.updateAddress(
-            123, "unit num", "easy street", "Kingston", zipWrong, "Ontario", "Canada"));
+    Assertions.assertFalse(testUser.setPostalCode(zipWrong));
 
     String zipEmpty = "";
-    Assertions.assertFalse(
-        testUser.updateAddress(
-            123, "unit num", "easy street", "Kingston", zipEmpty, "Ontario", "Canada"));
+    Assertions.assertFalse(testUser.setPostalCode(zipWrong));
   }
 
   /** Validates R3-4 -- username must be only alphanumeric */

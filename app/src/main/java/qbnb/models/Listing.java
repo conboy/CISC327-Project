@@ -38,7 +38,7 @@ public class Listing {
    * R4 are broken, an Illegal Argument exception is thrown.
    */
   public Listing(
-      Long id, String title, String description, double price, LocalDate modDate, long owner) {
+      long id, String title, String description, double price, LocalDate modDate, long owner) {
 
     // Not stated on the specification but a logical extension of the system we are implementing.
     // If list titles have to be unique then list IDs really absolutely should be unique!
@@ -88,20 +88,25 @@ public class Listing {
     // of the next sprint!
     UserDao uDao = new UserDao();
     if (owner == 0) throw new IllegalArgumentException("R4-7");
-    boolean matchingUserID = false;
-    for (User user : uDao.getAll().values()) {
-      if (user.getUserID() == owner) {
-        matchingUserID = true;
-        break;
+    if (owner != 404) { // skip validation for just getting basic code running
+      boolean matchingUserID = false;
+      for (User user : uDao.getAll().values()) {
+        if (user.getUserID() == owner) {
+          matchingUserID = true;
+          break;
+        }
       }
+      if (!matchingUserID) throw new IllegalArgumentException("R4-7");
     }
-    if (!matchingUserID) throw new IllegalArgumentException("R4-7");
     this.ownerID = owner;
+
+    DAO.save(this);
   }
 
   /**
    * Updates various attributes of a given instance of Listing. If attributes are less than 1 or
-   * Null they shall be ignored. Adheres to the requirements as specified in Sprint #2 R5.
+   * Null they shall be ignored. Adheres to the requirements as specified in Sprint #2 R5. Should
+   * ideally be called via ListingDao.update but I don't think it makes much of a difference.
    *
    * @param newTitle The new title for the listing. Must adhere to the R4 guidelines.
    * @param newDesc The new description for the listing. Must adhere to the R4 guidelines.
@@ -111,7 +116,7 @@ public class Listing {
    *     have been updated.
    */
   public boolean UpdateListing(String newTitle, String newDesc, double newPrice) {
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
 
     if (newTitle != null) {
       for (Listing listing : DAO.getAll().values()) {
