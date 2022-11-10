@@ -17,6 +17,8 @@ public class CreateListingWebTests {
   void testTest() throws InterruptedException {
     String osCheck = System.getProperty("os.name").split(" ")[0];
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
+      AppThread thread = new AppThread();
+      thread.start();
       boolean listingMade = false;
       System.setProperty("webdriver.chrome.driver", PROJECT_PATH + "/chromedriver");
       WebDriver driver = new ChromeDriver();
