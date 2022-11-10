@@ -34,7 +34,10 @@ public class WebRegisterTest {
 
     @Test
     void validRegisterTest() throws InterruptedException {
-        String baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
+
+      String baseURL = null;
+      try {
+        baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
         System.out.println(baseURL);
         driver.get(baseURL);
         WebElement email = driver.findElement(By.id("email"));
@@ -48,12 +51,18 @@ public class WebRegisterTest {
         sleep(1000);
         String alert = driver.switchTo().alert().getText();
         if (alert.equals("Success")) isLogin = true;
-        Assertions.assertTrue(isLogin);
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+      Assertions.assertTrue(isLogin);
     }
 
     @Test
     void invalidEmailTest() throws InterruptedException {
-        String baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
+
+      String baseURL = null;
+      try {
+        baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
         System.out.println(baseURL);
         driver.get(baseURL);
         WebElement email = driver.findElement(By.id("email"));
@@ -67,12 +76,19 @@ public class WebRegisterTest {
         sleep(1000);
         String alert = driver.switchTo().alert().getText();
         if (alert.equals("Success")) isLogin = true;
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+
         Assertions.assertFalse(isLogin);
     }
 
     @Test
     void invalidUserTest() throws InterruptedException {
-        String baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
+
+      String baseURL = null;
+      try {
+        baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
         System.out.println(baseURL);
         driver.get(baseURL);
         WebElement email = driver.findElement(By.id("email"));
@@ -86,12 +102,19 @@ public class WebRegisterTest {
         sleep(1000);
         String alert = driver.switchTo().alert().getText();
         if (alert.equals("Success")) isLogin = true;
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+
         Assertions.assertFalse(isLogin);
     }
 
     @Test
     void invalidPassTest() throws InterruptedException {
-        String baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
+
+      String baseURL = null;
+      try {
+        baseURL = System.getProperty("user.dir") + "\\src\\main\\js\\qbnb\\register.html";
         System.out.println(baseURL);
         driver.get(baseURL);
         WebElement email = driver.findElement(By.id("email"));
@@ -105,6 +128,9 @@ public class WebRegisterTest {
         sleep(1000);
         String alert = driver.switchTo().alert().getText();
         if (alert.equals("Success")) isLogin = true;
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
         Assertions.assertFalse(isLogin);
     }
 }
