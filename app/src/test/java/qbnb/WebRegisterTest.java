@@ -24,7 +24,7 @@ public class WebRegisterTest {
       if (osCheck.equals("Mac")) {
         path = PROJECT_PATH;
         System.setProperty("webdriver.chrome.driver", path + "/chromedriver");
-        baseUrl = "file://" + path + "/app/src/main/js/qbnb/register.html";
+        baseUrl = path + "/app/src/main/js/qbnb/register.html";
       } else {
         path = WIN_PROJECT_PATH;
         System.setProperty("webdriver.chrome.driver", path + "/chromedriver.exe");
