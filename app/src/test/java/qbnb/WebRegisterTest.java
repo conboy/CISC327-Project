@@ -14,32 +14,32 @@ public class WebRegisterTest {
   //  WebDriver driver;
   public String path;
   public boolean isLogin = false;
-//  boolean isLogin = false;
-//  public String baseURL;
-//
-//
-//  @BeforeEach
-//  void setupTest() {
-//    AppThread thread = new AppThread();
-//    thread.start();
-//    String osCheck = System.getProperty("os.name").split(" ")[0];
-//    if (osCheck.equals("Mac")) {
-//      path = PROJECT_PATH;
-//      System.setProperty("webdriver.chrome.driver", path + "/chromedriver");
-//      baseURL = "file://" + path + "/app/src/main/js/qbnb/register.html";
-//    } else {
-//      path = WIN_PROJECT_PATH;
-//      System.setProperty("webdriver.chrome.driver", path + "/chromedriver.exe");
-//      baseURL = "file://" + path + "\\app\\src\\main\\js\\qbnb\\register.html";
-//    }
-//    WebDriver driver = new ChromeDriver();
-//    driver.get(baseURL);
-//  }
-//
-//  @AfterEach
-//  void teardown() {
-//      driver.quit();
-//  }
+  //  boolean isLogin = false;
+  //  public String baseURL;
+  //
+  //
+  //  @BeforeEach
+  //  void setupTest() {
+  //    AppThread thread = new AppThread();
+  //    thread.start();
+  //    String osCheck = System.getProperty("os.name").split(" ")[0];
+  //    if (osCheck.equals("Mac")) {
+  //      path = PROJECT_PATH;
+  //      System.setProperty("webdriver.chrome.driver", path + "/chromedriver");
+  //      baseURL = "file://" + path + "/app/src/main/js/qbnb/register.html";
+  //    } else {
+  //      path = WIN_PROJECT_PATH;
+  //      System.setProperty("webdriver.chrome.driver", path + "/chromedriver.exe");
+  //      baseURL = "file://" + path + "\\app\\src\\main\\js\\qbnb\\register.html";
+  //    }
+  //    WebDriver driver = new ChromeDriver();
+  //    driver.get(baseURL);
+  //  }
+  //
+  //  @AfterEach
+  //  void teardown() {
+  //      driver.quit();
+  //  }
 
   @Test
   void validRegisterTest() throws InterruptedException {
@@ -57,7 +57,6 @@ public class WebRegisterTest {
         System.setProperty("webdriver.chrome.driver", path + "/chromedriver.exe");
         baseUrl = "file://" + path + "\\app\\src\\main\\js\\qbnb\\register.html";
       }
-
 
       WebDriver driver = new ChromeDriver();
       driver.get(baseUrl);
@@ -124,4 +123,3 @@ public class WebRegisterTest {
 //    if (alert.equals("Success")) isLogin = true;
 //    Assertions.assertFalse(isLogin);
 //  }
-
