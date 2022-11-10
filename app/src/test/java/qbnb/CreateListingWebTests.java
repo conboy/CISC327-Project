@@ -2,7 +2,6 @@ package qbnb;
 
 import static java.lang.Thread.sleep;
 import static qbnb.AppConf.PROJECT_PATH;
-import static qbnb.AppConf.WIN_PROJECT_PATH;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,20 +12,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class CreateListingWebTests {
 
-  public String path = WIN_PROJECT_PATH;
+  public String path;
 
   /** A test just to test out selenium and make stuff work! */
   @Test
   void testTest() throws InterruptedException {
     String osCheck = System.getProperty("os.name").split(" ")[0];
+    path = PROJECT_PATH;
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      System.out.println(path);
       AppThread thread = new AppThread();
       thread.start();
       boolean listingMade = false;
-      if (path.equals(PROJECT_PATH))
+      if (osCheck.equals("Mac"))
         System.setProperty("webdriver.chrome.driver", path + "/chromedriver");
-      else System.setProperty("webdriver.chrome.driver", path + "/chromedriver.exe");
+      if (osCheck.equals("Windows"))
+        System.setProperty("webdriver.chrome.driver", path + "/chromedriver.exe");
       WebDriver driver = new ChromeDriver();
       String baseUrl = "file://" + path + "/app/src/main/js/qbnb/createlisting.html";
       driver.get(baseUrl);
