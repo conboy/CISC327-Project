@@ -30,7 +30,7 @@ public class AppServerEndpoint {
   @OnMessage
   public String onMessage(String msg, Session session) {
 
-    ListingDao lDao = new ListingDao();
+    ListingDao lDao = ListingDao.deserialize();
     logger.info("Message ... " + msg);
     String msgType = getMsgType(msg);
     String arr[] = msg.split(":");
@@ -102,7 +102,7 @@ public class AppServerEndpoint {
           lDao.update(arr[1], Arrays.copyOfRange(arr, 2, arr.length));
           return "Listing updated successfully!";
         } catch (Exception e) {
-          return "Error occurred and listing was not updated.\nError: " + e.getMessage();
+          return "Error: " + e.getMessage();
         }
       default:
         return "Failed";

@@ -45,7 +45,7 @@ public class Listing {
     // This may be changed to simply increment the previous listingID by one, since it's something
     // that could be abstracted tbh.
 
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
 
     if (DAO.getAll().values().size() > 0) {
       for (Listing listing : DAO.getAll().values()) {

@@ -3,6 +3,9 @@ package qbnb.models.daos;
 import com.google.gson.*;
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -39,7 +42,7 @@ public final class ListingDao implements Dao<Listing> {
       new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateDeserializer()).create();
 
   /* The list of all Listings present in the DAO. Will need to load from database at some point! */
-  private static HashMap<Long, Listing> listings = new HashMap<Long, Listing>();
+  public HashMap<Long, Listing> listings = new HashMap<Long, Listing>();
 
   /* The location of the listings json file within the project */
   private static final String listingPath = "/db/listings.json";
@@ -48,14 +51,14 @@ public final class ListingDao implements Dao<Listing> {
   public void serialize() {
     Gson gsonSerial =
         new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateSerializer()).create();
-    write(listingPath, gsonSerial);
+    boolean x = write(listingPath, gsonSerial);
   }
 
   /* Deserialize the listings JSON file into an instance of ListingDao, loading saved listings! */
   public static ListingDao deserialize() {
     String result = Dao.read(listingPath);
     ListingDao dao = gsonDeserial.fromJson(result, ListingDao.class);
-    if (dao == null) return new ListingDao();
+    if (dao == null || dao.getAll().values().size() == 0) return new ListingDao();
     else return dao;
   }
 
@@ -117,11 +120,6 @@ public final class ListingDao implements Dao<Listing> {
     serialize();
   }
 
-  /* Delete ALL listings from the DAO. TESTING ONLY */
-  public static void deleteAll() {
-    listings = new HashMap<Long, Listing>();
-  }
-
   /* Gets and returns a listing by ID. Provides the same functionality as get() but makes writing tests easier.
    *  TODO: Remove all instances of this in favour of the slightly more complicated get() method */
   public Listing getByID(long id) {
@@ -135,11 +133,10 @@ public final class ListingDao implements Dao<Listing> {
 
   /* Clear the JSON file completely. Might be necessary to prevent tests from leaking.
    *  Needs updating to the reworked DAO implementation, but is also unused so. lol */
-  public static void clearJSON() {
+  public void clearJSON() {
     try {
-      PrintWriter out = new PrintWriter("db/listings.json");
-      out.println("");
-      out.close();
+      listings = new HashMap<Long, Listing>();
+      serialize();
     } catch (Exception e) {
       System.out.println("Writer Unable to find db/listings.json!");
     }
