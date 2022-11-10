@@ -1,7 +1,7 @@
 package qbnb;
 
 import static java.lang.Thread.sleep;
-import static qbnb.AppConf.PROJECT_PATH;
+import static qbnb.AppConf.WIN_PROJECT_PATH;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class CreateListingWebTests {
 
+  public String path = WIN_PROJECT_PATH;
+
   /** A test just to test out selenium and make stuff work! */
   @Test
   void testTest() throws InterruptedException {
@@ -20,9 +22,9 @@ public class CreateListingWebTests {
       AppThread thread = new AppThread();
       thread.start();
       boolean listingMade = false;
-      System.setProperty("webdriver.chrome.driver", PROJECT_PATH + "/chromedriver");
+      System.setProperty("webdriver.chrome.driver", path + "/chromedriver");
       WebDriver driver = new ChromeDriver();
-      String baseUrl = "file://" + PROJECT_PATH + "/app/src/main/js/qbnb/createlisting.html";
+      String baseUrl = "file://" + path + "/app/src/main/js/qbnb/createlisting.html";
       driver.get(baseUrl);
       WebElement title = driver.findElement(By.id("listingtitle"));
       WebElement desc = driver.findElement(By.id("desc"));
