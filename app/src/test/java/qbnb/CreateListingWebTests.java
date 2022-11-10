@@ -4,6 +4,7 @@ import static java.lang.Thread.sleep;
 import static qbnb.AppConf.PROJECT_PATH;
 import static qbnb.AppConf.WIN_PROJECT_PATH;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,8 +13,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import qbnb.models.daos.ListingDao;
 
 /**
@@ -37,7 +36,8 @@ public class CreateListingWebTests {
    */
   @BeforeAll
   static void setupClass() {
-    ListingDao.deserialize().clearJSON(); // clean ListingDAO between tests to ensure that nothing leaks!
+    ListingDao.deserialize()
+        .clearJSON(); // clean ListingDAO between tests to ensure that nothing leaks!
     WebDriverManager.chromedriver().setup();
     osCheck = System.getProperty("os.name").split(" ")[0];
     if (osCheck.equals("Mac")) {
