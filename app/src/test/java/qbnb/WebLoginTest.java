@@ -68,11 +68,10 @@ public class WebLoginTest {
       sleep(1000);
       String alert = driver.switchTo().alert().getText();
       if (alert.equals("Logged in successfully")) isLogin = true;
-
+      Assertions.assertTrue(isLogin);
     } catch (Exception e) {
 
     }
-    Assertions.assertTrue(isLogin);
   }
 
   @Test
