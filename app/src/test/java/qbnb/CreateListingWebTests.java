@@ -2,6 +2,7 @@ package qbnb;
 
 import static java.lang.Thread.sleep;
 import static qbnb.AppConf.PROJECT_PATH;
+import static qbnb.AppConf.WIN_PROJECT_PATH;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,17 +19,22 @@ public class CreateListingWebTests {
   @Test
   void testTest() throws InterruptedException {
     String osCheck = System.getProperty("os.name").split(" ")[0];
-    path = PROJECT_PATH;
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
       AppThread thread = new AppThread();
       thread.start();
+      String baseUrl;
       boolean listingMade = false;
-      if (osCheck.equals("Mac"))
+      if (osCheck.equals("Mac")) {
+        path = PROJECT_PATH;
         System.setProperty("webdriver.chrome.driver", path + "/chromedriver");
-      if (osCheck.equals("Windows"))
+        baseUrl = "file://" + path + "/app/src/main/js/qbnb/createlisting.html";
+      } else {
+        path = WIN_PROJECT_PATH;
         System.setProperty("webdriver.chrome.driver", path + "/chromedriver.exe");
+        baseUrl = "file://" + path + "\\app\\src\\main\\js\\qbnb\\createlisting.html";
+      }
+
       WebDriver driver = new ChromeDriver();
-      String baseUrl = "file://" + path + "/app/src/main/js/qbnb/createlisting.html";
       driver.get(baseUrl);
       WebElement title = driver.findElement(By.id("listingtitle"));
       WebElement desc = driver.findElement(By.id("desc"));
@@ -42,10 +48,6 @@ public class CreateListingWebTests {
       String alert = driver.switchTo().alert().getText();
       if (alert.equals("Listing saved successfully!")) listingMade = true;
       Assertions.assertTrue(listingMade);
-    }
-    // selenium runs into errors with less popular OS' like Ubuntu, so skip this test for them.
-    else {
-      Assertions.assertTrue(true);
     }
   }
 }
