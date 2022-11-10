@@ -46,6 +46,11 @@ dependencies {
     implementation 'org.glassfish.tyrus:tyrus-client:2.1.1'
     implementation 'org.glassfish.tyrus:tyrus-container-grizzly-server:2.1.1'
     implementation 'jakarta.websocket:jakarta.websocket-api:2.1.0'
+
+    // Selenium for web testing
+    implementation 'org.seleniumhq.selenium:selenium-java:4.5.3'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.5.3'
+    implementation 'io.github.bonigarcia:webdrivermanager:5.3.0'
 }
 
 application {
