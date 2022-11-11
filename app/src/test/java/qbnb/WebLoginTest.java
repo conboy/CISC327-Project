@@ -83,7 +83,8 @@ public class WebLoginTest {
     }
   }
   /**
-   * Test login functionality. Pass incorrect valid email and correct password through Login function.
+   * Test login functionality. Pass incorrect valid email and correct password through Login
+   * function.
    */
   @Test
   void incorrectEmailTest() throws InterruptedException {
@@ -119,7 +120,8 @@ public class WebLoginTest {
   }
 
   /**
-   * Test login functionality. Pass correct email and valid but incorrect password through Login function.
+   * Test login functionality. Pass correct email and valid but incorrect password through Login
+   * function.
    */
   @Test
   void incorrectPasstest() throws InterruptedException {
@@ -153,9 +155,7 @@ public class WebLoginTest {
     }
     Assertions.assertFalse(isLogin);
   }
-  /**
-   * Test login functionality. Pass valid but incorrect login details through Login function.
-   */
+  /** Test login functionality. Pass valid but incorrect login details through Login function. */
   @Test
   void incorrectLoginTest() throws InterruptedException {
     try {
