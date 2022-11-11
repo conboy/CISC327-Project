@@ -15,11 +15,13 @@ public class WebRegisterTest {
   boolean isLogin = false;
   String baseUrl = WIN_PROJECT_PATH + "\\app\\src\\main\\js\\qbnb\\register.html";
 
+  /** Setup up chrome driver */
   @BeforeAll
   static void setupClass() {
     WebDriverManager.chromedriver().setup();
   }
 
+  /** Setup up chrome driver */
   @BeforeEach
   void setupTest() {
     try {
@@ -30,6 +32,7 @@ public class WebRegisterTest {
     }
   }
 
+  /** Close chrome driver */
   @AfterEach
   void teardown() {
 
@@ -39,7 +42,7 @@ public class WebRegisterTest {
 
     }
   }
-
+  /** Test register with a valid email user and pass */
   @Test
   void validRegisterTest() throws InterruptedException {
     try {
@@ -59,7 +62,7 @@ public class WebRegisterTest {
 
     }
   }
-
+  /** Test an invalid email address */
   @Test
   void invalidEmailTest() throws InterruptedException {
 
@@ -80,7 +83,7 @@ public class WebRegisterTest {
 
     }
   }
-
+  /** Test an invalid username */
   @Test
   void invalidUserTest() throws InterruptedException {
 
@@ -101,7 +104,7 @@ public class WebRegisterTest {
 
     }
   }
-
+  /** Test an invalid password */
   @Test
   void invalidPassTest() throws InterruptedException {
 
