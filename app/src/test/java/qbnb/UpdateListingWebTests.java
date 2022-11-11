@@ -107,7 +107,7 @@ public class UpdateListingWebTests {
       desc.sendKeys(validD);
       price.sendKeys(validP);
       submit.click();
-      sleep(1000);
+      sleep(1500);
       String alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) updated = true;
@@ -129,7 +129,7 @@ public class UpdateListingWebTests {
       desc.sendKeys(validD);
       price.sendKeys(validP);
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) updated = true;
@@ -149,7 +149,7 @@ public class UpdateListingWebTests {
       desc.sendKeys(invalidD);
       price.sendKeys(validP);
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) updated = true;
@@ -169,7 +169,7 @@ public class UpdateListingWebTests {
       desc.sendKeys(validD);
       price.sendKeys(invalidP);
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) updated = true;
@@ -189,7 +189,7 @@ public class UpdateListingWebTests {
       desc.sendKeys(invalidD);
       price.sendKeys(invalidP);
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) updated = true;
@@ -209,7 +209,7 @@ public class UpdateListingWebTests {
       desc.sendKeys(validD);
       price.sendKeys(invalidP);
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) updated = true;
@@ -229,7 +229,7 @@ public class UpdateListingWebTests {
       desc.sendKeys(invalidD);
       price.sendKeys(validP);
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) updated = true;
@@ -249,7 +249,7 @@ public class UpdateListingWebTests {
       desc.sendKeys(invalidD);
       price.sendKeys(invalidP);
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) updated = true;
@@ -302,7 +302,7 @@ public class UpdateListingWebTests {
 
         price.sendKeys(Double.toString(randP));
         submit.click();
-        sleep(1000);
+        sleep(1500);
 
         String alert = driver.switchTo().alert().getText();
         driver.switchTo().alert().accept();
@@ -351,7 +351,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("R5 3 update moddate");
       title.sendKeys("R5 3 mod date updated");
       submit.click();
-      sleep(1000);
+      sleep(1500);
 
       String alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
@@ -395,7 +395,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("R5 R4 1");
       title.sendKeys("ALLCAPSTEST");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       String alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -408,7 +408,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("ALLCAPSTEST");
       title.sendKeys("alllowertest");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -421,7 +421,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("alllowertest");
       title.sendKeys("0123456789");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -434,7 +434,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("0123456789");
       title.sendKeys("!@£$%^&*()[]'?.,+-=");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -446,7 +446,7 @@ public class UpdateListingWebTests {
       listingMade = false;
       title.sendKeys(" FrontSpaceTest");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -458,7 +458,7 @@ public class UpdateListingWebTests {
       listingMade = false;
       title.sendKeys("MidSpace Test");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -472,7 +472,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("MidSpace Test");
       title.sendKeys("EndSpaceTest ");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -508,7 +508,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("R5 R4 2");
       title.sendKeys("");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       String alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -519,7 +519,7 @@ public class UpdateListingWebTests {
       listingMade = false;
       title.sendKeys("A");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -534,7 +534,7 @@ public class UpdateListingWebTests {
       desc.clear();
       desc.sendKeys("long description ".repeat(10));
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -547,7 +547,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("A".repeat(80));
       title.sendKeys("A".repeat(81));
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -562,7 +562,7 @@ public class UpdateListingWebTests {
    */
   @Test
   void r5R4_3WebTest() throws InterruptedException {
-    if (osCheck.equals("Mac")) {
+    if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
       WebElement ogTitle = driver.findElement(By.id("oldtitle"));
       WebElement title = driver.findElement(By.id("listingtitle"));
       WebElement desc = driver.findElement(By.id("desc"));
@@ -582,7 +582,7 @@ public class UpdateListingWebTests {
       boolean listingMade = false;
       desc.sendKeys("A".repeat(19));
       submit.click();
-      sleep(1000);
+      sleep(1500);
       String alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -593,7 +593,7 @@ public class UpdateListingWebTests {
       listingMade = false;
       desc.sendKeys("A".repeat(20));
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -604,7 +604,7 @@ public class UpdateListingWebTests {
       listingMade = false;
       desc.sendKeys("A".repeat(2000));
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -614,7 +614,7 @@ public class UpdateListingWebTests {
       listingMade = false;
       desc.sendKeys("A"); // increases desc length by 1 to 2001
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -662,7 +662,7 @@ public class UpdateListingWebTests {
         title.sendKeys(rt);
         desc.sendKeys(rd);
         submit.click();
-        sleep(1000);
+        sleep(1500);
 
         String alert = driver.switchTo().alert().getText();
         driver.switchTo().alert().accept();
@@ -704,7 +704,7 @@ public class UpdateListingWebTests {
       boolean listingMade = false;
       price.sendKeys("9");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       String alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -715,7 +715,7 @@ public class UpdateListingWebTests {
       listingMade = false;
       price.sendKeys("10");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -726,7 +726,7 @@ public class UpdateListingWebTests {
       listingMade = false;
       price.sendKeys("10000");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -737,7 +737,7 @@ public class UpdateListingWebTests {
       listingMade = false;
       price.sendKeys("10001");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -779,7 +779,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("R5 R4 8 A");
       title.sendKeys("R5 R4 8 B");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       String alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -797,7 +797,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("R5 R4 8 A");
       title.sendKeys("R5 R4 8 B");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
@@ -815,7 +815,7 @@ public class UpdateListingWebTests {
       ogTitle.sendKeys("R5 R4 8 A");
       title.sendKeys("R5 R4 8 B");
       submit.click();
-      sleep(1000);
+      sleep(1500);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
