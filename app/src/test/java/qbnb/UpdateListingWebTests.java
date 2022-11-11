@@ -571,6 +571,7 @@ public class UpdateListingWebTests {
       title.clear();
       desc.clear();
       price.clear();
+      ogTitle.clear();
       price.sendKeys("100");
 
       Assertions.assertTrue(makeListing("R5 R4 3", "bebbebebebeebebebebeb", 100));
