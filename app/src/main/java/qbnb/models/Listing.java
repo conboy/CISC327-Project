@@ -57,7 +57,7 @@ public class Listing {
     this.listingID = id;
 
     for (Listing listing : DAO.getAll().values()) {
-      if (listing.getTitle().equals(title)) {
+      if (listing.getTitle().equals(title) && listing.getOwnerID() == owner) {
         throw new IllegalArgumentException("R4-8");
       }
     }
@@ -86,7 +86,7 @@ public class Listing {
     // should be greater than zero!
     // ID system is a pretty insecure primary key to be fair - might alter this system at the start
     // of the next sprint!
-    UserDao uDao = new UserDao();
+    UserDao uDao = UserDao.deserialize("/db/users.json");
     if (owner == 0) throw new IllegalArgumentException("R4-7");
     if (owner != 404) { // skip validation for just getting basic code running
       boolean matchingUserID = false;

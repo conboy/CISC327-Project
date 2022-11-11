@@ -128,6 +128,21 @@ public final class ListingDao implements Dao<Listing> {
     return null;
   }
 
+  /**
+   * Gets a listing by its saved title. ONLY FOR TESTING PURPOSES.
+   *
+   * @param t the title of the listing to be searched for.
+   * @return the listing with title t, if present, otherwise null.
+   */
+  public Listing getByTitle(String t) {
+    for (Listing l : listings.values()) {
+      if (l.getTitle().equals(t)) {
+        return l;
+      }
+    }
+    return null;
+  }
+
   /* Clear the JSON file completely. Might be necessary to prevent tests from leaking.
    *  Needs updating to the reworked DAO implementation, but is also unused so. lol */
   public void clearJSON() {

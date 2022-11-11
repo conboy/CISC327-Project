@@ -314,7 +314,6 @@ public class CreateListingTests {
 
     // tests if an error is thrown if the same title is used again.
     String message = "";
-    System.out.println("Something fishy...");
     try {
       Listing x =
           new Listing(
