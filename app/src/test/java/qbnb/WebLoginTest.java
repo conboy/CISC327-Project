@@ -16,11 +16,13 @@ public class WebLoginTest {
   String baseUrl = WIN_PROJECT_PATH + "\\app\\src\\main\\js\\qbnb\\register.html";
   String loginUrl = WIN_PROJECT_PATH + "\\app\\src\\main\\js\\qbnb\\login.html";
 
+  /** Setup up chrome driver */
   @BeforeAll
   static void setupClass() {
     WebDriverManager.chromedriver().setup();
   }
 
+  /** Setup up chrome driver */
   @BeforeEach
   void setupTest() {
     try {
@@ -31,6 +33,7 @@ public class WebLoginTest {
     }
   }
 
+  /** Delete each chrome driver */
   @AfterEach
   void teardown() {
 
@@ -40,7 +43,7 @@ public class WebLoginTest {
 
     }
   }
-
+  /** Test register functionality. Pass correct email and password through Login function. */
   @Test
   void validRegisterTest() throws InterruptedException {
 
@@ -73,7 +76,7 @@ public class WebLoginTest {
 
     }
   }
-
+  /** Test login functionality. Pass incorrect email through Login function. */
   @Test
   void invalidEmailTest() throws InterruptedException {
     try {
@@ -106,7 +109,7 @@ public class WebLoginTest {
     }
     Assertions.assertFalse(isLogin);
   }
-
+  /** Test login functionality. Pass incorrect password through Login function. */
   @Test
   void invalidPassTest() throws InterruptedException {
     try {
