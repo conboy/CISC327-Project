@@ -106,8 +106,12 @@ public class AppServerEndpoint {
           return "Error occurred and listing was not saved.\nError: " + e.getMessage();
         }
       case "update_listing":
+        long owner;
+        if (loggedInUser == null) owner = 404;
+        else owner = loggedInUser.getUserID();
         try {
-          lDao.update(arr[1], Arrays.copyOfRange(arr, 2, arr.length));
+          boolean x = lDao.update(owner, arr[1], Arrays.copyOfRange(arr, 2, arr.length));
+          if (!x) throw new NullPointerException();
           return "Listing updated successfully!";
         } catch (Exception e) {
           return "Error: " + e.getMessage();

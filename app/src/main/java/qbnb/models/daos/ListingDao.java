@@ -80,7 +80,8 @@ public final class ListingDao implements Dao<Listing> {
 
   /* Search through the DAO list, and update the specified listing if it is present.
    *  If the listing is not present, a warning is output to console.
-   *  Honestly pretty useless for listing. If you want to change it just run UpdateListing. */
+   *  Honestly pretty useless. If you want to change it just run UpdateListing or use the
+   *  alternate method. */
   @Override
   public void update(Listing listing, String[] params) {
     Optional<Listing> check = get(listing.getListingID());
@@ -93,21 +94,22 @@ public final class ListingDao implements Dao<Listing> {
     }
   }
 
-  /* An alternate update method that bases updates on title.
-   *  This works because titles are required to be unique!
+  /* An alternate update method that bases updates on title and the current user.
+   *  This works because titles are required to be unique between users!
+   *  And users should only be able to update their own listings >:)
    * TODO: test to see if this works with the socket implementation. */
-  public void update(String title, String[] params) {
+  public boolean update(long ownerID, String title, String[] params) {
     boolean found = false;
     for (Listing listing : listings.values()) {
-      if (listing.getTitle().equals(title)) {
+      if (listing.getTitle().equals(title) && listing.getOwnerID() == ownerID) {
         // If listing is found, update it through it's inbuilt update procedure.
-        listing.UpdateListing(params[0], params[1], Double.parseDouble(params[2]));
-        found = true;
+        found = listing.UpdateListing(params[0], params[1], Double.parseDouble(params[2]));
       }
     }
     if (!found) {
       System.out.println("Listing was not found! No object in the DAO was updated.");
     }
+    return found;
   }
 
   /* Delete a listing from the DAO. */
@@ -129,14 +131,15 @@ public final class ListingDao implements Dao<Listing> {
   }
 
   /**
-   * Gets a listing by its saved title. ONLY FOR TESTING PURPOSES.
+   * Gets a listing by its saved title & owner. ONLY FOR TESTING PURPOSES.
    *
    * @param t the title of the listing to be searched for.
+   * @param ownerID the ID of the owner of the given listing.
    * @return the listing with title t, if present, otherwise null.
    */
-  public Listing getByTitle(String t) {
+  public Listing getByTitle(String t, long ownerID) {
     for (Listing l : listings.values()) {
-      if (l.getTitle().equals(t)) {
+      if (l.getTitle().equals(t) && l.getOwnerID() == ownerID) {
         return l;
       }
     }

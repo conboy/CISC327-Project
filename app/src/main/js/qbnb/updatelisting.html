@@ -15,12 +15,8 @@
 <script>
 let socket = new WebSocket("ws://localhost:8025/websockets/game");
 
-socket.onopen = function(e) {
-  alert("[open] Connection established");
-};
-
 socket.onmessage = function(event) {
-  alert(`[message] Data received from server: ${event.data}`);
+  alert(`${event.data}`);
 };
 
 socket.onclose = function(event) {
@@ -44,11 +40,11 @@ socket.onerror = function(error) {
 <label for="oldtitle"> Old Title </label> <br>
 <input type="text" size="80" maxlength="80" id="oldtitle" name="oldtitle"> <br> <br>
 <label for="listingtitle"> New Title </label> <br>
-<input type="text" size="80" maxlength="80" id="listingtitle" name="listingtitle"> <br> <br>
+<input type="text" size="80" maxlength="90" id="listingtitle" name="listingtitle"> <br> <br>
 <label for="desc"> New Description </label> <br>
-<textarea rows="8" cols="69" maxlength="2000" id="desc" name="desc"></textarea> <br> <br>
+<textarea rows="8" cols="69" maxlength="2010" id="desc" name="desc"></textarea> <br> <br>
 <label for="price"> New Price </label> <br>
-<input type="number" min="10" max="10000" size="80" maxlength="80" id="price" name="price"
+<input type="number" min="0" max="10010" size="80" maxlength="80" id="price" name="price"
        value="10"> <br> <br>
 <button id="submit" name="submit" type="submit"
         onclick="socket.send('update_listing:' + oldtitle.value + ':' + listingtitle.value + ':' + desc.value + ':' + price.value)">

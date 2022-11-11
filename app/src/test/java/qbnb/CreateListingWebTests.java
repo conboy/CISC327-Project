@@ -38,7 +38,7 @@ public class CreateListingWebTests {
 
   /**
    * Initialises the chrome driver and url path automatically before each test. Not sure if URL path
-   * is specifically OS dependant but
+   * is specifically OS dependant but ???
    */
   @BeforeAll
   static void setupClass() {
@@ -363,7 +363,7 @@ public class CreateListingWebTests {
         desc.clear();
         int randT = rand.nextInt(75) + 1;
         String rt = "T" + i + " " + "a".repeat(randT);
-        int randD = rand.nextInt(60) + 15;
+        int randD = rand.nextInt(60) + 18;
         String rd = "D" + i + " " + "a".repeat(randD);
 
         title.sendKeys(rt);
@@ -455,8 +455,9 @@ public class CreateListingWebTests {
 
   /**
    * Implementation of R4-6 for the createlistings website. There's not really a way to edit
-   * modification date as it is set automatically upon listing creation. I guess this is still just
-   * an example based test.
+   * modification date as it is set automatically upon listing creation. I guess this is exhaustive
+   * output testing, since there's only one possible expected result; the current date. We expect
+   * this test to succeed until 2025-01-03.
    */
   @Test
   void r6WebTest() throws InterruptedException {
