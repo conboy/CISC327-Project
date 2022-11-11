@@ -561,7 +561,7 @@ public class UpdateListingWebTests {
    * 2001 (beyond max).
    */
   @Test
-  void r5R4_3WebTest() throws InterruptedException {
+  void r5R4_3WebTest() {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
       // can pass on server for both OS', but it's sorta random if it does.
       // added this try/catch block to make pushes more consistent for other branches in the future.
