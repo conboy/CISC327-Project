@@ -601,10 +601,11 @@ public class UpdateListingWebTests {
       desc.clear();
 
       // Input 3: a description of length 2000. Expected outcome: success.
+      // Wait longer because the input here is pretty big
       listingMade = false;
       desc.sendKeys("A".repeat(2000));
       submit.click();
-      sleep(1500);
+      sleep(3000);
       alert = driver.switchTo().alert().getText();
       driver.switchTo().alert().accept();
       if (alert.equals("Listing updated successfully!")) listingMade = true;
