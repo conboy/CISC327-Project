@@ -562,7 +562,7 @@ public class UpdateListingWebTests {
    */
   @Test
   void r5R4_3WebTest() throws InterruptedException {
-    if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
+    if (osCheck.equals("Mac")) {
       WebElement ogTitle = driver.findElement(By.id("oldtitle"));
       WebElement title = driver.findElement(By.id("listingtitle"));
       WebElement desc = driver.findElement(By.id("desc"));
