@@ -8,7 +8,13 @@ import qbnb.models.*;
 /** Presistence layer for User instances. */
 public class UserDao implements Dao<User> {
 
-  private static HashMap<Long, User> users = new HashMap<Long, User>();
+  public HashMap<Long, User> users = new HashMap<Long, User>();
+
+  public UserDao() {}
+
+  public UserDao(User user) {
+    save(user);
+  }
 
   public boolean serialize(String userPath) {
     return write(userPath);
