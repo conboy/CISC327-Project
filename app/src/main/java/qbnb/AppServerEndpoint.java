@@ -58,12 +58,7 @@ public class AppServerEndpoint {
           return "Unable to create user";
         }
 
-        return "Created new user\nemail: "
-            + email
-            + "\nusername: "
-            + username
-            + "\npass: "
-            + password;
+        return "Success";
       case "login":
         email = arr[1];
         password = arr[2];
