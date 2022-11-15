@@ -6,7 +6,7 @@ public class User {
   private String username;
   private String password;
   private String email;
-  private Address address;
+  private String address;
   private String postalCode;
   private Guest guestProfile;
   private Host hostProfile;
@@ -23,8 +23,8 @@ public class User {
     if (setEmail(email) && setUsername(username) && setPassword(password)) {
       // creates user ID, user has no other method of doing this (R3-1)
       this.userID = hashUserID();
-      this.address = new Address();
-      this.postalCode = this.address.getPostalCode();
+      this.address = "";
+      this.postalCode = "";
 
       if (isGuest) {
         this.guestProfile = new Guest();
@@ -170,31 +170,14 @@ public class User {
   }
 
   /**
-   * Sets adress based on given parameters
+   * Sets adress given a new address
    *
-   * @param streetNum - street number
-   * @param unitNum - unit number if applicable (null if not)
-   * @param streetName - street name
-   * @param city - city name
-   * @param postalCode - postal orzip code
-   * @param prov - province or state
-   * @param country - country
+   * @param address - address to be set
    * @return Boolean - true if the adress was sucessfully set
    */
-  public Boolean setAddress(
-      int streetNum,
-      String unitNum,
-      String streetName,
-      String city,
-      String postalCode,
-      String prov,
-      String country) {
-    if (this.address.getStreetNumber() == -1) {
-      this.address = new Address(streetNum, unitNum, streetName, city, postalCode, prov, country);
-      return true;
-    }
-
-    return false;
+  public Boolean setAddress(String address) {
+    this.address = address;
+    return true;
   }
 
   /**
@@ -203,7 +186,7 @@ public class User {
    * @return String - postal code of user
    */
   public String getPostalCode() {
-    return this.address.getPostalCode();
+    return this.postalCode;
   }
 
   /**
@@ -211,7 +194,7 @@ public class User {
    *
    * @return Address - address object of the user
    */
-  public Address getAddress() {
+  public String getAddress() {
     return this.address;
   }
 
@@ -220,7 +203,12 @@ public class User {
    * @return boolean - if set comeplete
    */
   public boolean setPostalCode(String code) {
-    return this.address.setPostalCode(code);
+    if (code.matches("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$")) {
+      this.postalCode = code;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -291,8 +279,7 @@ public class User {
   public boolean update(String name, String mail, String address, String postalCode) {
     return this.setUsername(name)
         && this.setEmail(mail)
-        && this.address.setStreetName(
-            address) // @TODO: needs to be fixed with proper implementation
+        && this.setAddress(address)
         && this.setPostalCode(postalCode);
   }
 
