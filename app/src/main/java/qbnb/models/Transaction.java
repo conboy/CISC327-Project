@@ -38,50 +38,110 @@ public class Transaction {
     end = "2022-11-04";
   }
 
+  /**
+   * Returns the id of a transaction
+   *
+   * @return long - id of the transaction
+   */
   public long getId() {
     return id;
   }
 
+  /**
+   * ID of the transaction is set to given
+   *
+   * @param id - ID to be used
+   */
   public void setId(long id) {
     this.id = id;
   }
 
+  /**
+   * Returns the id of the listing
+   *
+   * @return long - listing id
+   */
   public long getListingId() {
     return listingId;
   }
 
+  /**
+   * Sets the ID of the listing to given
+   *
+   * @param id - id to be used
+   */
   public void setListingId(long id) {
     this.listingId = id;
   }
 
+  /**
+   * Returns user id of the client
+   *
+   * @return long - client user id
+   */
   public long getClientId() {
     return clientId;
   }
 
+  /**
+   * Sets the user id of the client
+   *
+   * @param id - id to be used
+   */
   public void setClientId(long id) {
     this.clientId = id;
   }
 
+  /**
+   * Returns the value of the transaction
+   *
+   * @return float - value of the transaction
+   */
   public float getAmmount() {
     return ammount;
   }
 
+  /**
+   * Sets the amount (value) of the transaction
+   *
+   * @param ammount - transaction amount
+   */
   public void setAmmount(float ammount) {
     this.ammount = ammount;
   }
 
+  /**
+   * Sets start date of the transaction
+   *
+   * @param start - start date
+   */
   public void setStart(LocalDate start) {
     this.start = start.toString();
   }
 
+  /**
+   * Returns the start date of the transaction
+   *
+   * @return LocalDate - start date of the transaction
+   */
   public LocalDate getStart() {
     return LocalDate.parse(start);
   }
 
+  /**
+   * Sets the end date of the transaction
+   *
+   * @param end - end date of the transaction
+   */
   public void setEnd(LocalDate end) {
     this.end = end.toString();
   }
 
+  /**
+   * Returns the end date of the transaction
+   *
+   * @return LocalDate - end date of the transaction
+   */
   public LocalDate getEnd() {
     return LocalDate.parse(end);
   }

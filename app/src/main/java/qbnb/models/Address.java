@@ -5,7 +5,7 @@ public class Address {
   private String unitNumber;
   private String streetName;
   private String city;
-  private String postalZip;
+  private String postalCode;
   private String provState;
   private String country;
 
@@ -14,7 +14,7 @@ public class Address {
     this.unitNumber = null;
     this.streetName = null;
     this.city = null;
-    this.postalZip = null;
+    this.postalCode = null;
     this.provState = null;
     this.country = null;
   }
@@ -32,7 +32,7 @@ public class Address {
         && setUnitNumber(unitNum)
         && setStreetName(streetName)
         && setCity(city)
-        && setPostalZip(postalCode)
+        && setPostalCode(postalCode)
         && setProvState(provState)
         && setCountry(Country))) {
       throw new IllegalArgumentException("Please Check The Address Given");
@@ -43,7 +43,7 @@ public class Address {
    * Sets the street number
    *
    * @param number - desired street number
-   * @return Boolean
+   * @return Boolean - if street number set
    */
   public Boolean setStreetNumber(int number) {
     if (number > 0) {
@@ -57,7 +57,7 @@ public class Address {
   /**
    * returns the street number of the address
    *
-   * @return int
+   * @return int - street number
    */
   public int getStreetNumber() {
     return this.streetNumber;
@@ -67,7 +67,7 @@ public class Address {
    * sets the desired unit number for the address @TODO - any further logic that may be required
    *
    * @param unitNumber - desired unit number
-   * @return Boolean
+   * @return Boolean - if unit number set
    */
   public Boolean setUnitNumber(String unitNumber) {
     this.unitNumber = unitNumber;
@@ -78,7 +78,7 @@ public class Address {
   /**
    * returns the unit number if applicable
    *
-   * @return String
+   * @return String - unit number
    */
   public String getUnitNumber() {
     return this.unitNumber;
@@ -87,8 +87,8 @@ public class Address {
   /**
    * Sets the street name of the address @TODO - any further logic that might be needed
    *
-   * @param streetName
-   * @return Boolean
+   * @param streetName - desired street name
+   * @return Boolean - if street name set
    */
   public Boolean setStreetName(String streetName) {
     this.streetName = streetName;
@@ -99,28 +99,27 @@ public class Address {
   /**
    * Returns the street name of the address
    *
-   * @return String
+   * @return String - street name
    */
   public String getStreetName() {
     return this.streetName;
   }
 
   /**
-   * Sets the city of the address @TODO - if any further logic is needed
+   * Sets the city of the address
    *
-   * @param city
-   * @return Boolean
+   * @param city - desired city name
+   * @return Boolean - if city name set
    */
   public Boolean setCity(String city) {
     this.city = city;
-
     return true;
   }
 
   /**
    * Returns the city of the address
    *
-   * @return String
+   * @return String - city name
    */
   public String getCity() {
     return this.city;
@@ -129,29 +128,32 @@ public class Address {
   /**
    * Sets the Postal code or the zip code for the address @TODO - further logic to come later
    *
-   * @param postalZip - desired postal or zip code
-   * @return Boolean
+   * @param postalCode - desired postal or zip code
+   * @return Boolean - if postal code set
    */
-  public Boolean setPostalZip(String postalZip) {
-    this.postalZip = postalZip;
+  public Boolean setPostalCode(String postal) {
+    if (postal.matches("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$")) {
+      this.postalCode = postal;
+      return true;
+    }
 
-    return true;
+    return false;
   }
 
   /**
    * returns the current postal or zip code for the address
    *
-   * @return String
+   * @return String - postal code
    */
-  public String getPostalZip() {
-    return this.postalZip;
+  public String getPostalCode() {
+    return this.postalCode;
   }
 
   /**
    * Sets the province or state for the object @TODO - further logic to come later
    *
-   * @param provState
-   * @return Boolean
+   * @param provState - desired prov or state
+   * @return Boolean - if set
    */
   public Boolean setProvState(String provState) {
     this.provState = provState;
@@ -162,7 +164,7 @@ public class Address {
   /**
    * returns the province or state of the address
    *
-   * @return String
+   * @return String - prov or state name
    */
   public String getProvState() {
     return this.provState;
@@ -172,7 +174,7 @@ public class Address {
    * Set the country for the address @TODO - further implementation to come later
    *
    * @param country - desired country
-   * @return Boolean
+   * @return Boolean - if country set
    */
   public Boolean setCountry(String country) {
     this.country = country;
