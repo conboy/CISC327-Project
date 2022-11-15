@@ -20,6 +20,7 @@ import qbnb.models.daos.UserDao;
 public class AppServerEndpoint {
 
   private Logger logger = Logger.getLogger(this.getClass().getName());
+  private static User loggedInUser = null;
   UserDao userDao = new UserDao();
 
   @OnOpen
@@ -30,7 +31,7 @@ public class AppServerEndpoint {
   @OnMessage
   public String onMessage(String msg, Session session) {
 
-    ListingDao lDao = new ListingDao();
+    ListingDao lDao = ListingDao.deserialize();
     logger.info("Message ... " + msg);
     String msgType = getMsgType(msg);
     String arr[] = msg.split(":");
@@ -68,6 +69,7 @@ public class AppServerEndpoint {
           for (User user : users) {
             loggedIn = user.Login(email, password);
             if (loggedIn == true) {
+              loggedInUser = user;
               return "Logged in successfully";
             }
           }
@@ -77,7 +79,13 @@ public class AppServerEndpoint {
         }
         // TODO: implement an ID generating algorithm that isn't as insecure as this one
       case "create_listing":
-        // TODO
+        // basic log-in system implemented to help with listing tests - replace if necessary!
+        // Note: CreateListingWebTests requires a way to login as a non-registered user for
+        // exhaustive testing purposes.
+        long ownerID;
+        if (loggedInUser == null) ownerID = 404;
+        else ownerID = loggedInUser.getUserID();
+
         Listing l;
         try {
           l =
@@ -87,17 +95,21 @@ public class AppServerEndpoint {
                   arr[2],
                   Double.parseDouble(arr[3]),
                   LocalDate.now(),
-                  404);
+                  ownerID);
           return "Listing saved successfully!";
         } catch (Exception e) {
           return "Error occurred and listing was not saved.\nError: " + e.getMessage();
         }
       case "update_listing":
+        long owner;
+        if (loggedInUser == null) owner = 404;
+        else owner = loggedInUser.getUserID();
         try {
-          lDao.update(arr[1], Arrays.copyOfRange(arr, 2, arr.length));
+          boolean x = lDao.update(owner, arr[1], Arrays.copyOfRange(arr, 2, arr.length));
+          if (!x) throw new NullPointerException();
           return "Listing updated successfully!";
         } catch (Exception e) {
-          return "Error occurred and listing was not updated.\nError: " + e.getMessage();
+          return "Error: " + e.getMessage();
         }
       default:
         return "Failed";
@@ -130,5 +142,10 @@ public class AppServerEndpoint {
     } else {
       return "Unable to update user profile";
     }
+  }
+
+  // sets the current user logged in to the server - TESTING ONLY
+  public static void setLoggedInUser(User user) {
+    loggedInUser = user;
   }
 }

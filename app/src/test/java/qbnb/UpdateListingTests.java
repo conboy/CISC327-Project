@@ -80,7 +80,7 @@ public class UpdateListingTests {
               d,
               404);
     }
-    validListing.UpdateListing("AutoDate newlynewTitle", null, 0);
+    validListing.UpdateListing("AutoDate newlynewTitle", null, 100);
     Assertions.assertNotEquals(d, validListing.getModificationDate());
   }
 
@@ -108,13 +108,13 @@ public class UpdateListingTests {
     }
 
     // checking non-numeric characters
-    Assertions.assertFalse(validListing.UpdateListing("%%%Land%%", null, 0));
+    Assertions.assertFalse(validListing.UpdateListing("%%%Land%%", null, 100));
 
     // checking space characters at the beginning of title
-    Assertions.assertFalse(validListing.UpdateListing(" Space Land", null, 0));
+    Assertions.assertFalse(validListing.UpdateListing(" Space Land", null, 100));
 
     // checking space characters at the end of title - error with message R4-1 should be thrown
-    Assertions.assertFalse(validListing.UpdateListing("Space Land ", null, 0));
+    Assertions.assertFalse(validListing.UpdateListing("Space Land ", null, 100));
   }
 
   /** Tests requirement R4-2: The title of the product is no longer than 80 characters. */
@@ -132,7 +132,7 @@ public class UpdateListingTests {
               LocalDate.now(),
               404);
     }
-    Assertions.assertFalse(validListing.UpdateListing("Long".repeat(50), null, 0));
+    Assertions.assertFalse(validListing.UpdateListing("Long".repeat(50), null, 100));
   }
 
   /**
@@ -155,10 +155,10 @@ public class UpdateListingTests {
     }
 
     // testing if error is thrown for the title length < 20 case.
-    Assertions.assertFalse(validListing.UpdateListing(null, "tiny title", 0));
+    Assertions.assertFalse(validListing.UpdateListing(null, "tiny title", 100));
 
     // testing if error is thrown for the title length > 2000 case.
-    Assertions.assertFalse(validListing.UpdateListing(null, "long description".repeat(250), 0));
+    Assertions.assertFalse(validListing.UpdateListing(null, "long description".repeat(250), 100));
   }
 
   /** Tests requirement R4-4: Description has to be longer than the product's title. */

@@ -39,7 +39,7 @@ public final class ListingDao implements Dao<Listing> {
       new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateDeserializer()).create();
 
   /* The list of all Listings present in the DAO. Will need to load from database at some point! */
-  private static HashMap<Long, Listing> listings = new HashMap<Long, Listing>();
+  public HashMap<Long, Listing> listings = new HashMap<Long, Listing>();
 
   /* The location of the listings json file within the project */
   private static final String listingPath = "/db/listings.json";
@@ -55,7 +55,7 @@ public final class ListingDao implements Dao<Listing> {
   public static ListingDao deserialize() {
     String result = Dao.read(listingPath);
     ListingDao dao = gsonDeserial.fromJson(result, ListingDao.class);
-    if (dao == null) return new ListingDao();
+    if (dao == null || dao.getAll().values().size() == 0) return new ListingDao();
     else return dao;
   }
 
@@ -79,8 +79,7 @@ public final class ListingDao implements Dao<Listing> {
   }
 
   /* Search through the DAO list, and update the specified listing if it is present.
-   *  If the listing is not present, a warning is output to console.
-   *  Honestly pretty useless for listing. If you want to change it just run UpdateListing. */
+   *  If the listing is not present, a warning is output to console. */
   @Override
   public void update(Listing listing, String[] params) {
     Optional<Listing> check = get(listing.getListingID());
@@ -93,21 +92,19 @@ public final class ListingDao implements Dao<Listing> {
     }
   }
 
-  /* An alternate update method that bases updates on title.
-   *  This works because titles are required to be unique!
-   * TODO: test to see if this works with the socket implementation. */
-  public void update(String title, String[] params) {
+  /* An alternate update method that bases updates on title and the current user. */
+  public boolean update(long ownerID, String title, String[] params) {
     boolean found = false;
     for (Listing listing : listings.values()) {
-      if (listing.getTitle().equals(title)) {
+      if (listing.getTitle().equals(title) && listing.getOwnerID() == ownerID) {
         // If listing is found, update it through it's inbuilt update procedure.
-        listing.UpdateListing(params[0], params[1], Double.parseDouble(params[2]));
-        found = true;
+        found = listing.UpdateListing(params[0], params[1], Double.parseDouble(params[2]));
       }
     }
     if (!found) {
       System.out.println("Listing was not found! No object in the DAO was updated.");
     }
+    return found;
   }
 
   /* Delete a listing from the DAO. */
@@ -115,11 +112,6 @@ public final class ListingDao implements Dao<Listing> {
   public void delete(Listing l) {
     listings.remove(l);
     serialize();
-  }
-
-  /* Delete ALL listings from the DAO. TESTING ONLY */
-  public static void deleteAll() {
-    listings = new HashMap<Long, Listing>();
   }
 
   /* Gets and returns a listing by ID. Provides the same functionality as get() but makes writing tests easier.
@@ -133,13 +125,28 @@ public final class ListingDao implements Dao<Listing> {
     return null;
   }
 
+  /**
+   * Gets a listing by its saved title & owner. ONLY FOR TESTING PURPOSES.
+   *
+   * @param t the title of the listing to be searched for.
+   * @param ownerID the ID of the owner of the given listing.
+   * @return the listing with title t, if present, otherwise null.
+   */
+  public Listing getByTitle(String t, long ownerID) {
+    for (Listing l : listings.values()) {
+      if (l.getTitle().equals(t) && l.getOwnerID() == ownerID) {
+        return l;
+      }
+    }
+    return null;
+  }
+
   /* Clear the JSON file completely. Might be necessary to prevent tests from leaking.
    *  Needs updating to the reworked DAO implementation, but is also unused so. lol */
-  public static void clearJSON() {
+  public void clearJSON() {
     try {
-      PrintWriter out = new PrintWriter("db/listings.json");
-      out.println("");
-      out.close();
+      listings = new HashMap<Long, Listing>();
+      serialize();
     } catch (Exception e) {
       System.out.println("Writer Unable to find db/listings.json!");
     }

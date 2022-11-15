@@ -45,7 +45,7 @@ public class Listing {
     // This may be changed to simply increment the previous listingID by one, since it's something
     // that could be abstracted tbh.
 
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
 
     if (DAO.getAll().values().size() > 0) {
       for (Listing listing : DAO.getAll().values()) {
@@ -57,7 +57,7 @@ public class Listing {
     this.listingID = id;
 
     for (Listing listing : DAO.getAll().values()) {
-      if (listing.getTitle().equals(title)) {
+      if (listing.getTitle().equals(title) && listing.getOwnerID() == owner) {
         throw new IllegalArgumentException("R4-8");
       }
     }
@@ -86,7 +86,7 @@ public class Listing {
     // should be greater than zero!
     // ID system is a pretty insecure primary key to be fair - might alter this system at the start
     // of the next sprint!
-    UserDao uDao = new UserDao();
+    UserDao uDao = UserDao.deserialize("/db/users.json");
     if (owner == 0) throw new IllegalArgumentException("R4-7");
     if (owner != 404) { // skip validation for just getting basic code running
       boolean matchingUserID = false;
@@ -120,8 +120,11 @@ public class Listing {
 
     if (newTitle != null) {
       for (Listing listing : DAO.getAll().values()) {
-        if (listing.getTitle().equals(newTitle)) {
-          return false;
+        if (!equals(listing)) {
+          if (listing.getTitle().equals(newTitle) && listing.getOwnerID() == ownerID) {
+            System.out.println("Rah");
+            return false;
+          }
         }
       }
       if (!newTitle.matches("[a-zA-z0-9 ]+")) return false;
@@ -136,10 +139,8 @@ public class Listing {
       else if (title.length() >= newDesc.length()) return false;
     }
 
-    if (newPrice > 0) {
-      if (newPrice < 10 || newPrice > 10000) return false;
-      if (newPrice < price) return false;
-    }
+    if (newPrice < 10 || newPrice > 10000) return false;
+    if (newPrice < price) return false;
 
     // if the function is still executing, we can be sure all attributes fit requirements -> update
     // their values now!
@@ -153,6 +154,16 @@ public class Listing {
     this.modificationDate = LocalDate.now();
     DAO.update(this, params);
     return true;
+  }
+
+  /** Overwritten equality method for listing. */
+  public boolean equals(Listing listing) {
+    return (listing.getListingID().equals(listingID)
+        && listing.getTitle().equals(title)
+        && listing.getOwnerID() == ownerID
+        && listing.getDescription().equals(description)
+        && listing.getPrice() == price
+        && listing.getModificationDate().equals(modificationDate));
   }
 
   /// == GETTER METHODS == ///
@@ -185,5 +196,12 @@ public class Listing {
   /** Returns owner ID */
   public long getOwnerID() {
     return ownerID;
+  }
+
+  /// == SETTER METHODS == //
+
+  /** Sets modification date to the input value. USED FOR TESTING ONLY */
+  public void setModificationDate(LocalDate d) {
+    modificationDate = d;
   }
 }

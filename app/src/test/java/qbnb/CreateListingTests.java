@@ -3,6 +3,7 @@ package qbnb;
 import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import qbnb.models.*;
 import qbnb.models.daos.ListingDao;
@@ -20,10 +21,9 @@ public class CreateListingTests {
    * Can optionally clear the listings.json file prior to testing as an extra testing precaution.
    * Right now, everything seems to be passing, so i've left it commented out.
    */
-  @Test
-  public void preTestPrep() {
-    // ListingDao.clearJSON();
-    Assertions.assertTrue(true);
+  @BeforeAll
+  static void preTestPrep() {
+    ListingDao.deserialize().clearJSON();
   }
 
   /**
@@ -314,7 +314,6 @@ public class CreateListingTests {
 
     // tests if an error is thrown if the same title is used again.
     String message = "";
-    System.out.println("Something fishy...");
     try {
       Listing x =
           new Listing(

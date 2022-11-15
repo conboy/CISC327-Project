@@ -3,8 +3,6 @@ package qbnb;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import org.glassfish.tyrus.server.Server;
-import qbnb.models.*;
-import qbnb.models.daos.*;
 
 public class App {
 
