@@ -1,6 +1,5 @@
 package qbnb;
 
-import static qbnb.AppConf.PROJECT_PATH;
 import static qbnb.AppConf.WIN_PROJECT_PATH;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -19,8 +18,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class UpdateProfileWebTest {
 
-  static String baseUrl;
-  static String pageUrl = "/app/src/main/js/qbnb/updateUserProfile.html";
+  static String baseUrl = WIN_PROJECT_PATH + "\\app\\src\\main\\js\\qbnb\\updateUserProfile.html";
   static String os = System.getProperty("os.name");
   WebDriver driver;
 
@@ -35,14 +33,7 @@ public class UpdateProfileWebTest {
 
   @BeforeAll
   static void initialize() {
-    // init webdriver
     WebDriverManager.chromedriver().setup();
-    // Check for OS
-    if (os.contains("Windows")) {
-      baseUrl = WIN_PROJECT_PATH + pageUrl;
-    } else {
-      baseUrl = PROJECT_PATH + pageUrl;
-    }
   }
 
   @BeforeEach
