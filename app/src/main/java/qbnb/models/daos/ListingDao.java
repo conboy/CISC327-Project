@@ -48,7 +48,7 @@ public final class ListingDao implements Dao<Listing> {
   public void serialize() {
     Gson gsonSerial =
         new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateSerializer()).create();
-    boolean x = write(listingPath, gsonSerial);
+    write(listingPath, gsonSerial);
   }
 
   /* Deserialize the listings JSON file into an instance of ListingDao, loading saved listings! */
@@ -79,9 +79,7 @@ public final class ListingDao implements Dao<Listing> {
   }
 
   /* Search through the DAO list, and update the specified listing if it is present.
-   *  If the listing is not present, a warning is output to console.
-   *  Honestly pretty useless. If you want to change it just run UpdateListing or use the
-   *  alternate method. */
+   *  If the listing is not present, a warning is output to console. */
   @Override
   public void update(Listing listing, String[] params) {
     Optional<Listing> check = get(listing.getListingID());
@@ -94,10 +92,7 @@ public final class ListingDao implements Dao<Listing> {
     }
   }
 
-  /* An alternate update method that bases updates on title and the current user.
-   *  This works because titles are required to be unique between users!
-   *  And users should only be able to update their own listings >:)
-   * TODO: test to see if this works with the socket implementation. */
+  /* An alternate update method that bases updates on title and the current user. */
   public boolean update(long ownerID, String title, String[] params) {
     boolean found = false;
     for (Listing listing : listings.values()) {
