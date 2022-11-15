@@ -19,10 +19,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class UpdateProfileWebTest {
 
-  String baseUrl;
-  String pageUrl = "/app/src/main/js/qbnb/updateUserProfile.html";
+  static String baseUrl;
+  static String pageUrl = "/app/src/main/js/qbnb/updateUserProfile.html";
+  static String os = System.getProperty("os.name");
   WebDriver driver;
-  String os = System.getProperty("os.name");
 
   String goodZip = "V8E0E8";
   String badZip = "!!!vb%7";
@@ -34,7 +34,7 @@ public class UpdateProfileWebTest {
   String addy = "123 Easy Street, Whistler BC, Canada";
 
   @BeforeAll
-  void initialize() {
+  static void initialize() {
     // init webdriver
     WebDriverManager.chromedriver().setup();
     // Check for OS
