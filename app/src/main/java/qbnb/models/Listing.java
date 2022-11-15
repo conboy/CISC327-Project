@@ -1,7 +1,8 @@
 package qbnb.models;
 
 import java.time.LocalDate;
-import java.util.List;
+import qbnb.models.daos.ListingDao;
+import qbnb.models.daos.UserDao;
 
 // TODO: implement database functionality!
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class Listing {
 
   // The ID of the listing object - used to identify between individual listings.
-  private int listingID;
+  private Long listingID;
 
   // The title of the listing that is shown to users. Alphanumeric only.
   private String title;
@@ -37,26 +38,26 @@ public class Listing {
    * R4 are broken, an Illegal Argument exception is thrown.
    */
   public Listing(
-      int id, String title, String description, double price, LocalDate modDate, long owner) {
-    ListingDao DAO = new ListingDao();
-    List<Listing> allListings = DAO.getAll();
-    System.out.println(allListings.size());
+      long id, String title, String description, double price, LocalDate modDate, long owner) {
 
     // Not stated on the specification but a logical extension of the system we are implementing.
     // If list titles have to be unique then list IDs really absolutely should be unique!
     // This may be changed to simply increment the previous listingID by one, since it's something
     // that could be abstracted tbh.
-    if (allListings.size() > 0) {
-      for (Listing listing : allListings) {
-        if (listing.getListingID() == id) {
+
+    ListingDao DAO = ListingDao.deserialize();
+
+    if (DAO.getAll().values().size() > 0) {
+      for (Listing listing : DAO.getAll().values()) {
+        if (listing.getListingID().equals(id)) {
           throw new IllegalArgumentException("R4-0");
         }
       }
     }
     this.listingID = id;
 
-    for (Listing listing : allListings) {
-      if (listing.getTitle().equals(title)) {
+    for (Listing listing : DAO.getAll().values()) {
+      if (listing.getTitle().equals(title) && listing.getOwnerID() == owner) {
         throw new IllegalArgumentException("R4-8");
       }
     }
@@ -85,16 +86,18 @@ public class Listing {
     // should be greater than zero!
     // ID system is a pretty insecure primary key to be fair - might alter this system at the start
     // of the next sprint!
-    UserDao uDao = new UserDao();
+    UserDao uDao = UserDao.deserialize("/db/users.json");
     if (owner == 0) throw new IllegalArgumentException("R4-7");
-    boolean matchingUserID = false;
-    for (User user : uDao.getAll()) {
-      if (user.getUserID() == owner) {
-        matchingUserID = true;
-        break;
+    if (owner != 404) { // skip validation for just getting basic code running
+      boolean matchingUserID = false;
+      for (User user : uDao.getAll().values()) {
+        if (user.getUserID() == owner) {
+          matchingUserID = true;
+          break;
+        }
       }
+      if (!matchingUserID) throw new IllegalArgumentException("R4-7");
     }
-    if (!matchingUserID) throw new IllegalArgumentException("R4-7");
     this.ownerID = owner;
 
     DAO.save(this);
@@ -102,7 +105,8 @@ public class Listing {
 
   /**
    * Updates various attributes of a given instance of Listing. If attributes are less than 1 or
-   * Null they shall be ignored. Adheres to the requirements as specified in Sprint #2 R5.
+   * Null they shall be ignored. Adheres to the requirements as specified in Sprint #2 R5. Should
+   * ideally be called via ListingDao.update but I don't think it makes much of a difference.
    *
    * @param newTitle The new title for the listing. Must adhere to the R4 guidelines.
    * @param newDesc The new description for the listing. Must adhere to the R4 guidelines.
@@ -112,12 +116,15 @@ public class Listing {
    *     have been updated.
    */
   public boolean UpdateListing(String newTitle, String newDesc, double newPrice) {
-    ListingDao DAO = new ListingDao();
+    ListingDao DAO = ListingDao.deserialize();
 
     if (newTitle != null) {
-      for (Listing listing : DAO.getAll()) {
-        if (listing.getTitle().equals(newTitle)) {
-          return false;
+      for (Listing listing : DAO.getAll().values()) {
+        if (!equals(listing)) {
+          if (listing.getTitle().equals(newTitle) && listing.getOwnerID() == ownerID) {
+            System.out.println("Rah");
+            return false;
+          }
         }
       }
       if (!newTitle.matches("[a-zA-z0-9 ]+")) return false;
@@ -132,27 +139,44 @@ public class Listing {
       else if (title.length() >= newDesc.length()) return false;
     }
 
-    if (newPrice > 0) {
-      if (newPrice < 10 || newPrice > 10000) return false;
-      if (newPrice < price) return false;
-    }
+    if (newPrice < 10 || newPrice > 10000) return false;
+    if (newPrice < price) return false;
 
     // if the function is still executing, we can be sure all attributes fit requirements -> update
     // their values now!
+    String[] params = new String[3];
     if (newTitle != null) this.title = newTitle;
+    params[0] = newTitle;
     if (newDesc != null) this.description = newDesc;
+    params[1] = newDesc;
     if (newPrice > 0) this.price = newPrice;
+    params[2] = Double.toString(newPrice);
     this.modificationDate = LocalDate.now();
-    DAO.update(this);
+    DAO.update(this, params);
     return true;
   }
 
   /**
-   * Returns the listing id
+   * Checks if the passed listing is equal to the one at hand
    *
-   * @return int - id of the listing
+   * @param listing - listing to check against
+   * @return boolean - result of check
    */
-  public int getListingID() {
+  public boolean equals(Listing listing) {
+    return (listing.getListingID().equals(listingID)
+        && listing.getTitle().equals(title)
+        && listing.getOwnerID() == ownerID
+        && listing.getDescription().equals(description)
+        && listing.getPrice() == price
+        && listing.getModificationDate().equals(modificationDate));
+  }
+
+  /**
+   * Returns the id of the listing
+   *
+   * @return Long - listing id
+   */
+  public Long getListingID() {
     return listingID;
   }
 
@@ -199,5 +223,12 @@ public class Listing {
    */
   public long getOwnerID() {
     return ownerID;
+  }
+
+  /// == SETTER METHODS == //
+
+  /** Sets modification date to the input value. USED FOR TESTING ONLY */
+  public void setModificationDate(LocalDate d) {
+    modificationDate = d;
   }
 }

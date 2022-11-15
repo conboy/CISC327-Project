@@ -4,7 +4,7 @@ import java.util.Date; // For formating dates
 
 /** Support for user reviews on stays. */
 public class Review {
-  private int reviewID;
+  private Long reviewID;
   private int reviewerID;
   private int listingID;
   private Date reviewDate;
@@ -12,4 +12,8 @@ public class Review {
   private String reviewBody;
 
   public Review() {}
+
+  public Long getId() {
+    return this.reviewID;
+  }
 }

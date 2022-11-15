@@ -28,6 +28,16 @@ public class Transaction {
     this.end = end.toString();
   }
 
+  /** Create a default Transaction. Used in testing */
+  public Transaction() {
+    id = new Date().getTime();
+    listingId = 12345;
+    clientId = 54321;
+    ammount = 100;
+    start = "2022-10-25";
+    end = "2022-11-04";
+  }
+
   /**
    * Returns the id of a transaction
    *
@@ -134,5 +144,14 @@ public class Transaction {
    */
   public LocalDate getEnd() {
     return LocalDate.parse(end);
+  }
+
+  public boolean equals(Transaction trans) {
+    return ((this.getId() == trans.getId())
+        && (this.getListingId() == trans.getListingId())
+        && (this.getClientId() == trans.getClientId())
+        && (this.getAmmount() == trans.getAmmount())
+        && this.getStart().equals(trans.getStart())
+        && this.getEnd().equals(trans.getEnd()));
   }
 }

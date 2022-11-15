@@ -5,10 +5,17 @@
 build
 
 # ignore IDE atifacts
-/.metadata/
-CISC327-Project/.idea
-CISC327-Project/CISC327-Project.imi
-.idea
-CISC327-Project/.DS_Store
-/.vscode/
+*.metadata
+*.idea
+*.DS_Store
+*.vscode
+
+# Ignore class files
+*.class
+
+# Ignore db files
+db/*
+
+# ignore Configuration file
+app/src/main/java/qbnb/AppConf.java
 

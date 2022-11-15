@@ -7,6 +7,7 @@ public class User {
   private String password;
   private String email;
   private Address address;
+  private String postalCode;
   private Guest guestProfile;
   private Host hostProfile;
 
@@ -23,6 +24,7 @@ public class User {
       // creates user ID, user has no other method of doing this (R3-1)
       this.userID = hashUserID();
       this.address = new Address();
+      this.postalCode = this.address.getPostalCode();
 
       if (isGuest) {
         this.guestProfile = new Guest();
@@ -145,7 +147,7 @@ public class User {
    *
    * @return String - password of the user
    */
-  public String getPassowrd() {
+  public String getPassword() {
     return this.password;
   }
 
@@ -196,25 +198,12 @@ public class User {
   }
 
   /**
-   * Updates th address object for the user @TODO: to be implemented in full later
+   * Returns the postal code of the user
    *
-   * @return Boolean - if address sucessefully updated
+   * @return String - postal code of user
    */
-  public Boolean updateAddress(
-      int streetNum,
-      String unitNum,
-      String streetName,
-      String city,
-      String postalCode,
-      String prov,
-      String country) {
-    // checks that the postal code is valid (R3-3 and R3-2)
-    if (postalCode.matches("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$")) {
-      this.address = new Address(streetNum, unitNum, streetName, city, postalCode, prov, country);
-      return true;
-    }
-
-    return false;
+  public String getPostalCode() {
+    return this.address.getPostalCode();
   }
 
   /**
@@ -224,6 +213,14 @@ public class User {
    */
   public Address getAddress() {
     return this.address;
+  }
+
+  /**
+   * @param code - desired postal code
+   * @return boolean - if set comeplete
+   */
+  public boolean setPostalCode(String code) {
+    return this.address.setPostalCode(code);
   }
 
   /**
@@ -282,6 +279,21 @@ public class User {
    */
   public Host getHostAccount() {
     return this.hostProfile;
+  }
+
+  /**
+   * @param name - name of the user
+   * @param mail - mailing address of the user
+   * @param address - address of the user
+   * @param postalCode - postal code of the user
+   * @return boolean
+   */
+  public boolean update(String name, String mail, String address, String postalCode) {
+    return this.setUsername(name)
+        && this.setEmail(mail)
+        && this.address.setStreetName(
+            address) // @TODO: needs to be fixed with proper implementation
+        && this.setPostalCode(postalCode);
   }
 
   /**

@@ -1,16 +1,20 @@
 package qbnb;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.time.LocalDate;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import qbnb.models.*;
+import qbnb.models.daos.ListingDao;
 
 /**
  * Runs test on the function Listing.UpdateListing() These tests assume that UpdateListing() returns
  * a boolean value, such that true is only returned if all requirements are met and listing is
  * updated. Additionally, it is assumed that for integers = 0 and Strings = null, input is ignored
  * and the specified field is not updated.
+ *
+ * <p>All listings created in these tests will follow the ID format of 20XX, where XX is the
+ * numerical order in which the tests are created. Each listing is searched for prior to creation as
+ * to avoid errors with overlapping IDs/titles.
  */
 public class UpdateListingTests {
 
@@ -20,69 +24,64 @@ public class UpdateListingTests {
    */
   @Test
   public void ownerIDImmutableTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    dao.save(u);
-    Listing validListing =
-        new Listing(
-            1,
-            "The lovely zone",
-            "I love to live in a lovely zone! You know?",
-            100,
-            LocalDate.now(),
-            u.getUserID());
-    validListing.UpdateListing("newTitle", "very new and cool description", 101);
-    assertEquals(validListing.getOwnerID(), u.getUserID());
-    ListingDao.deleteAll();
+    ListingDao DAO = ListingDao.deserialize();
+    Listing validListing = DAO.getByID(2001L);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2001,
+              "IDImmutable The lovely zone",
+              "I love to live in a lovely zone! You know?",
+              100,
+              LocalDate.now(),
+              404);
+    }
+    validListing.UpdateListing("IDImmutable newTitle", "very new and cool description", 101);
+    Assertions.assertEquals(validListing.getOwnerID(), 404);
   }
 
   /** Tests R5-2: price can be increased but cannot be decreased. */
   @Test
   public void priceCannotDecreaseTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
+    ListingDao DAO = ListingDao.deserialize();
+    Listing validListing = DAO.getByID(2002L);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2002,
+              "NoDecrease The lovelier zone",
+              "I love to live in a lovely zone! You know?",
+              100,
+              LocalDate.now(),
+              404);
     }
-    Listing validListing =
-        new Listing(
-            2,
-            "The lovelier zone",
-            "I love to live in a lovely zone! You know?",
-            100,
-            LocalDate.now(),
-            u.getUserID());
-
     // testing that price can increase
     boolean valid = validListing.UpdateListing(null, null, 150);
-    assertTrue(valid);
+    Assertions.assertTrue(valid);
 
     // testing that price cannot decrease
     valid = validListing.UpdateListing(null, null, 75);
-    assertFalse(valid);
-    ListingDao.deleteAll();
+    Assertions.assertFalse(valid);
   }
 
   /** Tests R5-3: modifiedDate changes automatically on update. */
   @Test
   public void modificationDateAutoUpdateTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
-    }
     LocalDate d = LocalDate.parse("2022-01-01");
-    Listing validListing =
-        new Listing(
-            3,
-            "The loveliest zone",
-            "I love to live in a lovely zone! You know?",
-            100,
-            d,
-            u.getUserID());
-    validListing.UpdateListing("newlynewTitle", null, 0);
-    assertNotEquals(d, validListing.getModificationDate());
-    ListingDao.deleteAll();
+    ListingDao DAO = ListingDao.deserialize();
+    Listing validListing = DAO.getByID(2003);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2003,
+              "The loveliest zone",
+              "I love to live in a lovely zone! You know?",
+              100,
+              d,
+              404);
+    }
+    validListing.UpdateListing("AutoDate newlynewTitle", null, 100);
+    Assertions.assertNotEquals(d, validListing.getModificationDate());
   }
 
   // R5-4: Make sure all the R4 criteria are also followed when updating!!
@@ -95,49 +94,45 @@ public class UpdateListingTests {
   @Test
   public void alphanumericTitleTest() {
     // checking non-numeric characters
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
+    ListingDao DAO = new ListingDao();
+    Listing validListing = DAO.getByID(2004);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2004,
+              "R1 lovely dovely zone",
+              "I love to live in a lovely zone! You know?",
+              100,
+              LocalDate.now(),
+              404);
     }
-    Listing validListing =
-        new Listing(
-            4,
-            "The lovely dovely zone",
-            "I love to live in a lovely zone! You know?",
-            100,
-            LocalDate.now(),
-            u.getUserID());
 
     // checking non-numeric characters
-    assertFalse(validListing.UpdateListing("%%%Land%%", null, 0));
+    Assertions.assertFalse(validListing.UpdateListing("%%%Land%%", null, 100));
 
     // checking space characters at the beginning of title
-    assertFalse(validListing.UpdateListing(" Space Land", null, 0));
+    Assertions.assertFalse(validListing.UpdateListing(" Space Land", null, 100));
 
     // checking space characters at the end of title - error with message R4-1 should be thrown
-    assertFalse(validListing.UpdateListing("Space Land ", null, 0));
-    ListingDao.deleteAll();
+    Assertions.assertFalse(validListing.UpdateListing("Space Land ", null, 100));
   }
 
   /** Tests requirement R4-2: The title of the product is no longer than 80 characters. */
   @Test
   public void titleLengthTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
+    ListingDao DAO = ListingDao.deserialize();
+    Listing validListing = DAO.getByID(2005);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2005,
+              "R2 sucker ducker zone",
+              "I love to live in a sucker ducker zone! You know?",
+              100,
+              LocalDate.now(),
+              404);
     }
-    Listing validListing =
-        new Listing(
-            5,
-            "The sucker ducker zone",
-            "I love to live in a lovely zone! You know?",
-            100,
-            LocalDate.now(),
-            u.getUserID());
-    assertFalse(validListing.UpdateListing("Long".repeat(50), null, 0));
-    ListingDao.deleteAll();
+    Assertions.assertFalse(validListing.UpdateListing("Long".repeat(50), null, 100));
   }
 
   /**
@@ -146,90 +141,84 @@ public class UpdateListingTests {
    */
   @Test
   public void descriptionLengthTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
+    ListingDao DAO = ListingDao.deserialize();
+    Listing validListing = DAO.getByID(2006);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2006,
+              "R3 pizza party zone",
+              "I really don't believe that prince, you know?",
+              100,
+              LocalDate.now(),
+              404);
     }
-    Listing validListing =
-        new Listing(
-            6,
-            "The pizza party zone",
-            "I love to live in a lovely zone! You know?",
-            100,
-            LocalDate.now(),
-            u.getUserID());
 
     // testing if error is thrown for the title length < 20 case.
-    assertFalse(validListing.UpdateListing(null, "tiny title", 0));
+    Assertions.assertFalse(validListing.UpdateListing(null, "tiny title", 100));
 
     // testing if error is thrown for the title length > 2000 case.
-    assertFalse(validListing.UpdateListing(null, "long description".repeat(250), 0));
-    ListingDao.deleteAll();
+    Assertions.assertFalse(validListing.UpdateListing(null, "long description".repeat(250), 100));
   }
 
   /** Tests requirement R4-4: Description has to be longer than the product's title. */
   @Test
   public void descriptionLongerThanTitleTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
+    ListingDao DAO = ListingDao.deserialize();
+    Listing validListing = DAO.getByID(2007);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2007,
+              "R4 The zoney zone",
+              "I love to live in a zoned zone! You know?",
+              100,
+              LocalDate.now(),
+              404);
     }
-    Listing validListing =
-        new Listing(
-            7,
-            "The zoney zone",
-            "I love to live in a lovely zone! You know?",
-            100,
-            LocalDate.now(),
-            u.getUserID());
-    assertFalse(
+    Assertions.assertFalse(
         validListing.UpdateListing(
-            "the ultimate frizbee area of dreams and legend",
+            "R4 the ultimate frizbee area of dreams and legend",
             "i suck at frizbee, what about u",
             0));
-    ListingDao.deleteAll();
   }
 
   /** Tests requirement R4-5: Price has to be within the range [10, 10000]. */
   @Test
   public void priceWithinRangeTest() {
-    // testing if correct error is thrown for the price < 10 case.
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    if (!dao.getAll().contains(u)) {
-      dao.save(u);
+    ListingDao DAO = ListingDao.deserialize();
+    Listing validListing = DAO.getByID(2008);
+    if (validListing == null) {
+      validListing =
+          new Listing(
+              2008,
+              "R5 The hippie girls zone",
+              "I met a very cute farmer/hippie at the weekend, don't judge me",
+              100,
+              LocalDate.now(),
+              404);
     }
-    Listing validListing =
-        new Listing(
-            43294,
-            "The hippie girls zone",
-            "I met a very cute farmer/hippie at the weekend, don't judge me",
-            100,
-            LocalDate.now(),
-            u.getUserID());
 
     // testing if correct error is thrown for the price < 10 case.
-    assertFalse(validListing.UpdateListing(null, null, 9));
+    Assertions.assertFalse(validListing.UpdateListing(null, null, 9));
 
     // testing if error is thrown for the price > 10000 case.
-    assertFalse(validListing.UpdateListing(null, null, 99999999));
-    ListingDao.deleteAll();
+    Assertions.assertFalse(validListing.UpdateListing(null, null, 99999999));
   }
 
   /** Tests requirement R4-8: A user cannot create a listing with a title that is already in-use. */
   @Test
   public void sharedTitleTest() {
-    User u = new User("punch@judy.com", "bringostar", "14LoversLane!", true);
-    UserDao dao = new UserDao();
-    dao.save(u);
-    System.out.println("1");
-    Listing x = new Listing(8323, "sunland", "be".repeat(50), 204, LocalDate.now(), u.getUserID());
-    System.out.println("2");
-    Listing y =
-        new Listing(843294, "loveplace", "ba".repeat(25), 100, LocalDate.now(), u.getUserID());
-    assertFalse(x.UpdateListing("loveplace", null, 900));
-    ListingDao.deleteAll();
+    ListingDao DAO = ListingDao.deserialize();
+    Listing x = DAO.getByID(2009);
+    if (x == null) {
+      x = new Listing(2009, "R8 sunland", "be".repeat(50), 204, LocalDate.now(), 404);
+    }
+
+    Listing y = DAO.getByID(2010);
+    if (y == null) {
+      y = new Listing(2010, "R8 loveplace", "ba".repeat(25), 100, LocalDate.now(), 404);
+    }
+    Assertions.assertFalse(x.UpdateListing("R8 loveplace", null, 900));
   }
 }

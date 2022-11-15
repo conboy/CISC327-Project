@@ -4,6 +4,7 @@ import com.google.gson.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import qbnb.models.daos.Dao;
 
 /** Uses DAO API to act as a persistence layer for Transaction domain models. */
 public class TransactionDao implements Dao<Transaction> {
@@ -21,7 +22,7 @@ public class TransactionDao implements Dao<Transaction> {
    * @return TransactionDao - Built TransactionDao
    */
   public static TransactionDao deserialize(String json) {
-    return gson.fromJson(json, TransactionDao.class);
+    return Gson.fromJson(json, TransactionDao.class);
   }
 
   /**

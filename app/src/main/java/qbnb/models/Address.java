@@ -5,7 +5,7 @@ public class Address {
   private String unitNumber;
   private String streetName;
   private String city;
-  private String postalZip;
+  private String postalCode;
   private String provState;
   private String country;
 
@@ -14,7 +14,7 @@ public class Address {
     this.unitNumber = null;
     this.streetName = null;
     this.city = null;
-    this.postalZip = null;
+    this.postalCode = null;
     this.provState = null;
     this.country = null;
   }
@@ -32,7 +32,7 @@ public class Address {
         && setUnitNumber(unitNum)
         && setStreetName(streetName)
         && setCity(city)
-        && setPostalZip(postalCode)
+        && setPostalCode(postalCode)
         && setProvState(provState)
         && setCountry(Country))) {
       throw new IllegalArgumentException("Please Check The Address Given");
@@ -128,13 +128,16 @@ public class Address {
   /**
    * Sets the Postal code or the zip code for the address @TODO - further logic to come later
    *
-   * @param postalZip - desired postal or zip code
+   * @param postalCode - desired postal or zip code
    * @return Boolean - if postal code set
    */
-  public Boolean setPostalZip(String postalZip) {
-    this.postalZip = postalZip;
+  public Boolean setPostalCode(String postal) {
+    if (postal.matches("^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$")) {
+      this.postalCode = postal;
+      return true;
+    }
 
-    return true;
+    return false;
   }
 
   /**
@@ -142,8 +145,8 @@ public class Address {
    *
    * @return String - postal code
    */
-  public String getPostalZip() {
-    return this.postalZip;
+  public String getPostalCode() {
+    return this.postalCode;
   }
 
   /**

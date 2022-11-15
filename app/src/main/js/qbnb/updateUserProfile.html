@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <main>
+        <a href="index">Home</a>
+        <h1>Update User Profile</h1>  
+        <form>
+          <label for="name">User Name:</label><br>
+          <input type="text" id="name" name="name"><br>
+          <label for="mail">Email:</label><br>
+          <input type="text" id="mail" name="mail"><br>
+          <label for="address">Billing Address:</label><br>
+          <input type="text" id="address" name="address"><br>
+          <label for="postalCode">Postal Code:</label><br>
+          <input type="text" id="postalCode" name="postalCode"><br><br>
+          <input type="submit" onclick="socket.send('updateUserProfile:' + ':123456789:'+ name.value + ':' + mail.value + ':' + address.value + ':' + postalCode.value)" value="Submit">
+        </form>
+    </main>
+	<script>
+        let socket = new WebSocket("ws://localhost:8025/websockets/game");
+
+socket.onopen = function(e) {
+
+};
+
+socket.onmessage = function(event) {
+  alert(`${event.data}`);
+};
+
+socket.onclose = function(event) {
+  if (event.wasClean) {
+    alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+  } else {
+    // e.g. server process killed or network down
+    // event.code is usually 1006 in this case
+    alert('[close] Connection died');
+  }
+};
+
+socket.onerror = function(error) {
+  alert(`[error]`);
+};
+    </script>
+        
+
+  </body>
+</html>
