@@ -10,15 +10,13 @@
   </head>
   <body>
     <main>
-        <form>
         <a href="register.html">Sign Up</a>
         <h1>Log In</h1>  
-        <label for="fname">Email:</label><br>
+        <label for="email">Email:</label><br>
         <input type="text" id="email" name="email" value=""><br>
-        <label for="lname">Password:</label><br>
+        <label for="pass">Password:</label><br>
         <input type="password" id="pass" name="pass" value=""><br><br>
-        <input type="submit" onclick="socket.send('login:' + email.value + ':' + pass.value)" value="Submit">
-        </form>
+        <input type="submit" id="submit" onclick="socket.send('login:' + email.value + ':' + pass.value)" value="Submit">
     </main>
 	<script>
         let socket = new WebSocket("ws://localhost:8025/websockets/game");
