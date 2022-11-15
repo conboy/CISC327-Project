@@ -18,7 +18,7 @@ public class Guest extends qbnb.models.User {
    * Adds a specified balance to the account
    *
    * @param balance - balance to be added
-   * @return Boolean
+   * @return Boolean - if balance added
    */
   public Boolean addBalance(double balance) {
     if (balance > 0) {
@@ -33,7 +33,7 @@ public class Guest extends qbnb.models.User {
    * Charges an account a specified balance
    *
    * @param amount - balance to be charged
-   * @return Boolean
+   * @return Boolean - account charged success
    */
   public Boolean chargeAccount(double amount) {
     if (amount > 0 && (accountBalance - amount) >= 0.00) {
@@ -57,59 +57,43 @@ public class Guest extends qbnb.models.User {
    * Adds a booking to the list of bookings @TODO implement later
    *
    * @param booking - booking to be added
-   * @return Boolean
+   * @return Boolean - if booking added
    */
   public Boolean addBooking(Listing booking) {
+    this.bookings.add(booking);
     return true;
   }
 
   /**
-   * Removes a booking from the list of bookings @TODO implement later
+   * Removes a booking from the list of bookings
    *
    * @param booking - booking to be removed
-   * @return Boolean
+   * @return Boolean - if booking is removed
    */
   public Boolean removeBooking(Listing booking) {
+    this.bookings.remove(booking);
     return true;
   }
 
   /**
-   * Returns a specified booking from the list of bookings @TODO implement later
-   *
-   * @param booking - booking to be returned
-   * @return Boolean
-   */
-  public Boolean getBooking(Listing booking) {
-    return true;
-  }
-
-  /**
-   * Adds a review to the list of reviews @TODO implement later
+   * Adds a review to the list of reviews
    *
    * @param review - review to be added
-   * @return Boolean
+   * @return Boolean - if review is added
    */
   public Boolean addReview(Review review) {
+    this.reviews.add(review);
     return true;
   }
 
   /**
-   * Removes a review from the list of reviews @TODO implement later
+   * Removes a review from the list of reviews
    *
    * @param review - review to be removed
    * @return Boolean
    */
   public Boolean removeReview(Review review) {
-    return true;
-  }
-
-  /**
-   * Retrieves review from list of reviews @TODO implement later
-   *
-   * @param review
-   * @return Boolean
-   */
-  public Boolean getReview(Review review) {
+    this.reviews.remove(review);
     return true;
   }
 }

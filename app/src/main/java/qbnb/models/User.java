@@ -38,7 +38,7 @@ public class User {
    * Checks the desired email based on the RFC 5322 spec
    *
    * @param email - desired email
-   * @return Boolean
+   * @return Boolean - email validation result
    */
   private Boolean checkEmail(String email) {
     return (email.matches(
@@ -50,7 +50,7 @@ public class User {
    * Sets the desired email for the user
    *
    * @param email - desired email
-   * @return Boolean
+   * @return Boolean - if the email has been set
    */
   public Boolean setEmail(String email) {
     if (checkEmail(email)) {
@@ -64,7 +64,7 @@ public class User {
   /**
    * Returns the unique email for the user
    *
-   * @return String
+   * @return String - email of the user
    */
   public String getEmail() {
     return this.email;
@@ -74,7 +74,7 @@ public class User {
    * Checks that a string only has alphanumeric characters for a username (R3-4)
    *
    * @param username - desired username
-   * @return Boolean
+   * @return Boolean - if username can be validated
    */
   private Boolean checkUsername(String username) {
     if (username.equals(username.trim()) && (2 <= username.length()) && (20 >= username.length())) {
@@ -90,7 +90,7 @@ public class User {
    * Sets the desired username for the user
    *
    * @param username - desired username
-   * @return Boolean
+   * @return Boolean - if username has been set
    */
   public Boolean setUsername(String username) {
     if (checkUsername(username)) {
@@ -104,7 +104,7 @@ public class User {
   /**
    * returns the username of the user
    *
-   * @return String
+   * @return String - username of the profile
    */
   public String getUsername() {
     return this.username;
@@ -116,7 +116,7 @@ public class User {
    * <p>is public to be used for validation is tests
    *
    * @param password - desired password
-   * @return Boolean
+   * @return Boolean - true if password is validated
    */
   public Boolean checkPassword(String password) {
     return (password.length() >= 6
@@ -129,7 +129,7 @@ public class User {
    * <p>Method is private because users should not change password once initialized (R3-1)
    *
    * @param password - desired password
-   * @return Boolean
+   * @return Boolean - if the password has been successfully set
    */
   private Boolean setPassword(String password) {
     if (checkPassword(password)) {
@@ -143,7 +143,7 @@ public class User {
   /**
    * returns the user's passowrd
    *
-   * @return String
+   * @return String - password of the user
    */
   public String getPassowrd() {
     return this.password;
@@ -152,7 +152,7 @@ public class User {
   /**
    * Creates the userID for the user using the verified email and hashCode()
    *
-   * @return long
+   * @return long - hash of the userID
    */
   private long hashUserID() {
     return this.email.hashCode();
@@ -161,15 +161,14 @@ public class User {
   /**
    * Returns the userID of the user
    *
-   * @return long
+   * @return long - user id of the current user
    */
   public long getUserID() {
     return this.userID;
   }
 
   /**
-   * Sets adress based on given parameters @TODO: further implementation of this @TODO implement
-   * later
+   * Sets adress based on given parameters
    *
    * @param streetNum - street number
    * @param unitNum - unit number if applicable (null if not)
@@ -221,7 +220,7 @@ public class User {
   /**
    * gets and returns the address object belonging to the user
    *
-   * @return Address
+   * @return Address - address object of the user
    */
   public Address getAddress() {
     return this.address;
@@ -230,7 +229,7 @@ public class User {
   /**
    * Deletes the guest profile for the user
    *
-   * @return Boolean
+   * @return Boolean - if guest profile is successfully deleted
    */
   public Boolean deleteGuest() {
     this.guestProfile = null;
@@ -240,7 +239,7 @@ public class User {
   /**
    * Adds a guest account for the user
    *
-   * @return Boolean
+   * @return Boolean - if guest is added successfully
    */
   public Boolean addGuest() {
     this.guestProfile = new Guest();
@@ -250,7 +249,7 @@ public class User {
   /**
    * Gets and returns the guest account for the user
    *
-   * @return Guest
+   * @return Guest - guest profile
    */
   public Guest getGuestAccount() {
     return this.guestProfile;
@@ -259,7 +258,7 @@ public class User {
   /**
    * Delete's the user's host profile
    *
-   * @return Boolean
+   * @return Boolean - host profile is successfully deleted
    */
   public Boolean deleteHost() {
     this.hostProfile = null;
@@ -269,7 +268,7 @@ public class User {
   /**
    * Adds a blank host profile for the user
    *
-   * @return Boolean
+   * @return Boolean - if host profile is successfully added
    */
   public Boolean addHost() {
     this.hostProfile = new Host();
@@ -279,7 +278,7 @@ public class User {
   /**
    * Gets and retuns the host profile for the user
    *
-   * @return Host
+   * @return Host - this host profile
    */
   public Host getHostAccount() {
     return this.hostProfile;
@@ -291,6 +290,10 @@ public class User {
    * R1-3: The email has to follow addr-spec defined in RFC 5322 R1-4: Password has to meet the
    * required complexity: minimum length 6, at least one upper case, at least one lower case, and at
    * least one special character.
+   *
+   * @param email - email to be used for login
+   * @param password - password to be used for login
+   * @return Boolean - login successful
    */
   public boolean Login(String email, String password) {
     boolean loggedIn = false;

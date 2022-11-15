@@ -45,62 +45,46 @@ class Host extends User {
   }
 
   /**
-   * Adds booking to list of bookings @TODO implement later
+   * Adds booking to list of bookings
    *
    * @param booking - booking to be added
    * @return Boolean
    */
   public Boolean addBooking(Listing booking) {
+    this.listings.add(booking);
     return true;
   }
 
   /**
-   * removes a booking from the list of bookings @TODO implement later
+   * removes a booking from the list of bookings
    *
    * @param booking - booking to be removed
    * @return Boolean
    */
   public Boolean removeBooking(Listing booking) {
+    this.listings.remove(booking);
     return true;
   }
 
   /**
-   * Retrieve booking from list of bookings @TODO implement later
-   *
-   * @param booking - booking to be retrieved
-   * @return Boolean
-   */
-  public Boolean getBooking(Listing booking) {
-    return true;
-  }
-
-  /**
-   * Add a review to the list of reviews @TODO implement later
+   * Add a review to the list of reviews
    *
    * @param review - review to be added
    * @return Boolean
    */
   public Boolean addReview(Review review) {
+    this.reviews.add(review);
     return true;
   }
 
   /**
-   * Removes a review from the list of reviews @TODO implement later
+   * Removes a review from the list of reviews
    *
    * @param review - review to be removed
    * @return Boolean
    */
   public Boolean removeReview(Review review) {
-    return true;
-  }
-
-  /**
-   * Retrieves a review from the list of reviews @TODO implement later
-   *
-   * @param review - review to be retrieved
-   * @return Boolean
-   */
-  public Boolean getReview(Review review) {
+    this.reviews.remove(review);
     return true;
   }
 }

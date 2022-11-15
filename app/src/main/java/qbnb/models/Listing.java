@@ -147,34 +147,56 @@ public class Listing {
     return true;
   }
 
-  /// == GETTER METHODS == ///
-
-  /** Returns listing ID */
+  /**
+   * Returns the listing id
+   *
+   * @return int - id of the listing
+   */
   public int getListingID() {
     return listingID;
   }
 
-  /** Returns title */
+  /**
+   * Returns the title of the listing
+   *
+   * @return String - listing title
+   */
   public String getTitle() {
     return title;
   }
 
-  /** Returns description */
+  /**
+   * Returns the description of the listing
+   *
+   * @return String - listing description
+   */
   public String getDescription() {
     return description;
   }
 
-  /** Returns price */
+  /**
+   * Returns the price of the listing
+   *
+   * @return double - listing price
+   */
   public double getPrice() {
     return price;
   }
 
-  /** Returns modification date */
+  /**
+   * Returns the mod. date of the listing
+   *
+   * @return LocalDate - Listing modification date
+   */
   public LocalDate getModificationDate() {
     return modificationDate;
   }
 
-  /** Returns owner ID */
+  /**
+   * Returns the id of the listing owner
+   *
+   * @return long - listing owner id
+   */
   public long getOwnerID() {
     return ownerID;
   }
