@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.Random;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -29,6 +30,13 @@ public class UpdateListingWebTests {
   static WebDriver driver;
   static User testUser;
   static UserDao userDao;
+
+  // the web elements used in every test
+  static WebElement ogTitle;
+  static WebElement title;
+  static WebElement desc;
+  static WebElement price;
+  static WebElement submit;
 
   /**
    * Initialises the chrome driver and url path automatically before each test. Not sure if URL path
@@ -59,7 +67,45 @@ public class UpdateListingWebTests {
       driver = new ChromeDriver();
       driver.get(baseUrl);
       AppServerEndpoint.setLoggedInUser(testUser);
+
+      // initialise web elements
+      ogTitle = driver.findElement(By.id("oldtitle"));
+      title = driver.findElement(By.id("listingtitle"));
+      desc = driver.findElement(By.id("desc"));
+      price = driver.findElement(By.id("price"));
+      submit = driver.findElement(By.id("submit"));
     }
+  }
+
+  @BeforeEach
+  void clearAll() {
+    ogTitle.clear();
+    title.clear();
+    desc.clear();
+    price.clear();
+  }
+
+  // clear all fields except OG title
+  void clearNonOg() {
+    title.clear();
+    desc.clear();
+    price.clear();
+  }
+
+  // evaluate the result and return true if the listing is successfully updated
+  boolean evaluateAlert() throws InterruptedException {
+    submit.click();
+    sleep(1500);
+    String alert = driver.switchTo().alert().getText();
+    driver.switchTo().alert().accept();
+    return alert.equals("Listing updated successfully!");
+  }
+
+  // repeated assertions in r1WebTest
+  void testHelperR1(Listing l1, LocalDate md, long id) {
+    Assertions.assertEquals(l1.getModificationDate(), md);
+    Assertions.assertEquals(l1.getOwnerID(), testUser.getUserID());
+    Assertions.assertEquals(l1.getListingID(), id);
   }
 
   /**
@@ -74,17 +120,6 @@ public class UpdateListingWebTests {
   @Test
   void r1WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      boolean updated = false;
-      WebElement ogTitle = driver.findElement(By.id("oldtitle"));
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      ogTitle.clear();
-      title.clear();
-      desc.clear();
-      price.clear();
-
       // create a new listing and get its id, modDate and ownerID
       Assertions.assertTrue(
           makeListing("R5 1 many tests", "uh oh oh no so many combinations!", 10));
@@ -106,159 +141,81 @@ public class UpdateListingWebTests {
       title.sendKeys(validT);
       desc.sendKeys(validD);
       price.sendKeys(validP);
-      submit.click();
-      sleep(1500);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) updated = true;
-      Assertions.assertTrue(updated);
+      Assertions.assertTrue(evaluateAlert());
       l1 = ListingDao.deserialize().getByTitle(validT, testUser.getUserID());
       if (l1 == null) Assertions.fail();
-      Assertions.assertEquals(l1.getModificationDate(), md);
-      Assertions.assertEquals(l1.getOwnerID(), testUser.getUserID());
-      Assertions.assertEquals(l1.getListingID(), id);
-      ogTitle.clear();
+      testHelperR1(l1, md, id);
+      clearAll();
       ogTitle.sendKeys(validT);
-      title.clear();
-      desc.clear();
-      price.clear();
 
       // Input 2: invalid, valid, valid
-      updated = false;
       title.sendKeys(invalidT);
       desc.sendKeys(validD);
       price.sendKeys(validP);
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) updated = true;
-      Assertions.assertFalse(updated);
+      Assertions.assertFalse(evaluateAlert());
       l1 = ListingDao.deserialize().getByTitle(validT, testUser.getUserID());
       if (l1 == null) Assertions.fail();
-      Assertions.assertEquals(l1.getModificationDate(), md);
-      Assertions.assertEquals(l1.getOwnerID(), testUser.getUserID());
-      Assertions.assertEquals(l1.getListingID(), id);
-      title.clear();
-      desc.clear();
-      price.clear();
+      testHelperR1(l1, md, id);
+      clearNonOg();
 
       // Input 3: valid, invalid, valid
-      updated = false;
       title.sendKeys(validT);
       desc.sendKeys(invalidD);
       price.sendKeys(validP);
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) updated = true;
-      Assertions.assertFalse(updated);
+      Assertions.assertFalse(evaluateAlert());
       l1 = ListingDao.deserialize().getByTitle(validT, testUser.getUserID());
       if (l1 == null) Assertions.fail();
-      Assertions.assertEquals(l1.getModificationDate(), md);
-      Assertions.assertEquals(l1.getOwnerID(), testUser.getUserID());
-      Assertions.assertEquals(l1.getListingID(), id);
-      title.clear();
-      desc.clear();
-      price.clear();
+      testHelperR1(l1, md, id);
+      clearNonOg();
 
       // Input 4: valid, valid, invalid
-      updated = false;
       title.sendKeys(validT);
       desc.sendKeys(validD);
       price.sendKeys(invalidP);
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) updated = true;
-      Assertions.assertFalse(updated);
+      Assertions.assertFalse(evaluateAlert());
       l1 = ListingDao.deserialize().getByTitle(validT, testUser.getUserID());
       if (l1 == null) Assertions.fail();
-      Assertions.assertEquals(l1.getModificationDate(), md);
-      Assertions.assertEquals(l1.getOwnerID(), testUser.getUserID());
-      Assertions.assertEquals(l1.getListingID(), id);
-      title.clear();
-      desc.clear();
-      price.clear();
+      testHelperR1(l1, md, id);
+      clearNonOg();
 
       // Input 5: valid, invalid, invalid
-      updated = false;
       title.sendKeys(validT);
       desc.sendKeys(invalidD);
       price.sendKeys(invalidP);
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) updated = true;
-      Assertions.assertFalse(updated);
+      Assertions.assertFalse(evaluateAlert());
       l1 = ListingDao.deserialize().getByTitle(validT, testUser.getUserID());
       if (l1 == null) Assertions.fail();
-      Assertions.assertEquals(l1.getModificationDate(), md);
-      Assertions.assertEquals(l1.getOwnerID(), testUser.getUserID());
-      Assertions.assertEquals(l1.getListingID(), id);
-      title.clear();
-      desc.clear();
-      price.clear();
+      testHelperR1(l1, md, id);
+      clearNonOg();
 
       // Input 6: invalid, valid, invalid
-      updated = false;
       title.sendKeys(invalidT);
       desc.sendKeys(validD);
       price.sendKeys(invalidP);
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) updated = true;
-      Assertions.assertFalse(updated);
+      Assertions.assertFalse(evaluateAlert());
       l1 = ListingDao.deserialize().getByTitle(validT, testUser.getUserID());
       if (l1 == null) Assertions.fail();
-      Assertions.assertEquals(l1.getModificationDate(), md);
-      Assertions.assertEquals(l1.getOwnerID(), testUser.getUserID());
-      Assertions.assertEquals(l1.getListingID(), id);
-      title.clear();
-      desc.clear();
-      price.clear();
+      testHelperR1(l1, md, id);
+      clearNonOg();
 
       // Input 7: invalid, invalid, valid
-      updated = false;
       title.sendKeys(invalidT);
       desc.sendKeys(invalidD);
       price.sendKeys(validP);
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) updated = true;
-      Assertions.assertFalse(updated);
+      Assertions.assertFalse(evaluateAlert());
       l1 = ListingDao.deserialize().getByTitle(validT, testUser.getUserID());
       if (l1 == null) Assertions.fail();
-      Assertions.assertEquals(l1.getModificationDate(), md);
-      Assertions.assertEquals(l1.getOwnerID(), testUser.getUserID());
-      Assertions.assertEquals(l1.getListingID(), id);
-      title.clear();
-      desc.clear();
-      price.clear();
+      testHelperR1(l1, md, id);
+      clearNonOg();
 
       // Input 8: invalid, invalid, invalid
-      updated = false;
       title.sendKeys(invalidT);
       desc.sendKeys(invalidD);
       price.sendKeys(invalidP);
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) updated = true;
-      Assertions.assertFalse(updated);
+      Assertions.assertFalse(evaluateAlert());
       l1 = ListingDao.deserialize().getByTitle(validT, testUser.getUserID());
       if (l1 == null) Assertions.fail();
-      Assertions.assertEquals(l1.getModificationDate(), md);
-      Assertions.assertEquals(l1.getOwnerID(), testUser.getUserID());
-      Assertions.assertEquals(l1.getListingID(), id);
+      testHelperR1(l1, md, id);
     }
   }
 
@@ -270,17 +227,7 @@ public class UpdateListingWebTests {
   @Test
   void r2WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      boolean updated = false;
-      WebElement ogTitle = driver.findElement(By.id("oldtitle"));
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      ogTitle.clear();
-      title.clear();
-      desc.clear();
       desc.sendKeys("uh oh he's using shotgun testing, watch out!");
-      price.clear();
       makeListing("R5 2 priceIncrease", "uh oh he's using shotgun testing, watch out!", 500);
 
       int curPrice = 500;
@@ -292,7 +239,6 @@ public class UpdateListingWebTests {
       // current price to randP.
       // since each test takes ~1 second to execute, we only run a small number.
       for (int i = 0; i < 15; i++) {
-        updated = false;
         ogTitle.clear();
         ogTitle.sendKeys(prevT);
         title.clear();
@@ -301,15 +247,9 @@ public class UpdateListingWebTests {
         int randP = rand.nextInt(9990) + 10;
 
         price.sendKeys(Double.toString(randP));
-        submit.click();
-        sleep(1500);
-
-        String alert = driver.switchTo().alert().getText();
-        driver.switchTo().alert().accept();
-        if (alert.equals("Listing updated successfully!")) updated = true;
-        if (randP < curPrice) Assertions.assertFalse(updated);
+        if (randP < curPrice) Assertions.assertFalse(evaluateAlert());
         else {
-          Assertions.assertTrue(updated);
+          Assertions.assertTrue(evaluateAlert());
           curPrice = randP;
           prevT = "R2 priceIncrease " + i;
         }
@@ -329,17 +269,7 @@ public class UpdateListingWebTests {
     if (LocalDate.now().isBefore(LocalDate.parse("2021-01-02"))) Assertions.fail();
     if (LocalDate.now().isAfter(LocalDate.parse("2025-01-02"))) Assertions.fail();
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      boolean updated = false;
-      WebElement ogTitle = driver.findElement(By.id("oldtitle"));
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      ogTitle.clear();
-      title.clear();
-      desc.clear();
       desc.sendKeys("uh oh oh no i hate it when mod date is updated!");
-      price.clear();
       price.sendKeys("100");
 
       // create a new listing and set its modification date to a previous time.
@@ -350,13 +280,7 @@ public class UpdateListingWebTests {
 
       ogTitle.sendKeys("R5 3 update moddate");
       title.sendKeys("R5 3 mod date updated");
-      submit.click();
-      sleep(1500);
-
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) updated = true;
-      Assertions.assertTrue(updated);
+      Assertions.assertTrue(evaluateAlert());
       l = ListingDao.deserialize().getByTitle("R5 3 mod date updated", testUser.getUserID());
       if (l == null) Assertions.fail();
       Assertions.assertEquals(l.getModificationDate(), LocalDate.now());
@@ -377,106 +301,55 @@ public class UpdateListingWebTests {
   @Test
   void r5R4_1WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement ogTitle = driver.findElement(By.id("oldtitle"));
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
       Assertions.assertTrue(makeListing("R5 R4 1", "bebbebebebeebebebebeb", 100));
-      ogTitle.clear();
-      title.clear();
-      desc.clear();
       desc.sendKeys("Generic descirption. plum pudding yum yum.");
-      price.clear();
       price.sendKeys("100");
 
       // Input 1: a title of all uppercase ascii letters. Expected outcome: success.
-      boolean listingMade = false;
       ogTitle.sendKeys("R5 R4 1");
       title.sendKeys("ALLCAPSTEST");
-      submit.click();
-      sleep(1500);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       ogTitle.clear();
       title.clear();
 
       // Input 2: a title of all lowercase ascii letters. Expected outcome: success.
-      listingMade = false;
       ogTitle.sendKeys("ALLCAPSTEST");
       title.sendKeys("alllowertest");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       ogTitle.clear();
       title.clear();
 
       // Input 3: a title of all numeric characters 0-9. Expected outcome: success.
-      listingMade = false;
       ogTitle.sendKeys("alllowertest");
       title.sendKeys("0123456789");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
       ogTitle.clear();
 
       // Input 4: a title of several symbolic characters. Expected outcome: failure.
-      listingMade = false;
       ogTitle.sendKeys("0123456789");
       title.sendKeys("!@£$%^&*()[]'?.,+-=");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
       title.clear();
 
       // Input 5: a title of uppercase and lowercase ASCII characters with a space at the front.
       // Expected outcome: failure.
-      listingMade = false;
       title.sendKeys(" FrontSpaceTest");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
       title.clear();
 
       // Input 6: a title of uppercase and lowercase ASCII characters with a space in the middle.
       // Expected outcome: success.
-      listingMade = false;
       title.sendKeys("MidSpace Test");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
       ogTitle.clear();
 
       // Input 7: a title of uppercase and lowercase ASCII characters with a space at the end.
       // Expected outcome: failure.
-      listingMade = false;
       ogTitle.sendKeys("MidSpace Test");
       title.sendKeys("EndSpaceTest ");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
     }
   }
 
@@ -488,70 +361,37 @@ public class UpdateListingWebTests {
   @Test
   void r5R4_2WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement ogTitle = driver.findElement(By.id("oldtitle"));
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
       Assertions.assertTrue(makeListing("R5 R4 2", "bebbebebebeebebebebeb", 100));
-      ogTitle.clear();
-      title.clear();
-      desc.clear();
       desc.sendKeys("Generic description. plum pudding yum yum.");
-      price.clear();
       price.sendKeys("100");
 
       // Input 1: a title with 0 length
       // On terms of length alone this should pass, but we expect failure as this ignores the
       // rules of R1 - an empty title doesn't contain anything at all!
-      boolean listingMade = false;
       ogTitle.sendKeys("R5 R4 2");
       title.sendKeys("");
-      submit.click();
-      sleep(1500);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
       title.clear();
 
       // Input 2: a title of length 1. Expected outcome: success.
-      listingMade = false;
       title.sendKeys("A");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
       ogTitle.clear();
 
       // Input 3: a title of length 80. Expected outcome: success.
-      listingMade = false;
       ogTitle.sendKeys("A");
       title.sendKeys("A".repeat(80));
       desc.clear();
       desc.sendKeys("long description ".repeat(10));
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
       ogTitle.clear();
 
       // Input 4: a title of length 81. Expected outcome: failure.
-      listingMade = false;
       ogTitle.sendKeys("A".repeat(80));
       title.sendKeys("A".repeat(81));
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
     }
   }
 
@@ -566,63 +406,33 @@ public class UpdateListingWebTests {
       // can pass on server for both OS', but it's sorta random if it does.
       // added this try/catch block to make pushes more consistent for other branches in the future.
       try {
-        WebElement ogTitle = driver.findElement(By.id("oldtitle"));
-        WebElement title = driver.findElement(By.id("listingtitle"));
-        WebElement desc = driver.findElement(By.id("desc"));
-        WebElement price = driver.findElement(By.id("price"));
-        WebElement submit = driver.findElement(By.id("submit"));
-        title.clear();
-        desc.clear();
-        price.clear();
-        ogTitle.clear();
         price.sendKeys("100");
-
         Assertions.assertTrue(makeListing("R5 R4 3", "bebbebebebeebebebebeb", 100));
         ogTitle.sendKeys("R5 R4 3");
         title.sendKeys("R5 R4 3");
 
         // Input 1: a description of length 19. Expected outcome: failure.
-        boolean listingMade = false;
         desc.sendKeys("A".repeat(19));
-        submit.click();
-        sleep(1500);
-        String alert = driver.switchTo().alert().getText();
-        driver.switchTo().alert().accept();
-        if (alert.equals("Listing updated successfully!")) listingMade = true;
-        Assertions.assertFalse(listingMade);
+        Assertions.assertFalse(evaluateAlert());
         desc.clear();
 
         // Input 2: a description of length 20. Expected outcome: success.
-        listingMade = false;
         desc.sendKeys("A".repeat(20));
-        submit.click();
-        sleep(1500);
-        alert = driver.switchTo().alert().getText();
-        driver.switchTo().alert().accept();
-        if (alert.equals("Listing updated successfully!")) listingMade = true;
-        Assertions.assertTrue(listingMade);
+        Assertions.assertTrue(evaluateAlert());
         desc.clear();
 
         // Input 3: a description of length 2000. Expected outcome: success.
         // Wait longer because the input here is pretty big
-        listingMade = false;
         desc.sendKeys("A".repeat(2000));
         submit.click();
         sleep(3000);
-        alert = driver.switchTo().alert().getText();
+        String alert = driver.switchTo().alert().getText();
         driver.switchTo().alert().accept();
-        if (alert.equals("Listing updated successfully!")) listingMade = true;
-        Assertions.assertTrue(listingMade);
+        Assertions.assertEquals(alert, "Listing updated successfully!");
 
         // Input 4: a description of length 2001. Expected outcome: failure.
-        listingMade = false;
         desc.sendKeys("A"); // increases desc length by 1 to 2001
-        submit.click();
-        sleep(1500);
-        alert = driver.switchTo().alert().getText();
-        driver.switchTo().alert().accept();
-        if (alert.equals("Listing updated successfully!")) listingMade = true;
-        Assertions.assertFalse(listingMade);
+        Assertions.assertFalse(evaluateAlert());
       } catch (Exception ignored) {
         Assertions.assertTrue(true);
       }
@@ -637,13 +447,6 @@ public class UpdateListingWebTests {
   @Test
   void r5R4_4WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      boolean listingMade;
-      WebElement ogTitle = driver.findElement(By.id("oldtitle"));
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      price.clear();
       price.sendKeys("200");
       Random rand = new Random();
 
@@ -656,7 +459,6 @@ public class UpdateListingWebTests {
       // if title.length >= desc.length, we expect a failure, otherwise we expect success.
       // since each test takes ~1 second to execute, we only run a small number.
       for (int i = 0; i < 15; i++) {
-        listingMade = false;
         title.clear();
         desc.clear();
         int randT = rand.nextInt(75) + 1;
@@ -666,15 +468,9 @@ public class UpdateListingWebTests {
 
         title.sendKeys(rt);
         desc.sendKeys(rd);
-        submit.click();
-        sleep(1500);
-
-        String alert = driver.switchTo().alert().getText();
-        driver.switchTo().alert().accept();
-        if (alert.equals("Listing updated successfully!")) listingMade = true;
-        if (rt.length() >= rd.length()) Assertions.assertFalse(listingMade);
+        if (rt.length() >= rd.length()) Assertions.assertFalse(evaluateAlert());
         else {
-          Assertions.assertTrue(listingMade);
+          Assertions.assertTrue(evaluateAlert());
           ogTitle.clear();
           ogTitle.sendKeys(rt);
         }
@@ -690,63 +486,30 @@ public class UpdateListingWebTests {
   @Test
   void r5R4_5WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement ogTitle = driver.findElement(By.id("oldtitle"));
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      ogTitle.clear();
-      title.clear();
-      desc.clear();
       desc.sendKeys("Generic descirption. plum pudding yum yum.");
-      price.clear();
 
       Assertions.assertTrue(makeListing("R5 R4 5", "bebbebebebeebebebebeb", 10));
       ogTitle.sendKeys("R5 R4 5");
       title.sendKeys("R5 R4 5");
 
       // Input 1: a price of 9. Expected outcome: failure.
-      boolean listingMade = false;
       price.sendKeys("9");
-      submit.click();
-      sleep(1500);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
       price.clear();
 
       // Input 2: a price of 10. Expected outcome: success.
-      listingMade = false;
       price.sendKeys("10");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       price.clear();
 
       // Input 3: a price of 10000. Expected outcome: success.
-      listingMade = false;
       price.sendKeys("10000");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       price.clear();
 
       // Input 4: a price of 10001. Expected outcome: failure.
-      listingMade = false;
       price.sendKeys("10001");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
     }
   }
 
@@ -761,18 +524,8 @@ public class UpdateListingWebTests {
   @Test
   void r5R4_8WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement ogTitle = driver.findElement(By.id("oldtitle"));
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      ogTitle.clear();
-      title.clear();
-      desc.clear();
       desc.sendKeys("Generic descirption. plum pudding yum yum.");
-      price.clear();
       price.sendKeys("100");
-      boolean listingMade = false;
 
       // Create & register an extra user.
       User validUser = new User("rfive@rfour.com", "maNman9", "!Rh0mbus", false);
@@ -783,12 +536,7 @@ public class UpdateListingWebTests {
       // Input 1: update the title to an usused title. Expected outcome: success.
       ogTitle.sendKeys("R5 R4 8 A");
       title.sendKeys("R5 R4 8 B");
-      submit.click();
-      sleep(1500);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
       ogTitle.clear();
 
@@ -798,15 +546,9 @@ public class UpdateListingWebTests {
 
       // Input 2: update to a title that is in use, but by a different user.
       // Expected outcome: success.
-      listingMade = false;
       ogTitle.sendKeys("R5 R4 8 A");
       title.sendKeys("R5 R4 8 B");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
       ogTitle.clear();
 
@@ -816,15 +558,9 @@ public class UpdateListingWebTests {
 
       // Input 3: update to a title that is already in use for the current user.
       // Expected outcome: failure.
-      listingMade = false;
       ogTitle.sendKeys("R5 R4 8 A");
       title.sendKeys("R5 R4 8 B");
-      submit.click();
-      sleep(1500);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing updated successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
 
       // ensure we are logged in to the test user
       AppServerEndpoint.setLoggedInUser(testUser);
