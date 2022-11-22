@@ -93,7 +93,7 @@ public class AppServerEndpoint {
                   (long) ((lDao.getAll().size()) + 1),
                   arr[1],
                   arr[2],
-                  Double.parseDouble(arr[3]),
+                  Double.parseDouble(arr[arr.length - 1]),
                   LocalDate.now(),
                   ownerID);
           return "Listing saved successfully!";

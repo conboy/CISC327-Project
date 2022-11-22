@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Random;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -36,6 +37,12 @@ public class CreateListingWebTests {
   static AppThread thread;
   static WebDriver driver;
 
+  // the web elements used in every test
+  static WebElement title;
+  static WebElement desc;
+  static WebElement price;
+  static WebElement submit;
+
   /**
    * Initialises the chrome driver and url path automatically before each test. Not sure if URL path
    * is specifically OS dependant but ???
@@ -60,33 +67,41 @@ public class CreateListingWebTests {
       thread.start();
       driver = new ChromeDriver();
       driver.get(baseUrl);
+
+      // initialise web elements
+      title = driver.findElement(By.id("listingtitle"));
+      desc = driver.findElement(By.id("desc"));
+      price = driver.findElement(By.id("price"));
+      submit = driver.findElement(By.id("submit"));
     }
+  }
+
+  @BeforeEach
+  void clearAll() {
+    if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
+      title.clear();
+      desc.clear();
+      price.clear();
+    }
+  }
+
+  boolean evaluateAlert() throws InterruptedException {
+    submit.click();
+    sleep(1000);
+    String alert = driver.switchTo().alert().getText();
+    driver.switchTo().alert().accept();
+    return alert.equals("Listing saved successfully!");
   }
 
   /** A test just to test out selenium and make sure that we can create a listing successfully! */
   @Test
   void basicCreationTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      boolean listingMade = false;
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      title.clear();
-      desc.clear();
-      price.clear();
-
       title.sendKeys("Test title innit");
       desc.sendKeys("Generic descirption. plum pudding yum yum.");
       price.sendKeys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.BACK_SPACE, Keys.BACK_SPACE);
       price.sendKeys("200");
-      submit.click();
-      sleep(1000);
-
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       thread.interrupt();
     }
   }
@@ -99,95 +114,44 @@ public class CreateListingWebTests {
   @Test
   void r1WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      title.clear();
-      desc.clear();
       desc.sendKeys("Generic descirption. plum pudding yum yum.");
-      price.clear();
-      price.sendKeys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.BACK_SPACE, Keys.BACK_SPACE);
       price.sendKeys("100");
 
       // Input 1: a title of all uppercase ascii letters. Expected outcome: success.
-      boolean listingMade = false;
       title.sendKeys("ALLCAPSTEST");
-      submit.click();
-      sleep(1000);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
 
       // Input 2: a title of all lowercase ascii letters. Expected outcome: success.
-      listingMade = false;
       title.sendKeys("alllowertest");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
 
       // Input 3: a title of all numeric characters 0-9. Expected outcome: success.
-      listingMade = false;
       title.sendKeys("0123456789");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
 
       // Input 4: a title of several symbolic characters. Expected outcome: failure.
-      listingMade = false;
       title.sendKeys("!@£$%^&*()[]'?.,+-=");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
       title.clear();
 
       // Input 5: a title of uppercase and lowercase ASCII characters with a space at the front.
       // Expected outcome: failure.
-      listingMade = false;
       title.sendKeys(" FrontSpaceTest");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
       title.clear();
 
       // Input 6: a title of uppercase and lowercase ASCII characters with a space in the middle.
       // Expected outcome: success.
-      listingMade = false;
       title.sendKeys("MidSpace Test");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
 
       // Input 7: a title of uppercase and lowercase ASCII characters with a space at the end.
-      // Expected outcome: failure.
-      listingMade = false;
       title.sendKeys("EndSpaceTest ");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
     }
@@ -201,63 +165,31 @@ public class CreateListingWebTests {
   @Test
   void r2WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      title.clear();
-      desc.clear();
       desc.sendKeys("Generic descirption. plum pudding yum yum.");
-      price.clear();
-      price.sendKeys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.BACK_SPACE, Keys.BACK_SPACE);
       price.sendKeys("100");
 
       // Input 1: a title with 0 length
       // On terms of length alone this should pass, but we expect failure as this ignores the
       // rules of R1 - an empty title doesn't contain anything at all!
-      boolean listingMade = false;
       title.sendKeys("");
-      submit.click();
-      sleep(1000);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
       title.clear();
 
       // Input 2: a title of length 1. Expected outcome: success.
-      listingMade = false;
       title.sendKeys("A");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
 
       // Input 3: a title of length 80. Expected outcome: success.
-      listingMade = false;
       title.sendKeys("A".repeat(80));
       desc.clear();
       desc.sendKeys("long description ".repeat(10));
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
 
       // Input 4: a title of length 81. Expected outcome: failure.
-      listingMade = false;
       title.sendKeys("A".repeat(81));
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
     }
@@ -271,65 +203,32 @@ public class CreateListingWebTests {
   @Test
   void r3WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      title.clear();
-      desc.clear();
-      price.clear();
-      price.sendKeys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.BACK_SPACE, Keys.BACK_SPACE);
       price.sendKeys("100");
 
       // Input 1: a description of length 19. Expected outcome: failure.
-      boolean listingMade = false;
       title.sendKeys("R3 19");
       desc.sendKeys("A".repeat(19));
-      submit.click();
-      sleep(1000);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
       title.clear();
       desc.clear();
 
       // Input 2: a description of length 20. Expected outcome: success.
-      listingMade = false;
       title.sendKeys("R3 20");
       desc.sendKeys("A".repeat(20));
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
       desc.clear();
 
       // Input 3: a description of length 2000. Expected outcome: success.
-      listingMade = false;
       title.sendKeys("R3 2000");
       desc.sendKeys("A".repeat(2000));
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
-      desc.clear();
 
       // Input 4: a description of length 2001. Expected outcome: failure.
-      listingMade = false;
       title.sendKeys("R3 2001");
-      desc.sendKeys("A".repeat(2001));
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      desc.sendKeys("A");
+      Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
     }
@@ -343,13 +242,6 @@ public class CreateListingWebTests {
   @Test
   void r4WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      boolean listingMade;
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      price.clear();
-      price.sendKeys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.BACK_SPACE, Keys.BACK_SPACE);
       price.sendKeys("200");
       Random rand = new Random();
 
@@ -358,7 +250,6 @@ public class CreateListingWebTests {
       // if title.length >= desc.length, we expect a failure, otherwise we expect success.
       // since each test takes ~1 second to execute, we only run a small number.
       for (int i = 0; i < 15; i++) {
-        listingMade = false;
         title.clear();
         desc.clear();
         int randT = rand.nextInt(75) + 1;
@@ -368,16 +259,9 @@ public class CreateListingWebTests {
 
         title.sendKeys(rt);
         desc.sendKeys(rd);
-        submit.click();
-        sleep(1000);
-
-        String alert = driver.switchTo().alert().getText();
-        driver.switchTo().alert().accept();
-        if (alert.equals("Listing saved successfully!")) listingMade = true;
-        if (rt.length() >= rd.length()) Assertions.assertFalse(listingMade);
-        else Assertions.assertTrue(listingMade);
+        if (rt.length() >= rd.length()) Assertions.assertFalse(evaluateAlert());
+        else Assertions.assertTrue(evaluateAlert());
       }
-
       thread.interrupt();
     }
   }
@@ -390,64 +274,33 @@ public class CreateListingWebTests {
   @Test
   void r5WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      title.clear();
-      desc.clear();
       desc.sendKeys("Generic descirption. plum pudding yum yum.");
-      price.clear();
 
       // Input 1: a price of 9. Expected outcome: failure.
-      boolean listingMade = false;
       title.sendKeys("R5 9");
       price.sendKeys("9");
-      submit.click();
-      sleep(1000);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
       title.clear();
       price.clear();
 
       // Input 2: a price of 10. Expected outcome: success.
-      listingMade = false;
       title.sendKeys("R5 10");
       price.sendKeys("10");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
       price.clear();
 
       // Input 3: a price of 10000. Expected outcome: success.
-      listingMade = false;
       title.sendKeys("R5 10000");
       price.sendKeys("10000");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
       price.clear();
 
       // Input 4: a price of 10001. Expected outcome: failure.
-      listingMade = false;
       title.sendKeys("R5 10001");
       price.sendKeys("10001");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
     }
@@ -489,16 +342,8 @@ public class CreateListingWebTests {
   @Test
   void r7WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      title.clear();
-      desc.clear();
       desc.sendKeys("Generic descirption. plum pudding yum yum.");
-      price.clear();
       price.sendKeys("100");
-      boolean listingMade = false;
 
       // Create two dummy users -> only save one of them to userdao to mimic registration.
       // No point testing for owner email being empty, as that would require a user with no email to
@@ -514,12 +359,7 @@ public class CreateListingWebTests {
       // Input 1: a listing created by a registered user (expected behaviour). Expected outcome:
       // success.
       title.sendKeys("R7 Valid User");
-      submit.click();
-      sleep(1000);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
       title.clear();
 
       // login to erroneous user
@@ -527,14 +367,8 @@ public class CreateListingWebTests {
 
       // Input 2: a listing created by a registered user (erroneous behaviour). Expected outcome:
       // failure.
-      listingMade = false;
       title.sendKeys("R7 Unregistered User");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
 
       // logout
       AppServerEndpoint.setLoggedInUser(null);
@@ -552,17 +386,9 @@ public class CreateListingWebTests {
   @Test
   void r8WebTest() throws InterruptedException {
     if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      WebElement title = driver.findElement(By.id("listingtitle"));
-      WebElement desc = driver.findElement(By.id("desc"));
-      WebElement price = driver.findElement(By.id("price"));
-      WebElement submit = driver.findElement(By.id("submit"));
-      title.clear();
       title.sendKeys("R8 Same Title Test");
-      desc.clear();
       desc.sendKeys("Generic descirption. plum pudding yum yum.");
-      price.clear();
       price.sendKeys("100");
-      boolean listingMade = false;
 
       // Create & register (save) two dummy users.
       UserDao uDao = UserDao.deserialize("/db/users.json");
@@ -573,49 +399,27 @@ public class CreateListingWebTests {
       AppServerEndpoint.setLoggedInUser(validUser);
 
       // Input 1: unused user & unused title. Expected outcome: success.
-      submit.click();
-      sleep(1000);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
 
       // Input 2: used user, unused title.
       // Expected outcome: success.
       title.clear();
       title.sendKeys("R8 Title Test Same");
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      Assertions.assertTrue(evaluateAlert());
 
       // change users
       AppServerEndpoint.setLoggedInUser(validerUser);
 
       // Input 3: unused user, used title.
-      // Expected outcome: success.
-      listingMade = false;
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertTrue(listingMade);
+      // Expected outcome: success
+      Assertions.assertTrue(evaluateAlert());
 
       // change users
       AppServerEndpoint.setLoggedInUser(validUser);
 
       // Input 4: used user, used title.
       // Expected outcome: failure.
-      listingMade = false;
-      submit.click();
-      sleep(1000);
-      alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      if (alert.equals("Listing saved successfully!")) listingMade = true;
-      Assertions.assertFalse(listingMade);
+      Assertions.assertFalse(evaluateAlert());
 
       // logout
       AppServerEndpoint.setLoggedInUser(null);
