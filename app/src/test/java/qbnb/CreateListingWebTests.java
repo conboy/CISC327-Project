@@ -101,7 +101,7 @@ public class CreateListingWebTests {
       price.sendKeys("200");
       Assertions.assertTrue(evaluateAlert());
       thread.interrupt();
-    }
+    } else Assertions.assertTrue(true);
   }
 
   /**
@@ -152,7 +152,7 @@ public class CreateListingWebTests {
       Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
-    }
+    } else Assertions.assertTrue(true);
   }
 
   /**
@@ -190,7 +190,7 @@ public class CreateListingWebTests {
       Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
-    }
+    } else Assertions.assertTrue(true);
   }
 
   /**
@@ -229,7 +229,7 @@ public class CreateListingWebTests {
       Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
-    }
+    } else Assertions.assertTrue(true);
   }
 
   /**
@@ -262,7 +262,7 @@ public class CreateListingWebTests {
       }
 
       thread.interrupt();
-    }
+    } else Assertions.assertTrue(true);
   }
 
   /**
@@ -302,7 +302,7 @@ public class CreateListingWebTests {
       Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
-    }
+    } else Assertions.assertTrue(true);
   }
 
   /**
@@ -328,7 +328,7 @@ public class CreateListingWebTests {
       } else {
         Assertions.fail();
       }
-    }
+    } else Assertions.assertTrue(true);
   }
 
   /**
@@ -371,7 +371,7 @@ public class CreateListingWebTests {
 
       // logout
       AppServerEndpoint.setLoggedInUser(null);
-    }
+    } else Assertions.assertTrue(true);
   }
 
   /**
@@ -422,6 +422,6 @@ public class CreateListingWebTests {
 
       // logout
       AppServerEndpoint.setLoggedInUser(null);
-    }
+    } else Assertions.assertTrue(true);
   }
 }
