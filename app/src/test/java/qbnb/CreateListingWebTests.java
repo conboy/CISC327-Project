@@ -78,19 +78,19 @@ public class CreateListingWebTests {
 
   @BeforeEach
   void clearAll() {
-    title.clear();
-    desc.clear();
-    price.clear();
+    if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
+      title.clear();
+      desc.clear();
+      price.clear();
+    }
   }
 
   boolean evaluateAlert() throws InterruptedException {
-    if (osCheck.equals("Mac") || osCheck.equals("Windows")) {
-      submit.click();
-      sleep(1000);
-      String alert = driver.switchTo().alert().getText();
-      driver.switchTo().alert().accept();
-      return alert.equals("Listing saved successfully!");
-    } else return true;
+    submit.click();
+    sleep(1000);
+    String alert = driver.switchTo().alert().getText();
+    driver.switchTo().alert().accept();
+    return alert.equals("Listing saved successfully!");
   }
 
   /** A test just to test out selenium and make sure that we can create a listing successfully! */
@@ -103,7 +103,7 @@ public class CreateListingWebTests {
       price.sendKeys("200");
       Assertions.assertTrue(evaluateAlert());
       thread.interrupt();
-    } else Assertions.assertTrue(true);
+    }
   }
 
   /**
@@ -154,7 +154,7 @@ public class CreateListingWebTests {
       Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
-    } else Assertions.assertTrue(true);
+    }
   }
 
   /**
@@ -192,7 +192,7 @@ public class CreateListingWebTests {
       Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
-    } else Assertions.assertTrue(true);
+    }
   }
 
   /**
@@ -231,7 +231,7 @@ public class CreateListingWebTests {
       Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
-    } else Assertions.assertTrue(true);
+    }
   }
 
   /**
@@ -262,9 +262,8 @@ public class CreateListingWebTests {
         if (rt.length() >= rd.length()) Assertions.assertFalse(evaluateAlert());
         else Assertions.assertTrue(evaluateAlert());
       }
-
       thread.interrupt();
-    } else Assertions.assertTrue(true);
+    }
   }
 
   /**
@@ -304,7 +303,7 @@ public class CreateListingWebTests {
       Assertions.assertFalse(evaluateAlert());
 
       thread.interrupt();
-    } else Assertions.assertTrue(true);
+    }
   }
 
   /**
@@ -330,7 +329,7 @@ public class CreateListingWebTests {
       } else {
         Assertions.fail();
       }
-    } else Assertions.assertTrue(true);
+    }
   }
 
   /**
@@ -373,7 +372,7 @@ public class CreateListingWebTests {
 
       // logout
       AppServerEndpoint.setLoggedInUser(null);
-    } else Assertions.assertTrue(true);
+    }
   }
 
   /**
@@ -412,7 +411,7 @@ public class CreateListingWebTests {
       AppServerEndpoint.setLoggedInUser(validerUser);
 
       // Input 3: unused user, used title.
-      // Expected outcome: success.
+      // Expected outcome: success
       Assertions.assertTrue(evaluateAlert());
 
       // change users
@@ -424,6 +423,6 @@ public class CreateListingWebTests {
 
       // logout
       AppServerEndpoint.setLoggedInUser(null);
-    } else Assertions.assertTrue(true);
+    }
   }
 }
