@@ -1,0 +1,8 @@
+version: "3.7"
+
+services:
+  app:
+    image: csus/qbnb27:a5
+    ports:
+      - 8080:8080
+      - 8025:8025
