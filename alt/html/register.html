@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>My Website</title>
+        <link rel="stylesheet" href="./style.css">
+        <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+        <main>
+                <a href="login.html" id="login">Log in</a>
+                <h1>Sign Up</h1>
+                <form id="register-form">
+                        <label for="email">Email:</label><br>
+                        <input type="text" id="email" name="email" value=""><br>
+                        <label for="user">Username:</label><br>
+                        <input type="text" id="user" name="user" value=""><br>
+                        <label for="pass">Password:</label><br>
+                        <input type="password" id="pass" name="pass" value=""><br><br>
+                        <input type="button" id="submit" name="Submit" onclick=postData().then(go).catch(console.log)>
+                </form>
+        </main>
+
+        <script>
+                const home = "http://localhost:8000"
+                const form = document.getElementById('register-form')
+                const options = {
+                        method: 'POST',
+                        headers: {
+                                        'Content-Type': 'text/plain',
+                        }
+                }
+
+                // collect form data into a path string
+                function getValues() {
+                        let str = ""
+                        Array.from(form.elements).forEach(element => {
+                                str += `/${element.value}`
+                        })
+                        return str
+                }
+
+                // submit post request with register data and return url or error message
+                async function postData() {
+                        const response = await fetch(`${home}/register${getValues()}`, options);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                // go to url given by post request
+                function go(url) {
+                        location.href = url
+                }
+    </script>
+
+</body>
+
+</html>

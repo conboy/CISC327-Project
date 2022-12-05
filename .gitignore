@@ -19,3 +19,6 @@ db/*
 # ignore Configuration file
 app/src/main/java/qbnb/AppConf.java
 
+# ignore rust target
+alt/target
+
