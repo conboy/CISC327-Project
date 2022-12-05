@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                <title>Qbnb | Update Profile</title>
+                <link rel="stylesheet" href="./style.css">
+                <link rel="icon" href="./favicon.ico" type="image/x-icon">
+        </head>
+
+        <body>
+        <main>
+                <a href="index.html">Home</a>
+                <h1>Update User Profile</h1>  
+                <form id="update-form">
+                        <label for="name">User Name:</label><br>
+                        <input type="text" id="name" name="Name"><br>
+                        <label for="mail">Email:</label><br>
+                        <input type="text" id="mail" name="e-Mail"><br>
+                        <label for="address">Billing Address:</label><br>
+                        <input type="text" id="address" name=Billing "Address"><br>
+                        <label for="postalCode">Postal Code:</label><br>
+                        <input type="text" id="postalCode" name="Postal Code"><br><br>
+                        <input type="button" id="submit" name="Submit" onclick=postData()>
+                </form>
+        </main>
+
+        <script>
+                const form = document.getElementById('update-form')
+
+                function getValues() {
+                        let str = ""
+                        Array.from(form.elements).forEach(element => {
+                                str += `/${element.value}`
+                                console.log(str)
+                        })
+                        return str
+                }
+
+                async function postData () {
+                        fetch(`http://localhost:8000/updateUserProfile${getValues()}`)
+                }
+        </script>
+        </body>
+</html>
