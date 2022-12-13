@@ -12,36 +12,56 @@
     <main>
         <a href="register.html">Sign Up</a>
         <h1>Log In</h1>  
-        <label for="email">Email:</label><br>
-        <input type="text" id="email" name="email" value=""><br>
-        <label for="pass">Password:</label><br>
-        <input type="password" id="pass" name="pass" value=""><br><br>
-        <input type="submit" id="submit" onclick="socket.send('login:' + email.value + ':' + pass.value)" value="Submit">
+        <form id="login-form">
+                <label for="email">Email:</label><br>
+                <input type="text" id="email" name="email" value=""><br>
+                <label for="pass">Password:</label><br>
+                <input type="password" id="pass" name="pass" value=""><br><br>
+                <input type="button" id="submit" onclick=postData().then(login).catch(console.log)>
+        </form>
     </main>
-	<script>
-        let socket = new WebSocket("ws://localhost:8025/websockets/game");
+        <script>
+                const home = "http://localhost:8000"
+                const form = document.getElementById('login-form')
+                const options = {
+                        method: 'POST',
+                        headers: {
+                                        'Content-Type': 'text/plain',
+                        }
+                }
 
-socket.onopen = function(e) {
+                // collect form data into a path string
+                function getValues() {
+                        let str = ""
+                        Array.from(form.elements).forEach(element => {
+                                str += `/${element.value}`
+                        })
+                        return str
+                }
 
-};
+                // submit post request with login data and return msg or error message
+                async function postData() {
+                        const response = await fetch(`${home}/login${getValues()}`, options);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
 
-socket.onmessage = function(event) {
-    alert(`${event.data}`);
-};
-
-socket.onclose = function(event) {
-  if (event.wasClean) {
-    alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-  } else {
-    // e.g. server process killed or network down
-    // event.code is usually 1006 in this case
-    alert('[close] Connection died');
-  }
-};
-
-socket.onerror = function(error) {
-  alert(`[error]`);
-};
+                // add id to document at login
+                function login(msg) {
+                        if (msg == "ERROR") {
+                                alert("Incorrect email or password")
+                        } else {
+                                location.href = "index.html";
+                                localStorage.setItem("user_id", msg)
+                        }
+                }
     </script>
         
 

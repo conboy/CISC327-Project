@@ -22,24 +22,52 @@
                         <input type="text" id="address" name=Billing "Address"><br>
                         <label for="postalCode">Postal Code:</label><br>
                         <input type="text" id="postalCode" name="Postal Code"><br><br>
-                        <input type="button" id="submit" name="Submit" onclick=postData()>
+                        <input type="button" id="submit" name="Submit" onclick=postData().then(updateId).catch(console.log)>
                 </form>
         </main>
 
         <script>
+                const home = "http://localhost:8000"
                 const form = document.getElementById('update-form')
+                const options = {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                                        'Content-Type': 'text/plain',
+                        }
+                }
 
                 function getValues() {
                         let str = ""
                         Array.from(form.elements).forEach(element => {
                                 str += `/${element.value}`
-                                console.log(str)
                         })
                         return str
                 }
 
-                async function postData () {
-                        fetch(`http://localhost:8000/updateUserProfile${getValues()}`)
+                // submit post request with register data and return url or error message
+                async function postData() {
+                        const id = localStorage.getItem("user_id")
+                        const response = await fetch(`${home}/updateProfile/${id}${getValues()}`, options);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                // if login successful, add user_id cookie. else, give error message
+                function updateId(msg) {
+                        if (msg == "ERROR") {
+                                alert("Invalid email, username, or postal code")
+                        } else {
+                                location.href = "updateUserProfile.html"
+                                localStorage.setItem("user_id", msg)
+                        }
                 }
         </script>
         </body>

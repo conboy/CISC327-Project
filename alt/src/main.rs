@@ -3,6 +3,7 @@
 mod users;
 mod dao;
 mod cors;
+mod transactions;
 
 use std::path::Path;
 use rocket::fs::{NamedFile, FileServer, relative};
@@ -10,6 +11,7 @@ use rocket::http::{Cookie, CookieJar};
 use crate::users::users::User;
 use crate::dao::dao::Dao;
 use crate::cors::cors::CORS;
+use crate::transactions::transactions::Transaction;
 
 
 #[get("/")]
@@ -17,26 +19,58 @@ async fn landing() -> Option<NamedFile> {
     NamedFile::open(Path::new("html/register.html")).await.ok()
 }
 
-#[post("/register/<mail>/<name>/<password>")]
-async fn register(mail: &str, name: &str, password: &str, cookies: &CookieJar<'_>) -> &'static str {
-    let user: User = User::new(name, mail, password);
 
-    let id: u64 = Dao::calculate_hash(&user);
-
-    let cookie = Cookie::build("user_id", format!("{}", id))
-        .path("/updateUserProfile");
-    cookies.add(cookie.finish());
-    
-    "index.html"
+#[get("/home")]
+async fn home() -> Option<NamedFile> {
+    NamedFile::open(Path::new("html/index.html")).await.ok()
 }
 
-#[get("/updateUserProfile/<name>/<mail>/<address>/<zip>")]
-fn update_profile(name: &str, mail: &str, address: &str, zip: &str, cookies: &CookieJar<'_>) -> &'static str {
-    let id = format!("{:?}", cookies.get("user_id").unwrap().value());
-        
-    User::update(&id, name, mail, address, zip);
-    
-    "HELLO"
+#[get("/test/<param>")]
+async fn test(param: usize) -> String{
+    let db = Dao::new();
+    let data = db.get::<String>("users",param,"6864798263328938362");
+
+    if let Ok(ref String) = data {
+        format!("{}", data.unwrap())
+    } else {
+        format!("{}", data.unwrap())
+    }
+}
+
+#[post("/register/<mail>/<name>/<password>")]
+fn register(mail: &str, name: &str, password: &str, cookies: &CookieJar<'_>) -> String {
+    let user_id: Option<String> = User::new(name, mail, password);
+
+    if let Some(ref String) = user_id {
+        return user_id.unwrap()
+    } else {
+        "ERROR".to_string()
+    }
+}
+
+#[post("/login/<mail>/<password>")]
+fn login(mail: &str, password: &str) -> String {
+    let db = Dao::new();
+    let user = User::possible_user(mail, password);
+    let id = format!("{}", Dao::calculate_hash(&user));
+
+    if db.find("users", &id) {
+        return id
+    } else {
+        "ERROR".to_string()
+    }
+}
+
+#[post("/updateProfile/<id>/<name>/<mail>/<address>/<zip>")]
+async fn update_profile(id: &str, name: &str, mail: &str, address: &str, zip: &str) -> String {
+
+    let new_id = User::update(id, name, mail, address, zip);
+
+    if let Some(ref String) = new_id {
+        return new_id.unwrap()
+    } else {
+        "ERROR".to_string()
+    }
 }
 
 #[launch]
@@ -46,7 +80,7 @@ fn rocket() -> _ {
 
     // build server
     rocket::build()
+        .mount("/", routes![landing, update_profile, register, test, login])
         .mount("/", html_routes)
-        .mount("/", routes![landing, update_profile, register])
         .attach(CORS)
 }

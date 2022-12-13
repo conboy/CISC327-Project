@@ -21,7 +21,7 @@
                         <input type="text" id="user" name="user" value=""><br>
                         <label for="pass">Password:</label><br>
                         <input type="password" id="pass" name="pass" value=""><br><br>
-                        <input type="button" id="submit" name="Submit" onclick=postData().then(go).catch(console.log)>
+                        <input type="button" id="submit" onclick=postData().then(login).catch(console.log)>
                 </form>
         </main>
 
@@ -58,9 +58,14 @@
                         }
                 }
 
-                // go to url given by post request
-                function go(url) {
-                        location.href = url
+                // if login successful, add user_id. else, give error message
+                function login(msg) {
+                        if (msg == "ERROR") {
+                                alert("Invalid email, username, or password")
+                        } else {
+                                location.href = "index.html";
+                                localStorage.setItem("user_id", msg)
+                        }
                 }
     </script>
 

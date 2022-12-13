@@ -1,7 +1,9 @@
 pub mod dao {
     use std::collections::hash_map::DefaultHasher;
     use std::hash::{Hash, Hasher};
-    use sqlite::Error as sqlErr;
+    use sqlite::{Error, State};
+    use std::str::FromStr;
+    use std::fmt::Display;
 
 
     pub struct Dao {
@@ -16,34 +18,47 @@ pub mod dao {
             }
         }
         
-        pub fn add<T: Hash>(&self,object: &T, data_spec: &str, data: &str) {
+        pub fn add<T: Hash>(&self,object: &T, table: &str, data: &str) {
             // connect to db
             let connection = sqlite::open(&self.file_name).unwrap();
-
             // construct query to add to db
             let data_with_id = format!("{},{}", Self::calculate_hash(object), data);
-            let query = format!("INSERT INTO {} VALUES ({});", data_spec, data_with_id);
-
+            let query = format!("INSERT INTO {} VALUES ({});", table, data_with_id);
             // execute query
             connection.execute(&query).unwrap();
 
             println!("[sql] {}", query);
         }
 
-//      pub fn find(&self, data_spec: &str, id: &str) {
-//          let connection = sqlite::open(&self.file_name).unwrap();
+        pub fn get<T: sqlite::ReadableWithIndex>(&self, table: &str, index: usize, conditions: &str) -> Result<T, sqlite::Error> {
+            let connection = sqlite::open(&self.file_name).unwrap();
+            let query = format!("SELECT * FROM {} WHERE {};", table, conditions);
+            let mut request = connection.prepare(&query)?;
 
-//          let query = format!("SELECT id FROM {} WHERE id = {};", data_spec, id);
+            if let Ok(State::Row) = request.next() {
+                request.read::<T, _>(index)
+            } else {
+                Err(sqlite::Error{code: None, message: Some("id is not present in db".to_string())})
+            }
+        }
 
-//          connection.execute(&query).unwrap();
-//          println!("[sql] {}", query);
-//      }
+        pub fn find(&self, table: &str, id: &str) -> bool {
 
-        pub fn replace(&self, data_spec: &str, replacements: &str, id: &str) {
-            //let connection = sqlite::open(&self.file_name).unwrap();
+            let condition = format!("id = {}", id);
+            let item = self.get::<String>(table, 0, &condition);
 
-            let query = format!("UPDATE {} {} WHERE id = {};", data_spec, replacements, id);
-            //connection.execute(&query).unwrap();
+            if let Ok(String) = item {
+                true
+            } else {
+                false
+            }
+        }
+
+        pub fn replace(&self, table: &str, replacements: &str, id: &str) {
+            let connection = sqlite::open(&self.file_name).unwrap();
+
+            let query = format!("UPDATE {} SET {} WHERE id = {};", table, replacements, id);
+            connection.execute(&query).unwrap();
             println!("[sql] {}", query);
         }
 
