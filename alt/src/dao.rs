@@ -22,7 +22,8 @@ pub mod dao {
             // connect to db
             let connection = sqlite::open(&self.file_name).unwrap();
             // construct query to add to db
-            let data_with_id = format!("{},{}", Self::calculate_hash(object), data);
+            let id = Self::calculate_hash(object).to_string();
+            let data_with_id = format!("{},{}", id, data);
             let query = format!("INSERT INTO {} VALUES ({});", table, data_with_id);
             // execute query
             connection.execute(&query).unwrap();
@@ -60,6 +61,20 @@ pub mod dao {
             let query = format!("UPDATE {} SET {} WHERE id = {};", table, replacements, id);
             connection.execute(&query).unwrap();
             println!("[sql] {}", query);
+        }
+
+        pub fn get_all<T: sqlite::ReadableWithIndex>(&self, table: &str, index: usize) -> Result<T, sqlite::Error> {
+            let connection = sqlite::open(&self.file_name).unwrap();
+            let query = format!("SELECT * FROM {};", table);
+            let mut request = connection.prepare(&query)?;
+
+            let output = Vec<T>
+
+            while let Ok(State::Row) = request.next() {
+                let value = request.read::<T, _>(index);
+                output.append(value);
+            }         
+            return output
         }
 
         pub fn calculate_hash<T: Hash>(object: &T) -> u64 {

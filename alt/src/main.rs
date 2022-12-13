@@ -4,37 +4,22 @@ mod users;
 mod dao;
 mod cors;
 mod transactions;
+mod listings;
 
 use std::path::Path;
 use rocket::fs::{NamedFile, FileServer, relative};
 use rocket::http::{Cookie, CookieJar};
+
 use crate::users::users::User;
 use crate::dao::dao::Dao;
 use crate::cors::cors::CORS;
 use crate::transactions::transactions::Transaction;
+use crate::listings::listings::Listing;
 
 
 #[get("/")]
 async fn landing() -> Option<NamedFile> {
     NamedFile::open(Path::new("html/register.html")).await.ok()
-}
-
-
-#[get("/home")]
-async fn home() -> Option<NamedFile> {
-    NamedFile::open(Path::new("html/index.html")).await.ok()
-}
-
-#[get("/test/<param>")]
-async fn test(param: usize) -> String{
-    let db = Dao::new();
-    let data = db.get::<String>("users",param,"6864798263328938362");
-
-    if let Ok(ref String) = data {
-        format!("{}", data.unwrap())
-    } else {
-        format!("{}", data.unwrap())
-    }
 }
 
 #[post("/register/<mail>/<name>/<password>")]
@@ -61,9 +46,30 @@ fn login(mail: &str, password: &str) -> String {
     }
 }
 
+#[post("/createListing/<name>/<price>/<user_id>")]
+async fn create_listing(name: &str, price: u32, user_id: &str) -> String {
+    let listing_id = Listing::new(name, price, user_id);
+
+    if let Some(ref String) = listing_id {
+        "SUCCESS".to_string()
+    } else {
+        "ERROR".to_string()
+    }
+}
+
+#[post("/updateListing/<new_name>/<new_price>/<listing_id>")]
+async fn update_listing(new_name: &str, new_price: u32, listing_id: &str) -> String {
+    let new_listing_id = Listing::update(new_name, new_price, listing_id);
+
+    if let Some(ref String) = new_listing_id {
+        "SUCCESS".to_string()
+    } else {
+        "ERROR".to_string()
+    }
+}
+
 #[post("/updateProfile/<id>/<name>/<mail>/<address>/<zip>")]
 async fn update_profile(id: &str, name: &str, mail: &str, address: &str, zip: &str) -> String {
-
     let new_id = User::update(id, name, mail, address, zip);
 
     if let Some(ref String) = new_id {
@@ -80,7 +86,7 @@ fn rocket() -> _ {
 
     // build server
     rocket::build()
-        .mount("/", routes![landing, update_profile, register, test, login])
+        .mount("/", routes![landing, update_profile, register, login, create_listing, update_listing])
         .mount("/", html_routes)
         .attach(CORS)
 }
