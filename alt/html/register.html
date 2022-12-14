@@ -8,23 +8,88 @@
         <title>My Website</title>
         <link rel="stylesheet" href="./style.css">
         <link rel="icon" href="./favicon.ico" type="image/x-icon">
+        <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
 <body>
         <main>
-                <a href="login.html" id="login">Log in</a>
-                <h1>Sign Up</h1>
-                <form id="register-form">
-                        <label for="email">Email:</label><br>
-                        <input type="text" id="email" name="email" value=""><br>
-                        <label for="user">Username:</label><br>
-                        <input type="text" id="user" name="user" value=""><br>
-                        <label for="pass">Password:</label><br>
-                        <input type="password" id="pass" name="pass" value=""><br><br>
-                        <input type="button" id="submit" name="Submit" onclick=postData().then(go).catch(console.log)>
-                </form>
+                <!-- Navbar -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container-fluid">
+                        <a class="navbar-brand" href="index.html">QBnB</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="updateUserProfile.html">Profile</a>
+                        <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Listings
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="createlisting.html">Create Listing</a></li>
+                                <li><a class="dropdown-item" href="updatelisting.html">Update Listing</a></li>
+                                </ul>
+                        </li>
+                        <a class="nav-link" href="login.html">Sign in</a>
+                        </div>
+                        </div>
+                        </div>
+                </nav>
+                <br>
+                <!-- Content -->
+                <div class="container">
+                        <div class="col">
+                
+                        </div>
+                        <div class="col"> 
+                
+                            <div class="text-center mb-4">
+                              <img class="mb-4" src="logo.png" alt="" width="72" height="72">
+                              <h1>Sign up for QBnB</h1>
+                            </div>
+                            <!--Form -->
+                            <form id="register-form">
+                              <!-- Email -->
+                              <div class="mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control" placeholder="Enter email" required autofocus>
+                              </div>
+                              <!-- Username -->
+                              <div class="mb-3">
+                                <label for="user">Username</label>
+                                <input type="text" id="user" class="form-control" placeholder="Enter username" required>
+                              </div>
+                              <!-- Username -->
+                              <div class="mb-3">
+                                <label for="pass">Password</label>
+                                <input type="password" id="pass" class="form-control" placeholder="Enter password" required>
+                              </div>
+                              <!-- Button -->
+                              <div class="mb3">
+                                <button type="button" id="submit" name="Submit" class="btn btn-primary btn-lg btn-block col-12" onclick=postData().then(go).catch(console.log)>Sign in</button>
+                              </div>
+                
+                            </form>
+                              <br>
+                  
+                              <div class="mb3">
+                                <p>Already have an account? <a href="login.html">Sign in here</a></p>
+                              </div>
+                            
+                        </div>
+                        <div class="col">
+                
+                        </div>
+                    </div>
         </main>
 
+        <!-- Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        
         <script>
                 const home = "http://localhost:8000"
                 const form = document.getElementById('register-form')
