@@ -68,6 +68,17 @@ async fn update_listing(new_name: &str, new_price: u32, listing_id: &str) -> Str
     }
 }
 
+#[get("/createTransaction/<start>/<days>/<guest_id>/<listing_id>")]
+async fn create_transaction(start: &str, days: i64, guest_id: &str, listing_id: &str) -> String {
+    let transaction_id = Transaction::new(start, days, guest_id, listing_id);
+
+    if let Some(ref String) = transaction_id {
+        "SUCCESS".to_string()
+    } else {
+        "ERROR".to_string()
+    }
+}
+
 #[post("/updateProfile/<id>/<name>/<mail>/<address>/<zip>")]
 async fn update_profile(id: &str, name: &str, mail: &str, address: &str, zip: &str) -> String {
     let new_id = User::update(id, name, mail, address, zip);
@@ -86,7 +97,7 @@ fn rocket() -> _ {
 
     // build server
     rocket::build()
-        .mount("/", routes![landing, update_profile, register, login, create_listing, update_listing])
+        .mount("/", routes![landing, update_profile, register, login, create_listing, update_listing, create_transaction])
         .mount("/", html_routes)
         .attach(CORS)
 }

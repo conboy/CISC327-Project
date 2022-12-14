@@ -63,18 +63,18 @@ pub mod dao {
             println!("[sql] {}", query);
         }
 
-        pub fn get_all<T: sqlite::ReadableWithIndex>(&self, table: &str, index: usize) -> Result<T, sqlite::Error> {
+        pub fn get_all<T: sqlite::ReadableWithIndex>(&self, table: &str, index: usize, conditions: &str) -> Result<Vec<T>, sqlite::Error> {
             let connection = sqlite::open(&self.file_name).unwrap();
-            let query = format!("SELECT * FROM {};", table);
+            let query = format!("SELECT * FROM {} WHERE {};", table, conditions);
             let mut request = connection.prepare(&query)?;
 
-            let output = Vec<T>
+            let mut output: Vec<T> = Vec::new();
 
             while let Ok(State::Row) = request.next() {
-                let value = request.read::<T, _>(index);
-                output.append(value);
-            }         
-            return output
+                let value = request.read::<T, _>(index).unwrap();
+                output.push(value);
+            }
+            return Ok(output)
         }
 
         pub fn calculate_hash<T: Hash>(object: &T) -> u64 {
