@@ -46,9 +46,9 @@ fn login(mail: &str, password: &str) -> String {
     }
 }
 
-#[post("/createListing/<name>/<price>/<user_id>")]
-async fn create_listing(name: &str, price: u32, user_id: &str) -> String {
-    let listing_id = Listing::new(name, price, user_id);
+#[post("/createListing/<name>/<price>/<user_id>/<description>")]
+async fn create_listing(name: &str, price: u32, user_id: &str, description: &str) -> String {
+    let listing_id = Listing::new(name, price, user_id, description);
 
     if let Some(ref String) = listing_id {
         "SUCCESS".to_string()
@@ -57,9 +57,9 @@ async fn create_listing(name: &str, price: u32, user_id: &str) -> String {
     }
 }
 
-#[post("/updateListing/<new_name>/<new_price>/<listing_id>")]
-async fn update_listing(new_name: &str, new_price: u32, listing_id: &str) -> String {
-    let new_listing_id = Listing::update(new_name, new_price, listing_id);
+#[post("/updateListing/<new_name>/<new_price>/<listing_id>/<description>")]
+async fn update_listing(new_name: &str, new_price: u32, listing_id: &str, description: &str) -> String {
+    let new_listing_id = Listing::update(new_name, new_price, description, listing_id);
 
     if let Some(ref String) = new_listing_id {
         "SUCCESS".to_string()

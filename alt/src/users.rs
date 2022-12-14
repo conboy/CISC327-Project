@@ -55,20 +55,18 @@ pub mod users {
 
             let db: Dao = Dao::new();
 
-            // must format in order to make sure value does not have decimal
-            let current_id = format!("{}", id);
-            let condition = format!("id = {}", current_id);
+            let condition = format!("id = {}", id);
             let password = db.get::<String>("users", 3, &condition);
             
             if let Ok(ref String) = password {
                 // if response is ok, update user & user_id
-                let new_id = Dao::calculate_hash(&Self::possible_user(email, &password.unwrap()));
+                let new_id = &Dao::calculate_hash(&Self::possible_user(email, &password.unwrap())).to_string()[0..19];
                 let replacements = format!(
                     "id = '{}', mail = '{}', name = '{}', address = '{}', zip = '{}'", 
                     new_id, email, username, billing_address, postal_code
                 );
                 db.replace("users", &replacements, id);
-                return Some(format!("{}",new_id))
+                return Some(new_id.to_string())
             } else {
                 // if response is not ok, return none
                 return None

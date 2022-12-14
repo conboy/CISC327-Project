@@ -22,9 +22,8 @@ pub mod dao {
             // connect to db
             let connection = sqlite::open(&self.file_name).unwrap();
             // construct query to add to db
-            let id = Self::calculate_hash(object).to_string();
-            let data_with_id = format!("{},{}", id, data);
-            let query = format!("INSERT INTO {} VALUES ({});", table, data_with_id);
+            let id = &Self::calculate_hash(object).to_string()[0..19];
+            let query = format!("INSERT INTO {} VALUES ({},{});", table, id, data);
             // execute query
             connection.execute(&query).unwrap();
 
