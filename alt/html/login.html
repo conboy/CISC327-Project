@@ -1,49 +1,86 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>My Website</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <title>Sign in</title>
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   </head>
+
   <body>
-    <main>
-        <a href="register.html">Sign Up</a>
-        <h1>Log In</h1>  
-        <label for="email">Email:</label><br>
-        <input type="text" id="email" name="email" value=""><br>
-        <label for="pass">Password:</label><br>
-        <input type="password" id="pass" name="pass" value=""><br><br>
-        <input type="submit" id="submit" onclick="socket.send('login:' + email.value + ':' + pass.value)" value="Submit">
-    </main>
-	<script>
-        let socket = new WebSocket("ws://localhost:8025/websockets/game");
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">QBnB</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link" href="updateUserProfile.html">Profile</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Listings
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="createlisting.html">Create Listing</a></li>
+                <li><a class="dropdown-item" href="updatelisting.html">Update Listing</a></li>
+              </ul>
+            </li>
+            <a class="nav-link" href="login.html">Sign in</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <br>
+    <div class="container">
+        <div class="col">
 
-socket.onopen = function(e) {
+        </div>
+        <div class="col ">        
+            <div class="text-center mb-4">
+              <img class="mb-4" src="logo.png" alt="" width="72" height="72">
+              <h1>Log in to QBnB</h1>
+              
+            </div>
+      
+            <div class="mb-3">
+              <label for="inputEmail">Email</label>
+              <input type="email" id="inputEmail" class="form-control" placeholder="Enter email" required autofocus>
+              
+            </div>
+      
+            <div class="mb-3">
+              <label for="inputPassword">Password</label>
+              <input type="password" id="inputPassword" class="form-control" placeholder="Enter password" required>
+              
+            </div>
+            <div class="mb3">
+              <button type="button" class="btn btn-primary btn-lg btn-block col-12">Sign in</button>
+            </div>
+            <br>
 
-};
+            <div class="mb3">
+              <p>Don't have an accout yet? <a href="register.html">Register here</a></p>
+            </div>
+        </div>
+        <div class="col">
 
-socket.onmessage = function(event) {
-    alert(`${event.data}`);
-};
-
-socket.onclose = function(event) {
-  if (event.wasClean) {
-    alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-  } else {
-    // e.g. server process killed or network down
-    // event.code is usually 1006 in this case
-    alert('[close] Connection died');
-  }
-};
-
-socket.onerror = function(error) {
-  alert(`[error]`);
-};
-    </script>
-        
-
+        </div>
+      <!---->
+    </div>
+    
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
 </html>
