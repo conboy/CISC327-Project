@@ -9,4 +9,5 @@ edition = "2021"
 rocket = { version = "0.5.0-rc.2", features = ["secrets"] }
 regex = "1"
 sqlite = "0.30.3"
-
+chrono = "0.4.23"
+rand = "0.8.5"
