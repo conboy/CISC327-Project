@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Qbnb | Listings</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <main>
+        <a href="index.html">Home</a>
+        <a href="transaction.html">Book a Listing</a>
+        <h1>Listings</h1>
+        <ul id="listings"></ul>
+    </main>
+        <script>
+                const home = "http://localhost:8000"
+
+                getData().then(makeList).catch(console.log)
+
+                async function getData() {
+                        const id = localStorage.getItem("user_id")
+                        const response = await fetch(`${home}/listings/${id}`);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                function makeList(data) {
+                        if (data == "ERROR") {
+                                alert("Oops, we couldnt fetch the listings")
+                        } else {
+                                const items = JSON.parse(data)
+                                let list = document.getElementById("listings")
+                                
+                                items.forEach(function(name, id){
+                                        let li = document.createElement("li")
+                                        li.innerText = `${name}\n---`
+                                        list.appendChild(li)
+                                })
+                        }
+                }
+    </script>
+  </body>
+</html>

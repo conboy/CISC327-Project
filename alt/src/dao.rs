@@ -64,7 +64,7 @@ pub mod dao {
 
         pub fn get_all<T: sqlite::ReadableWithIndex>(&self, table: &str, index: usize, conditions: &str) -> Result<Vec<T>, sqlite::Error> {
             let connection = sqlite::open(&self.file_name).unwrap();
-            let query = format!("SELECT * FROM {} WHERE {};", table, conditions);
+            let query = format!("SELECT * FROM {} {};", table, conditions);
             let mut request = connection.prepare(&query)?;
 
             let mut output: Vec<T> = Vec::new();

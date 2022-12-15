@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Updating Listing</title>
+  <style>
+  textarea {
+    resize: none;
+   }
+
+  </style>
+</head>
+<body>
+<main>
+
+        <a href="index.html">Home</a>
+        <h1> Update listing </h1>
+
+        <form id="update-form">
+                <label for="listingtitle"> New Title </label> <br>
+                <input type="text" size="80" maxlength="90" id="listingtitle" name="listingtitle"> <br> <br>
+                <label for="price"> New Price </label> <br>
+                <input type="number" min="0" max="10010" size="80" maxlength="80" id="price" name="price" value="10"> <br> <br>
+                <label for="desc"> New Description </label> <br>
+                <textarea rows="8" cols="69" maxlength="2010" id="desc" name="desc"></textarea> <br> <br>
+                <label for="listingid"> Current Listing id </label> <br>
+                <input type="text" size="80" maxlength="90" id="listingid" name="listingid"> <br> <br>
+                <input type="button" id="submit" name="Submit" onclick=postData().then(updateListing).catch(console.log)>
+        </form>
+
+        <h1> Your Listings </h1>
+        <ul id="listings"></ul>
+
+<script>
+                
+
+                const home = "http://localhost:8000"
+
+                getData().then(makeList).catch(console.log)
+
+                const form = document.getElementById('update-form')
+                const options = {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                                        'Content-Type': 'text/plain',
+                        }
+                }
+
+                function getValues() {
+                        let str = ""
+                        Array.from(form.elements).forEach(element => {
+                                str += `/${element.value}`
+                        })
+                        return str
+                }
+
+                // submit post request with register data and return url or error message
+                async function postData() {
+                        const id = localStorage.getItem("user_id")
+                        const response = await fetch(`${home}/updateListing${getValues()}`, options);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                // if login successful, add user_id cookie. else, give error message
+                function updateListing(msg) {
+                        if (msg == "ERROR") {
+                                alert("Invalid Listing id")
+                        } else {
+                                alert("Listing Updated !")
+                                location.href = "updateListing.html"
+                        }
+                }
+
+                async function getData() {
+                        const id = localStorage.getItem("user_id")
+                        const response = await fetch(`${home}/userListings/${id}`);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                function makeList(data) {
+                        if (data == "ERROR") {
+                                alert("Oops, we couldnt fetch the listings")
+                        } else {
+                                const items = JSON.parse(data)
+                                let list = document.getElementById("listings")
+                                
+                                items.forEach(function(name, id){
+                                        let li = document.createElement("li")
+                                        li.innerText = `${name}\n---`
+                                        list.appendChild(li)
+                                })
+                        }
+                }
+</script>
+</body>
+</html>

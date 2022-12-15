@@ -38,6 +38,8 @@ pub mod listings {
         pub fn update(new_name: &str, new_price: u32, new_description: &str, id: &str) -> Option<String> {
             let db = Dao::new();
 
+            println!("{}", id);
+
             if !db.find("listings", id) {
                 return None
             } else {

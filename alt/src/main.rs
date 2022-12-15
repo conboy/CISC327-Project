@@ -9,6 +9,7 @@ mod listings;
 use std::path::Path;
 use rocket::fs::{NamedFile, FileServer, relative};
 use rocket::http::{Cookie, CookieJar};
+use rocket::serde::json::Json;
 
 use crate::users::users::User;
 use crate::dao::dao::Dao;
@@ -46,7 +47,7 @@ fn login(mail: &str, password: &str) -> String {
     }
 }
 
-#[post("/createListing/<name>/<price>/<user_id>/<description>")]
+#[post("/createListing/<name>/<price>/<description>/<user_id>")]
 async fn create_listing(name: &str, price: u32, user_id: &str, description: &str) -> String {
     let listing_id = Listing::new(name, price, user_id, description);
 
@@ -57,7 +58,54 @@ async fn create_listing(name: &str, price: u32, user_id: &str, description: &str
     }
 }
 
-#[post("/updateListing/<new_name>/<new_price>/<listing_id>/<description>")]
+#[get("/listings/<id>")]
+async fn get_listings(id: &str) -> Json<Vec<String>> {
+    let db = Dao::new();
+
+    let condition = format!("WHERE host_id <> {}", id);
+    let ids = db.get_all::<String>("listings", 0, &condition);
+    let names = db.get_all::<String>("listings", 3, &condition);
+    let descriptions = db.get_all::<String>("listings", 4, &condition);
+
+    let id_vec = ids.unwrap();
+    let name_vec = names.unwrap();
+    let description_vec = descriptions.unwrap();
+
+    let mut output = Vec::new();
+
+    for i in 0..id_vec.len() {
+        let combo = format!("id :: {} | {} \n {}", id_vec[i], name_vec[i], description_vec[i]);
+        output.push(combo);
+    }
+
+    return Json(output)
+}
+
+#[get("/userListings/<id>")]
+async fn get_user_listings(id: &str) -> Json<Vec<String>> {
+    let db = Dao::new();
+
+    let condition = format!("WHERE host_id = {}", id);
+
+    let ids = db.get_all::<String>("listings", 0, &condition);
+    let names = db.get_all::<String>("listings", 3, &condition);
+    let descriptions = db.get_all::<String>("listings", 4, &condition);
+
+    let id_vec = ids.unwrap();
+    let name_vec = names.unwrap();
+    let description_vec = descriptions.unwrap();
+
+    let mut output = Vec::new();
+
+    for i in 0..id_vec.len() {
+        let combo = format!("id :: {} | {} \n {}", id_vec[i], name_vec[i], description_vec[i]);
+        output.push(combo);
+    }
+
+    return Json(output)
+}
+
+#[post("/updateListing/<new_name>/<new_price>/<description>/<listing_id>")]
 async fn update_listing(new_name: &str, new_price: u32, listing_id: &str, description: &str) -> String {
     let new_listing_id = Listing::update(new_name, new_price, description, listing_id);
 
@@ -68,7 +116,7 @@ async fn update_listing(new_name: &str, new_price: u32, listing_id: &str, descri
     }
 }
 
-#[get("/createTransaction/<start>/<days>/<guest_id>/<listing_id>")]
+#[post("/createTransaction/<start>/<days>/<listing_id>/<guest_id>")]
 async fn create_transaction(start: &str, days: i64, guest_id: &str, listing_id: &str) -> String {
     let transaction_id = Transaction::new(start, days, guest_id, listing_id);
 
@@ -97,7 +145,7 @@ fn rocket() -> _ {
 
     // build server
     rocket::build()
-        .mount("/", routes![landing, update_profile, register, login, create_listing, update_listing, create_transaction])
+        .mount("/", routes![landing, update_profile, register, login, create_listing, update_listing, create_transaction, get_listings, get_user_listings])
         .mount("/", html_routes)
         .attach(CORS)
 }
