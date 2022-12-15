@@ -23,16 +23,26 @@ pub mod transactions {
             };
             let id = Dao::calculate_hash(&trans).to_string();
 
-
             let start_date: DateTime<Utc> = Self::convert_to_utc(start);
             let days_length: Duration = Duration::days(days);
 
             if !db.find("listings", listing_id) || !db.find("users", guest_id) || db.find("transactions", &id) || !Self::dates_available(start_date, days_length, listing_id){
                 return None
             } else {
-                let host_id = db.get::<String>("listings", 2, listing_id).unwrap();
-                if host_id == guest_id {
+                let host_id = db.get::<String>("listings", 2, &format!("id = {}", listing_id)).unwrap();
+
+                let listing_price = db.get::<i64>("listings", 1, &format!("id = {}", listing_id)).unwrap();
+                let guest_balance = db.get::<i64>("users", 6, &format!("id = {}", guest_id)).unwrap();
+
+                println!("too expense: {}", listing_price > guest_balance);
+                println!("wrong id: {}", host_id == guest_id);
+                println!("guest_id: {}, host id: {}", guest_id, host_id);
+
+                if host_id == guest_id  || listing_price > guest_balance {
                     return None
+                } else {
+                    let new_balance: i64 = guest_balance - listing_price;
+                    db.replace("users", &format!("balance = {}", new_balance), guest_id);
                 }
 
                 db.add(&trans, "transactions (id, start, days, listing_id, guest_id)", 

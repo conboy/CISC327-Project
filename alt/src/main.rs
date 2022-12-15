@@ -105,6 +105,29 @@ async fn get_user_listings(id: &str) -> Json<Vec<String>> {
     return Json(output)
 }
 
+#[get("/userTransactions/<id>")]
+async fn get_user_transacctions(id: &str) -> Json<Vec<String>> {
+    let db = Dao::new();
+
+    let condition = format!("WHERE guest_id = {}", id);
+
+    let dates = db.get_all::<String>("transactions", 1, &condition).unwrap();
+    let listing_ids = db.get_all::<String>("transactions", 4, &condition).unwrap();
+
+    let mut names = Vec::new();
+    for listing_id in listing_ids {
+        let listing_name = db.get::<String>("listings", 3, &format!("id = {}", listing_id)).unwrap();
+        names.push(listing_name);
+    }
+
+    let mut output = Vec::new();
+    for i in 0..names.len() {
+        output.push(format!("{} :: {}", dates[i], names[i]));
+    }
+
+    return Json(output)
+}
+
 #[post("/updateListing/<new_name>/<new_price>/<description>/<listing_id>")]
 async fn update_listing(new_name: &str, new_price: u32, listing_id: &str, description: &str) -> String {
     let new_listing_id = Listing::update(new_name, new_price, description, listing_id);
@@ -138,6 +161,21 @@ async fn update_profile(id: &str, name: &str, mail: &str, address: &str, zip: &s
     }
 }
 
+#[get("/updateBalance/<amount>/<id>")]
+async fn update_balance(amount: i64, id: &str) -> String {
+    let db = Dao::new();
+    
+    let condition = format!("id = {}", id);
+    let balance = db.get::<i64>("users", 6, &condition).unwrap();
+
+    let new_balance = balance + amount;
+
+    db.replace("users", &format!("balance = {}", new_balance), id);
+
+    return new_balance.to_string()
+}
+
+
 #[launch]
 fn rocket() -> _ {
     // Create GET handler for all static routes (html pages) within the _relative_ path of "/html"
@@ -145,7 +183,7 @@ fn rocket() -> _ {
 
     // build server
     rocket::build()
-        .mount("/", routes![landing, update_profile, register, login, create_listing, update_listing, create_transaction, get_listings, get_user_listings])
+        .mount("/", routes![landing, update_profile, register, login, create_listing, update_listing, create_transaction, get_listings, get_user_listings, update_balance, get_user_transacctions])
         .mount("/", html_routes)
         .attach(CORS)
 }

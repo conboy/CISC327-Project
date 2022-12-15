@@ -11,12 +11,69 @@
   <body>
     <main>
         <h1>QBnB</h1>  
+        <h2>Account Balance</h1>
+        <input type="button" id="increase" onclick=changeBalance(1).then(updateBalance)> <h4 id="balance"></h4> <input type="button" id="decrease" onclick=changeBalance(-1).then(updateBalance)>
+        <h2>Pages</h2>
         <a href="createListing.html">Create Listing</a><br>
         <a href="updateListing.html">Update Listing</a><br>
+        <a href="listings.html">Book Listings</a><br>
         <a href="updateUserProfile.html">Update Profile</a><br>
-        <a href="listings.html">All Listings</a><br>
+        <h2>Bookings</h2>
+        <ul id="listings"></ul>
     </main>
 <script>
+        const home = "http://localhost:8000"
+
+        getData().then(makeList).catch(console.log)
+        changeBalance(0).then(updateBalance)
+
+        async function getData() {
+                const id = localStorage.getItem("user_id")
+                const response = await fetch(`${home}/userTransactions/${id}`);
+                // request successful
+                if (response.ok) {
+                        const msg = await response.text();
+                        return Promise.resolve(msg)
+                } 
+                // request failed
+                else {
+                        return Promise.reject(response.statusText)
+                }
+        }
+
+        function makeList(data) {
+                if (data == "ERROR") {
+                        alert("Oops, we couldnt fetch the listings")
+                } else {
+                        const items = JSON.parse(data)
+                        let list = document.getElementById("listings")
+                        
+                        items.forEach(function(name, id){
+                                let li = document.createElement("li")
+                                li.innerText = `${name}\n---`
+                                list.appendChild(li)
+                        })
+                }
+        }
+
+        async function changeBalance(num) {
+                const id = localStorage.getItem("user_id")
+                const response = await fetch(`${home}/updateBalance/${num}/${id}`);
+                // request successful
+                if (response.ok) {
+                        const msg = await response.text();
+                        return Promise.resolve(msg)
+                } 
+                // request failed
+                else {
+                        return Promise.reject(response.statusText)
+                }
+        }
+        async function updateBalance(balance) {
+                let counter = document.getElementById("balance")
+                counter.innerText = `${balance}`
+        }
+
 </script>
         
 
