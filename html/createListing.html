@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Listing</title>
+  <style>
+
+  textarea {
+    resize: none;
+   }
+
+  </style>
+</head>
+<body>
+<main>
+
+
+<a href="index.html">Home</a>
+<h1> Create listing</h1>
+<form id="listing-form">
+        <label for="listingtitle"> Title </label> <br>
+        <input type="text" size="80" maxlength="90" id="listingtitle" name="lsitingtitle"> <br>
+        <label for="price"> Price </label> <br>
+        <input type="number" min="1" max="10010" size="80" maxlength="80" id="price" name="price"> <br>
+        <label for="desc"> Description </label> <br>
+        <textarea rows="8" cols="69" maxlength="2010" id="desc" name="desc"></textarea> <br> <br>
+        <input type="button" id="submit" name="Submit" onclick=postData().then(makeListing).catch(console.log)>
+</form>
+</main>
+<script>
+                const home = "http://localhost:8000"
+                const form = document.getElementById('listing-form')
+                const options = {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                                        'Content-Type': 'text/plain',
+                        }
+                }
+
+                function getValues() {
+                        let str = ""
+                        Array.from(form.elements).forEach(element => {
+                                str += `/${element.value}`
+                        })
+                        return str
+                }
+
+                // submit post request with register data and return url or error message
+                async function postData() {
+                        const id = localStorage.getItem("user_id")
+                        const response = await fetch(`${home}/createListing/${getValues()}/${id}`, options);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                // if login successful, add user_id cookie. else, give error message
+                function makeListing(msg) {
+                        if (msg == "ERROR") {
+                                alert("Invalid email, username, or postal code")
+                        } else {
+                                alert("Listing Created !")
+                                location.href = "createListing.html"
+                        }
+                }
+</script>
+</body>
+</html>

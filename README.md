@@ -1,41 +1,36 @@
-# CISC327-Project
+# RQbnb
 
-This project is a basic airbnb clone written in Java and js. The project is built using gradle and follows Google Java Format style guidlelines.
+A rust alternative !
 
-## running
+        sudo apt install rustup
 
-### Back End
+## Tool Set
 
-to run the backend java server, run `./gradlew run` at the root of the project.
+This application uses [`rocket.rs`](https://rocket.rs/) as a MVC, as well as
+SQLite (`sudo apt install slqite3`) for the database. The front end is simple
+HTML/js pages.
 
-### Front End
+## Running
 
-to run the front end of the application, run `./gradlew runjs`. This will start the web server [here](http://localhost:8080/)
+To run the application, use `cargo run` at the root of the directory. Then open
+your web-browser at the given IP (you may also just be able to click on the
+link directly, depending on your terminal).
 
-## Contract
+## Usage
 
-We hereby agree to work together as a team on the course project in CISC / CMPE 327. We understand and agree that our project work will be evaluated as a team and that we will share the team mark for all assignments of the project. If there are any team collaboration issues reported, each member’s contribution through GitHub metrics on pull-request and code reviews will be evaluated and served as a basis for team contribution. We each promise to make our best effort to ensure that the team works together and that we equitably share the workload and opportunities for learning on all project phases.
+Register an account with an email, username and password. Once this is done one
+can login, edit their profile, and create, edit, or book listings.
 
-Team Member #1: 
+## Development
 
-Name: Cain J.B. Susko
+To build the application, use:
+        cargo build
 
-Student Number: 20244352
+To test the application, use:
+        cargo test
 
-Team Member #2: 
+To format the code, use:
+        cargo format
 
-Name: Aidan Leyne
-
-Student Number: 20213321
-
-Team Member #3:
-
-Name: Max Oswin
-
-Student Number: 20375067
-
-Team Member #4:
-
-Name: Conrad Fernandez
-
-Student Number: 20219637
+For anything else:
+        cargo help

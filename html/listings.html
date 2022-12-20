@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Qbnb | Listings</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <main>
+        <a href="index.html">Home</a>
+        <h1>Book Listing</h1>
+        <form id="transaction-form">
+                <label for="email">Start date:</label><br>
+                <input type="date" id="start" name="email" value=""><br>
+                <label for="user">number of days:</label><br>
+                <input type="number" id="user" name="user" value=""><br>
+                <label for="pass">Listing id:</label><br>
+                <input type="text" id="pass" name="pass" value=""><br><br>
+                <input type="button" id="submit" onclick=postData().then(makeTransaction).catch(console.log)>
+        </form>
+        <h1>Listings</h1>
+        <ul id="listings"></ul>
+    </main>
+        <script>
+                const home = "http://localhost:8000"
+
+                getData().then(makeList).catch(console.log)
+
+                async function getData() {
+                        const id = localStorage.getItem("user_id")
+                        const response = await fetch(`${home}/listings/${id}`);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                function makeList(data) {
+                        if (data == "ERROR") {
+                                alert("Oops, we couldnt fetch the listings")
+                        } else {
+                                const items = JSON.parse(data)
+                                let list = document.getElementById("listings")
+                                
+                                items.forEach(function(name, id){
+                                        let li = document.createElement("li")
+                                        li.innerText = `${name}\n---`
+                                        list.appendChild(li)
+                                })
+                        }
+                }
+
+                const form = document.getElementById('transaction-form')
+                const options = {
+                        method: 'POST',
+                        headers: {
+                                        'Content-Type': 'text/plain',
+                        }
+                }
+
+                // collect form data into a path string
+                function getValues() {
+                        let str = ""
+                        Array.from(form.elements).forEach(element => {
+                                str += `/${element.value}`
+                        })
+                        return str
+                }
+
+                // submit post request with register data and return url or error message
+                async function postData() {
+                        const id = localStorage.getItem("user_id")
+                        const response = await fetch(`${home}/createTransaction${getValues()}${id}`, options);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                function makeTransaction(msg) {
+                        if (msg == "ERROR") {
+                                alert("Sorry, but the dates you chose are already booked, or the id is invalid")
+                        } else {
+                                alert("Transaction created successfully")
+                                location.href = "listings.html";
+                        }
+                }
+    </script>
+  </body>
+</html>

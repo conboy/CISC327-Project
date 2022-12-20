@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Qbnb | Login</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <main>
+        <a href="register.html">Sign Up</a>
+        <h1>Log In</h1>  
+        <form id="login-form">
+                <label for="email">Email:</label><br>
+                <input type="text" id="email" name="email" value=""><br>
+                <label for="pass">Password:</label><br>
+                <input type="password" id="pass" name="pass" value=""><br><br>
+                <input type="button" id="submit" onclick=postData().then(login).catch(console.log)>
+        </form>
+    </main>
+        <script>
+                const home = "http://localhost:8000"
+                const form = document.getElementById('login-form')
+                const options = {
+                        method: 'POST',
+                        headers: {
+                                        'Content-Type': 'text/plain',
+                        }
+                }
+
+                // collect form data into a path string
+                function getValues() {
+                        let str = ""
+                        Array.from(form.elements).forEach(element => {
+                                str += `/${element.value}`
+                        })
+                        return str
+                }
+
+                // submit post request with login data and return msg or error message
+                async function postData() {
+                        const response = await fetch(`${home}/login${getValues()}`, options);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                // add id to document at login
+                function login(msg) {
+                        if (msg == "ERROR") {
+                                alert("Incorrect email or password")
+                        } else {
+                                location.href = "index.html";
+                                localStorage.setItem("user_id", msg)
+                        }
+                }
+    </script>
+        
+
+  </body>
+</html>

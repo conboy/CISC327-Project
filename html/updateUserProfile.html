@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                <title>Qbnb | Update Profile</title>
+                <link rel="stylesheet" href="./style.css">
+                <link rel="icon" href="./favicon.ico" type="image/x-icon">
+        </head>
+
+        <body>
+        <main>
+                <a href="index.html">Home</a>
+                <h1>Update User Profile</h1>  
+                <form id="update-form">
+                        <label for="name">User Name:</label><br>
+                        <input type="text" id="name" name="Name"><br>
+                        <label for="mail">Email:</label><br>
+                        <input type="text" id="mail" name="e-Mail"><br>
+                        <label for="address">Billing Address:</label><br>
+                        <input type="text" id="address" name=Billing "Address"><br>
+                        <label for="postalCode">Postal Code:</label><br>
+                        <input type="text" id="postalCode" name="Postal Code"><br><br>
+                        <input type="button" id="submit" name="Submit" onclick=postData().then(updateId).catch(console.log)>
+                </form>
+        </main>
+
+        <script>
+                const home = "http://localhost:8000"
+                const form = document.getElementById('update-form')
+                const options = {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                                        'Content-Type': 'text/plain',
+                        }
+                }
+
+                function getValues() {
+                        let str = ""
+                        Array.from(form.elements).forEach(element => {
+                                str += `/${element.value}`
+                        })
+                        return str
+                }
+
+                // submit post request with register data and return url or error message
+                async function postData() {
+                        const id = localStorage.getItem("user_id")
+                        const response = await fetch(`${home}/updateProfile/${id}${getValues()}`, options);
+                        // request successful
+                        if (response.ok) {
+                                const msg = await response.text();
+                                return Promise.resolve(msg)
+                        } 
+                        // request failed
+                        else {
+                                return Promise.reject(response.statusText)
+                        }
+                }
+
+                // if login successful, add user_id cookie. else, give error message
+                function updateId(msg) {
+                        if (msg == "ERROR") {
+                                alert("Invalid email, username, or postal code")
+                        } else {
+                                alert("Profile Updated !")
+                                location.href = "updateUserProfile.html"
+                                localStorage.setItem("user_id", msg)
+                        }
+                }
+        </script>
+        </body>
+</html>
