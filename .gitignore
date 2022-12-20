@@ -20,5 +20,5 @@ db/*
 app/src/main/java/qbnb/AppConf.java
 
 # ignore rust target
-alt/target
+/target
 
