@@ -11,7 +11,13 @@ import qbnb.models.*;
  */
 public class ReviewDao implements Dao<Review> {
 
-  private static HashMap<Long, Review> reviews = new HashMap<Long, Review>();
+  public HashMap<Long, Review> reviews = new HashMap<Long, Review>();
+
+  public ReviewDao() {}
+
+  public ReviewDao(Review review) {
+    save(review);
+  }
 
   public boolean serialize(String reviewPath) {
     return write(reviewPath);
